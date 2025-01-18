@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
+from utils.decorators import timing
 
-class TSP(ABC):
-    @abstractmethod
+
+class TSP:
+    @timing
+    def run_tsp(self):
+        return self.run()
+
     def run(self):
-        pass
+        raise NotImplementedError
