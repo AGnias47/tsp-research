@@ -1,1 +1,3 @@
+networkx==2.8.8
 pytest==8.3.4
+tsplib95==0.7.1
