@@ -8,7 +8,6 @@ from math import inf
 from networkx import Graph
 
 from utils.decorators import timing
-from utils.tsplib_parser import tsplib_graph
 
 
 @timing
@@ -31,11 +30,3 @@ def algorithm(G: Graph):
             best_cost = p_cost
             best_route = p_route
     return best_cost, best_route
-
-
-if __name__ == "__main__":
-    G = tsplib_graph("local/data/tsplib/gr17.tsp")
-    (best_cost, best_route), total_time = algorithm(G)
-    print(f"Best Cost: {best_cost}")
-    print(f"Best Route: {best_route}")
-    print(f"Total time (s): {total_time}")
