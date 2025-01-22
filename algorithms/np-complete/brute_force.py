@@ -17,7 +17,7 @@ def algorithm(G: Graph):
         for i in range(node_count):
             starting_node = permutation[i]
             ending_node = permutation[i + 1 % node_count]
-            p_cost += G.edges[starting_node, ending_node]
+            p_cost += G.edges[starting_node, ending_node]["weight"]
             p_route.append(ending_node)
         if p_cost < best_cost:
             print("New best solution found")
