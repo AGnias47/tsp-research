@@ -3,8 +3,7 @@ Brute force exact solution to the Traveling Salesman Problem
 """
 
 from itertools import permutations
-from math import inf
-
+import numpy as np
 from networkx import Graph
 
 from utils.decorators import timing
@@ -19,16 +18,18 @@ def algorithm(filepath):
 @timing
 def solve(G: Graph):
     n = G.number_of_nodes()
-    best_cost = inf
+    best_cost = np.inf
     best_route = None
     for permutation in permutations(G.nodes):
-        p_cost = 0
-        p_route = [permutation[0]]
+        p_cost = float(0)
+        p_route = np.empty(n+1, dtype=int)
+        p_route[0] = permutation[0]
         for i in range(n):
             starting_node = permutation[i]
             ending_node = permutation[(i + 1) % n]
             p_cost += G.edges[starting_node, ending_node]["weight"]
-            p_route.append(ending_node)
+            p_route[i] = ending_node
+        p_route[n] = p_route[0]
         if p_cost < best_cost:
             best_cost = p_cost
             best_route = p_route
