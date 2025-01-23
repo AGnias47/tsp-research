@@ -25,6 +25,6 @@ def timing(f):
         ts = time()
         result = f(*args, **kw)
         te = time()
-        return result, (te - ts)
+        return result, round((te - ts), 5)
 
     return wrap
