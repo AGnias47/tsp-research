@@ -5,15 +5,14 @@ for custom-generated tours.
 
 from concorde.tsp import TSPSolver  # noqa
 
-from utils.decorators import timing
+from algorithms.tsp import TSP
 
 
-def algorithm(filepath: str):
-    solver = TSPSolver.from_tspfile(filepath)
-    return solve(solver)
+class Concorde(TSP):
+    def __init__(self, filepath):
+        super().__init__(filepath)
+        self.concorde_solver = TSPSolver.from_tspfile(filepath)
 
-
-@timing
-def solve(solver):
-    solution = solver.solve()
-    return solution.optimal_value, solution.tour
+    def algorithm(self):
+        solution = self.concorde_solver.solve()
+        return solution.optimal_value, solution.tour
