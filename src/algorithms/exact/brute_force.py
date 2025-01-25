@@ -6,7 +6,7 @@ from itertools import permutations
 
 import numpy as np
 
-from algorithms.networkx_tsp import NetworkxTSP
+from src.models.networkx_tsp import NetworkxTSP
 
 
 class BruteForce(NetworkxTSP):

@@ -1,5 +1,5 @@
-from algorithms.tsp import TSP
-from utils.tsplib_parser import tsplib_graph
+from src.models.tsp import TSP
+from src.utils.tsplib_parser import tsplib_graph
 
 
 class NetworkxTSP(TSP):

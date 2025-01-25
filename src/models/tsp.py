@@ -1,6 +1,6 @@
 import numpy as np
 
-from utils.decorators import timing
+from src.utils.decorators import timing
 
 
 class TSP:

@@ -1,5 +1,5 @@
-from algorithms.concorde.concorde_wrapper import Concorde
-from algorithms.exact.brute_force import BruteForce
+from src.algorithms.concorde.concorde_wrapper import Concorde
+from src.algorithms.exact.brute_force import BruteForce
 
 if __name__ == "__main__":
     filepath = "local/data/papers/barachet10.tsp"

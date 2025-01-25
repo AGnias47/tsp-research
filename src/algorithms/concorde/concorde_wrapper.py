@@ -5,7 +5,7 @@ for custom-generated tours.
 
 from concorde.tsp import TSPSolver  # noqa
 
-from algorithms.tsp import TSP
+from src.models.tsp import TSP
 
 
 class Concorde(TSP):

@@ -10,7 +10,7 @@ Resources
 import numpy as np
 from networkx import Graph
 
-from algorithms.networkx_tsp import NetworkxTSP
+from src.models.networkx_tsp import NetworkxTSP
 
 
 class DP(NetworkxTSP):
