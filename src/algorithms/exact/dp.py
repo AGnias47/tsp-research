@@ -24,12 +24,12 @@ class DP(NetworkxTSP):
         S.remove_node(self.starting_node)
         best_cost = np.inf
         best_route = None
-        for l in self.G.nodes:
+        for l in S.nodes:
             S_cost, S_route = self.dp_subproblem(S, l)
             if self.D[l, 0] == np.inf:
                 self.D[l, 0] = self.dist(l, 0)
             cost = S_cost + self.D[l, 0]
-            route = np.concatenate(S_route, np.array([0]))
+            route = np.concatenate((S_route, np.array([0])))
             if cost < best_cost:
                 best_cost = cost
                 best_route = route
@@ -38,18 +38,19 @@ class DP(NetworkxTSP):
     def dp_subproblem(self, S: Graph, l: int):
         if S.number_of_nodes() == 1:
             if self.D[self.starting_node, l] == np.inf:
-                self.D[self.starting_node, l] = S.edges[self.starting_node, l]["weight"]
+                self.D[self.starting_node, l] = self.dist(self.starting_node, l)
             return self.D[self.starting_node, l], np.array([l])
         else:
-            S.remove_node(l)
+            S_min_l = S.copy()
+            S_min_l.remove_node(l)
             best_cost = np.inf
             best_route = None
-            for m in S.nodes():
+            for m in S_min_l.nodes():
                 if self.D[m, l] == np.inf:
                     self.D[m, l] = self.dist(m, l)
-                S_cost, S_route, D = self.dp_subproblem(S, m)
+                S_cost, S_route = self.dp_subproblem(S_min_l, m)
                 cost = S_cost + self.D[m, l]
                 if cost < best_cost:
                     best_cost = cost
-                    best_route = np.concatenate(np.array([m]), S_route)
+                    best_route = S_min_l
             return best_cost, best_route
