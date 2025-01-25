@@ -1,13 +1,14 @@
 import numpy as np
 
-from src.algorithms.exact.brute_force import BruteForce
 from src.algorithms.concorde.concorde_wrapper import Concorde
+from src.algorithms.exact.brute_force import BruteForce
 
 
 def test_brute_force():
     filepath = "local/data/custom/p5.tsp"
     (concorde_best_cost, concorde_best_route), concorde_runtime = Concorde(
-        filepath, suppress_output=False  # Context manager gives issues in pytest, probably not ideal, use with caution
+        filepath,
+        suppress_output=False,  # Context manager gives issues in pytest, probably not ideal, use with caution
     ).run_tsp()
     (brute_force_best_cost, brute_force_best_route), brute_force_runtime = BruteForce(
         filepath
