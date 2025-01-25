@@ -2,7 +2,7 @@ from algorithms.concorde import concorde_wrapper
 from algorithms.exact import brute_force
 
 if __name__ == "__main__":
-    filepath = "local/data/custom/p5.tsp"
+    filepath = "local/data/papers/barachet10.tsp"
     for library in [concorde_wrapper, brute_force]:
         (best_cost, best_route), total_time = library.algorithm(filepath)
         print("-----------------------")
