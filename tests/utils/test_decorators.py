@@ -1,6 +1,6 @@
 import logging
 
-from src.utils import timing
+from src.utils.decorators import timing
 
 logger = logging.getLogger("test_decorators")
 

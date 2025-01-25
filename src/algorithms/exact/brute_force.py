@@ -11,7 +11,7 @@ from src.models.networkx_tsp import NetworkxTSP
 
 class BruteForce(NetworkxTSP):
     def __init__(self, filepath):
-        super().__init__(filepath)
+        super().__init__("Brute Force", filepath)
 
     def algorithm(self):
         best_cost = np.inf

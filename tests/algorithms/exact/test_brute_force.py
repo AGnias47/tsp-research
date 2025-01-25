@@ -1,18 +1,18 @@
 import numpy as np
 
-from src.algorithms.concorde import concorde_wrapper
-from src.algorithms import brute_force
+from src.algorithms.exact.brute_force import BruteForce
+from src.algorithms.concorde.concorde_wrapper import Concorde
 
 
 def test_brute_force():
     filepath = "local/data/custom/p5.tsp"
-    (concorde_best_cost, concorde_best_route), concorde_runtime = (
-        concorde_wrapper.algorithm(filepath)
-    )
-    (brute_force_best_cost, brute_force_best_route), brute_force_runtime = (
-        brute_force.algorithm(filepath)
-    )
+    (concorde_best_cost, concorde_best_route), concorde_runtime = Concorde(
+        filepath, suppress_output=False  # Context manager gives issues in pytest, probably not ideal, use with caution
+    ).run_tsp()
+    (brute_force_best_cost, brute_force_best_route), brute_force_runtime = BruteForce(
+        filepath
+    ).run_tsp()
     assert concorde_best_cost == brute_force_best_cost
-    assert type(concorde_best_cost) == type(brute_force_best_cost) == float
-    assert type(concorde_best_route) == type(brute_force_best_route) == np.ndarray
-    assert type(concorde_runtime) == type(brute_force_runtime) == float
+    assert type(concorde_best_cost) is type(brute_force_best_cost) is float
+    assert type(concorde_best_route) is type(brute_force_best_route) is np.ndarray
+    assert type(concorde_runtime) is type(brute_force_runtime) is float

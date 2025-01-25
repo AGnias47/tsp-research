@@ -4,9 +4,17 @@ from src.utils.decorators import timing
 
 
 class TSP:
-    def __init__(self):
+    """
+    Base class for TSP Algorithms. Includes built-in run_tsp method that times the algorithm.
+    """
+
+    def __init__(self, algorithm_name):
+        self.algorithm_name = algorithm_name
         self.best_cost = np.inf
         self.best_route = None
+
+    def __repr__(self):
+        return f"{self.algorithm_name} Algorithm"
 
     @timing
     def run_tsp(self):

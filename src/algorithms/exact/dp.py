@@ -15,7 +15,7 @@ from src.models.networkx_tsp import NetworkxTSP
 
 class DP(NetworkxTSP):
     def __init__(self, filepath):
-        super().__init__(filepath)
+        super().__init__("Held-Karp", filepath)
         self.starting_node = 0
         self.D = np.matrix(np.ones((self.n, self.n)) * np.inf)
 
@@ -29,17 +29,17 @@ class DP(NetworkxTSP):
             if self.D[l, 0] == np.inf:
                 self.D[l, 0] = self.dist(l, 0)
             cost = S_cost + self.D[l, 0]
-            route = np.concatenate((S_route, np.array([0])))
+            route = np.concatenate((S_route, np.array([l])))
             if cost < best_cost:
                 best_cost = cost
-                best_route = route
+                best_route = np.concatenate((np.array([0]), route, np.array([0])))
         return best_cost, best_route
 
     def dp_subproblem(self, S: Graph, l: int):
         if S.number_of_nodes() == 1:
             if self.D[self.starting_node, l] == np.inf:
                 self.D[self.starting_node, l] = self.dist(self.starting_node, l)
-            return self.D[self.starting_node, l], np.array([l])
+            return self.D[self.starting_node, l], np.empty(0, dtype=int)
         else:
             S_min_l = S.copy()
             S_min_l.remove_node(l)
@@ -52,5 +52,5 @@ class DP(NetworkxTSP):
                 cost = S_cost + self.D[m, l]
                 if cost < best_cost:
                     best_cost = cost
-                    best_route = S_min_l
+                    best_route = np.concatenate((S_route, np.array([m])))
             return best_cost, best_route
