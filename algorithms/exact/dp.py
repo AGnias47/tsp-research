@@ -1,5 +1,6 @@
 """
-Dynamic Programming exact solution to the Traveling Salesman Problem
+Dynamic Programming exact solution to the Traveling Salesman Problem. Implemented from Held-Karp's "A Dynamic
+Programming Approach to Sequencing Problems"
 
 Resources
 ---------
