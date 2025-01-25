@@ -9,50 +9,46 @@ Resources
 import numpy as np
 from networkx import Graph
 
-from utils.decorators import timing
-from utils.tsplib_parser import tsplib_graph
-
-starting_node = 0
+from algorithms.networkx_tsp import NetworkxTSP
 
 
-def solve(S: Graph, l: int, D: np.matrix[int]):
-    n = S.number_of_nodes()
-    if n == 1:
-        if D[starting_node, l] == np.inf:
-            D[starting_node, l] = S.edges[starting_node, l]["weight"]
-        return D[starting_node, l], np.array([l]), D
-    else:
-        S.remove_node(l)
+class DP(NetworkxTSP):
+    def __init__(self, filepath):
+        super().__init__(filepath)
+        self.starting_node = 0
+        self.D = np.matrix(np.ones((self.n, self.n)) * np.inf)
+
+    def algorithm(self):
+        S = self.G.copy()
+        S.remove_node(self.starting_node)
         best_cost = np.inf
         best_route = None
-        S.remove_node(l)
-        for m in S.nodes():
-            if D[m, l] == np.inf:
-                D[m, l] = S.edges[m, l]["weight"]
-            S_cost, S_route, D = solve(S, m, D)
-            cost = S_cost + D[m, l]
+        for l in self.G.nodes:
+            S_cost, S_route = self.dp_subproblem(S, l)
+            if self.D[l, 0] == np.inf:
+                self.D[l, 0] = self.dist(l, 0)
+            cost = S_cost + self.D[l, 0]
+            route = np.concatenate(S_route, np.array([0]))
             if cost < best_cost:
                 best_cost = cost
-                best_route = np.concatenate(np.array([m]), S_route)
-        return best_cost, best_route, D
+                best_route = route
+        return best_cost, best_route
 
-
-@timing
-def algorithm(filepath):
-    G = tsplib_graph(filepath)
-    n = G.number_of_nodes()
-    D = np.matrix(np.ones((n, n)) * np.inf)
-    S = G.copy()
-    S.remove_node(starting_node)
-    best_cost = np.inf
-    best_route = np.empty(n + 1, dtype=int)
-    for l in G.nodes:
-        S_cost, S_route, D = solve(S, l, D)
-        if D[l, 0] == np.inf:
-            D[l, 0] = G.edges[l, 0]["weight"]
-        cost = S_cost + D[l, 0]
-        route = np.concatenate(S_route, np.array([0]))
-        if cost < best_cost:
-            best_cost = cost
-            best_route = route
-    return best_cost, best_route
+    def dp_subproblem(self, S: Graph, l: int):
+        if S.number_of_nodes() == 1:
+            if self.D[self.starting_node, l] == np.inf:
+                self.D[self.starting_node, l] = S.edges[self.starting_node, l]["weight"]
+            return self.D[self.starting_node, l], np.array([l])
+        else:
+            S.remove_node(l)
+            best_cost = np.inf
+            best_route = None
+            for m in S.nodes():
+                if self.D[m, l] == np.inf:
+                    self.D[m, l] = self.dist(m, l)
+                S_cost, S_route, D = self.dp_subproblem(S, m)
+                cost = S_cost + self.D[m, l]
+                if cost < best_cost:
+                    best_cost = cost
+                    best_route = np.concatenate(np.array([m]), S_route)
+            return best_cost, best_route

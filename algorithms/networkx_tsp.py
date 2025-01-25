@@ -4,6 +4,7 @@ from utils.tsplib_parser import tsplib_graph
 
 class NetworkxTSP(TSP):
     def __init__(self, filepath):
+        super().__init__()
         self.filepath = filepath
         self.G = tsplib_graph(filepath)
         self.n = self.G.number_of_nodes()
