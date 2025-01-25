@@ -3,12 +3,13 @@ Brute force exact solution to the Traveling Salesman Problem
 """
 
 from itertools import permutations
+
 import numpy as np
 
-from algorithms.tsp import TSP
+from algorithms.networkx_tsp import NetworkxTSP
 
 
-class BruteForce(TSP):
+class BruteForce(NetworkxTSP):
     def __init__(self, filepath):
         super().__init__(filepath)
 

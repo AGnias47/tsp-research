@@ -10,7 +10,6 @@ from algorithms.tsp import TSP
 
 class Concorde(TSP):
     def __init__(self, filepath):
-        super().__init__(filepath)
         self.concorde_solver = TSPSolver.from_tspfile(filepath)
 
     def algorithm(self):

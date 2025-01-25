@@ -6,11 +6,11 @@ Resources
 * https://stackoverflow.com/a/46151546/8728749 - initializing an infinity matrix
 """
 
-from networkx import Graph
 import numpy as np
+from networkx import Graph
+
 from utils.decorators import timing
 from utils.tsplib_parser import tsplib_graph
-
 
 starting_node = 0
 
@@ -45,7 +45,7 @@ def algorithm(filepath):
     S = G.copy()
     S.remove_node(starting_node)
     best_cost = np.inf
-    best_route = np.empty(n+1, dtype=int)
+    best_route = np.empty(n + 1, dtype=int)
     for l in G.nodes:
         S_cost, S_route, D = solve(S, l, D)
         if D[l, 0] == np.inf:
