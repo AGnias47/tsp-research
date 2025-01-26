@@ -1,6 +1,9 @@
 """
 Dynamic Programming exact solution to the Traveling Salesman Problem. Implemented from Held-Karp's "A Dynamic
-Programming Approach to Sequencing Problems"
+Programming Approach to Sequencing Problems".
+
+Uses a memoization matrix, D. Doesn't seem to have a noticeable impact on runtime, but good to have if distance
+function ever gets more complex.
 
 Resources
 ---------
