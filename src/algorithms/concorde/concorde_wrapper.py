@@ -21,7 +21,6 @@ class Concorde(TSP):
                 self.concorde_solver = TSPSolver.from_tspfile(filepath)
         else:
             self.concorde_solver = TSPSolver.from_tspfile(filepath)
-        self.description = f"Concorde"
 
     def algorithm(self):
         if self.suppress_output:
