@@ -8,6 +8,7 @@ function ever gets more complex.
 Resources
 ---------
 * https://stackoverflow.com/a/46151546/8728749 - initializing an infinity matrix
+* https://en.wikipedia.org/wiki/Held%E2%80%93Karp_algorithm - reference for pseudocode
 """
 
 import numpy as np
@@ -27,7 +28,7 @@ class DP(NetworkxTSP):
         S.remove_node(self.starting_node)
         best_cost = np.inf
         best_route = None
-        for l in S.nodes:
+        for l in list(S.nodes)[:-1]:
             S_cost, S_route = self.dp_subproblem(S, l)
             if self.D[l, 0] == np.inf:
                 self.D[l, 0] = self.dist(l, 0)
