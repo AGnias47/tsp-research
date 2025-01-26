@@ -1,6 +1,8 @@
 """
-Optimized Brute force solution. Always starts at node 0 and excludes symmetric
-routes.
+Optimized Brute force solution.
+
+* Always starts at node 0, allowing runtime to be (n-1)!
+* Excludes symmetric routes, allowing runtime to be (n-1)!/2
 
 References
 ----------
