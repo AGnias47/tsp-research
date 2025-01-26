@@ -6,7 +6,7 @@ from src.algorithms.exact.brute_force_optimized import BruteForceOptimized
 from src.algorithms.exact.dp import DP
 
 if __name__ == "__main__":
-    problems = ["custom/p5.tsp", "papers/barachet10.tsp", "custom/p11.tsp"]
+    problems = ["custom/p5.tsp", "papers/barachet10.tsp"]
     for problem in problems:
         filepath = f"local/data/{problem}"
         name = tsplib95.load(filepath).name
