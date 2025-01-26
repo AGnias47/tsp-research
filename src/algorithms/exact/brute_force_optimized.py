@@ -1,8 +1,5 @@
 """
-Optimized Brute force solution.
-
-* Always starts at node 0, allowing runtime to be (n-1)!
-* Excludes symmetric routes, allowing runtime to be (n-1)!/2
+Optimized Brute force solution. Always starts at node 0, allowing runtime to be (n-1)!
 
 References
 ----------
@@ -25,8 +22,6 @@ class BruteForceOptimized(NetworkxTSP):
         best_route = None
         nodes = list(self.G.nodes)[1:]
         for permutation in permutations(nodes):
-            if nodes[0] > nodes[-1]:
-                continue
             permutation = [0] + list(permutation)
             p_cost = float(0)
             p_route = np.empty(self.n + 1, dtype=int)
