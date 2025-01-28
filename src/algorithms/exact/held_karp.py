@@ -15,14 +15,16 @@ memoization
 * https://stackoverflow.com/a/8483900/8728749 - Initializing a defaultdict with tuples
 """
 
+from collections import defaultdict
+
+import networkx.exception
 import numpy as np
 from networkx import Graph
-import networkx.exception
-from collections import defaultdict
+
 from src.models.networkx_tsp import NetworkxTSP
 
 
-class DP(NetworkxTSP):
+class HeldKarp(NetworkxTSP):
     def __init__(self, filepath):
         super().__init__("Held-Karp", filepath)
         self.starting_node = 0
@@ -45,7 +47,13 @@ class DP(NetworkxTSP):
                 route = np.concatenate((route, np.array([l])))
             if cost < best_cost:
                 best_cost = cost
-                best_route = np.concatenate((np.array([self.starting_node]), route, np.array([self.starting_node])))
+                best_route = np.concatenate(
+                    (
+                        np.array([self.starting_node]),
+                        route,
+                        np.array([self.starting_node]),
+                    )
+                )
         return best_cost, best_route
 
     def dp_subproblem(self, S: Graph, l: int):

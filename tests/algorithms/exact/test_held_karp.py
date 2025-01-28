@@ -6,9 +6,10 @@ Resources
 * https://stackoverflow.com/a/46914500/8728749 - Testing equality of two lists
 """
 
-from src.algorithms.exact.dp import DP
-import tsplib95
 import pytest
+import tsplib95
+
+from src.algorithms.exact.held_karp import HeldKarp
 
 problem_file = "local/data/tsplib/ulysses16.tsp"
 tour_file = "local/data/tsplib/ulysses16.opt.tour"
@@ -23,8 +24,8 @@ def expected_results():
     return {"cost": expected_cost, "route": expected_route}
 
 
-def test_dp(expected_results):
-    (cost, route), runtime = DP(problem_file).run_tsp()
+def test_held_karp(expected_results):
+    (cost, route), runtime = HeldKarp(problem_file).run_tsp()
     assert cost == expected_results["cost"]
     assert all([a == b for a, b in zip(route[:-1], expected_results["route"])])
     assert type(runtime) == float
