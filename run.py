@@ -5,18 +5,26 @@ from src.algorithms.exact.brute_force import BruteForce
 from src.algorithms.exact.brute_force_optimized import BruteForceOptimized
 from src.algorithms.exact.dp import DP
 
+PROBLEMS = [
+    "custom/p5.tsp",          # 0
+    "papers/barachet10.tsp",  # 1
+    "custom/p11.tsp",         # 2
+    "custom/p12.tsp",         # 3
+    "tsplib/ulysses16.tsp",   # 4
+    "tsplib/gr17.tsp",        # 5
+]
+
 if __name__ == "__main__":
-    problems = ["papers/barachet10.tsp"]
-    for problem in problems:
-        filepath = f"local/data/{problem}"
-        name = tsplib95.load(filepath).name
-        print(f"Solutions for the {name} problem")
+    problem = PROBLEMS[4]
+    filepath = f"local/data/{problem}"
+    name = tsplib95.load(filepath).name
+    print(f"Solutions for the {name} problem")
+    print("-----------------------")
+    for algorithm in [Concorde, DP]:
+        solver = algorithm(filepath)
+        (best_cost, best_route), total_time = solver.run_tsp()
+        print(f"Results of the {solver}")
+        print(f"Best Cost: {best_cost}")
+        print(f"Best Route: {best_route}")
+        print(f"Time to Solve: {total_time}")
         print("-----------------------")
-        for algorithm in [Concorde, DP]:
-            solver = algorithm(filepath)
-            (best_cost, best_route), total_time = solver.run_tsp()
-            print(f"Results of the {solver}")
-            print(f"Best Cost: {best_cost}")
-            print(f"Best Route: {best_route}")
-            print(f"Time to Solve: {total_time}")
-            print("-----------------------")

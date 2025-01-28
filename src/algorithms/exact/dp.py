@@ -9,11 +9,16 @@ Resources
 ---------
 * https://stackoverflow.com/a/46151546/8728749 - initializing an infinity matrix
 * https://en.wikipedia.org/wiki/Held%E2%80%93Karp_algorithm - reference for pseudocode
+* https://github.com/CarlEkerot/held-karp/blob/master/held-karp.py - Inspiration to use cost instead of distance
+memoization
+* https://stackoverflow.com/a/51660293/8728749 - Using tuples as dict keys
+* https://stackoverflow.com/a/8483900/8728749 - Initializing a defaultdict with tuples
 """
 
 import numpy as np
 from networkx import Graph
-
+import networkx.exception
+from collections import defaultdict
 from src.models.networkx_tsp import NetworkxTSP
 
 
@@ -21,40 +26,47 @@ class DP(NetworkxTSP):
     def __init__(self, filepath):
         super().__init__("Held-Karp", filepath)
         self.starting_node = 0
-        self.D = np.matrix(np.ones((self.n, self.n)) * np.inf)
+        self.D = defaultdict(lambda: (-1, np.empty(0, dtype=int)))
 
     def algorithm(self):
         S = self.G.copy()
-        S.remove_node(self.starting_node)
+        try:
+            S.remove_node(self.starting_node)
+        except networkx.exception.NetworkXError:
+            self.starting_node = 1
+            S.remove_node(1)
         best_cost = np.inf
         best_route = None
         for l in list(S.nodes)[:-1]:
-            S_cost, S_route = self.dp_subproblem(S, l)
-            if self.D[l, 0] == np.inf:
-                self.D[l, 0] = self.dist(l, 0)
-            cost = S_cost + self.D[l, 0]
-            route = np.concatenate((S_route, np.array([l])))
+            cost, route = self.D[(tuple(S.nodes), l)]
+            if cost < 0:
+                cost, route = self.dp_subproblem(S, l)
+                cost += self.dist(l, self.starting_node)
+                route = np.concatenate((route, np.array([l])))
             if cost < best_cost:
                 best_cost = cost
-                best_route = np.concatenate((np.array([0]), route, np.array([0])))
+                best_route = np.concatenate((np.array([self.starting_node]), route, np.array([self.starting_node])))
         return best_cost, best_route
 
     def dp_subproblem(self, S: Graph, l: int):
+        cost, route = self.D[(tuple(S.nodes), l)]
+        if route.size > 0:
+            return cost, route
         if S.number_of_nodes() == 1:
-            if self.D[self.starting_node, l] == np.inf:
-                self.D[self.starting_node, l] = self.dist(self.starting_node, l)
-            return self.D[self.starting_node, l], np.empty(0, dtype=int)
+            self.D[(tuple(S.nodes), l)] = self.dist(self.starting_node, l), np.empty(
+                0, dtype=int
+            )
+            return self.D[(tuple(S.nodes), l)]
         else:
             S_min_l = S.copy()
             S_min_l.remove_node(l)
             best_cost = np.inf
             best_route = None
             for m in S_min_l.nodes():
-                if self.D[m, l] == np.inf:
-                    self.D[m, l] = self.dist(m, l)
-                S_cost, S_route = self.dp_subproblem(S_min_l, m)
-                cost = S_cost + self.D[m, l]
+                cost, route = self.dp_subproblem(S_min_l, m)
+                cost += self.dist(m, l)
                 if cost < best_cost:
                     best_cost = cost
-                    best_route = np.concatenate((S_route, np.array([m])))
+                    best_route = np.concatenate((route, np.array([m])))
+            self.D[(tuple(S.nodes), l)] = best_cost, best_route
             return best_cost, best_route
