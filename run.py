@@ -11,19 +11,20 @@ PROBLEMS = [
     "custom/p12.tsp",  # 3
     "tsplib/ulysses16.tsp",  # 4
     "tsplib/gr17.tsp",  # 5
+    "tsplib/fri26.tsp"  # 6
 ]
 
 if __name__ == "__main__":
-    problem = PROBLEMS[1]
-    filepath = f"local/data/{problem}"
-    name = tsplib95.load(filepath).name
-    print(f"Solutions for the {name} problem")
-    print("-----------------------")
-    for algorithm in [Concorde, HeldKarp, BruteForce]:
-        solver = algorithm(filepath)
-        (best_cost, best_route), total_time = solver.run_tsp()
-        print(f"Results of the {solver}")
-        print(f"Best Cost: {best_cost}")
-        print(f"Best Route: {best_route}")
-        print(f"Time to Solve: {total_time}")
+    for problem in PROBLEMS[:1]:
+        filepath = f"local/data/{problem}"
+        name = tsplib95.load(filepath).name
+        print(f"Solutions for the {name} problem")
         print("-----------------------")
+        for algorithm in [Concorde, HeldKarp, BruteForce]:
+            solver = algorithm(filepath)
+            (best_cost, best_route), total_time = solver.run_tsp()
+            print(f"Results of the {solver}")
+            print(f"Best Cost: {best_cost}")
+            print(f"Best Route: {best_route}")
+            print(f"Time to Solve: {total_time}")
+            print("-----------------------")
