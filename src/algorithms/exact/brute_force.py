@@ -3,6 +3,7 @@ Brute force exact solution to the Traveling Salesman Problem
 """
 
 from itertools import permutations
+from math import factorial
 
 import numpy as np
 
@@ -30,3 +31,7 @@ class BruteForce(NetworkxTSP):
                 best_cost = p_cost
                 best_route = p_route
         return best_cost, best_route
+
+    @property
+    def big_o_runtime(self):
+        return factorial(self.n)

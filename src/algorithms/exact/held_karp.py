@@ -78,3 +78,7 @@ class HeldKarp(NetworkxTSP):
                     best_route = np.concatenate((route, np.array([m])))
             self.D[(tuple(S.nodes), l)] = best_cost, best_route
             return best_cost, best_route
+
+    @property
+    def big_o_runtime(self):
+        return self.n**2 * 2**self.n

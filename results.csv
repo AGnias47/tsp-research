@@ -1,5 +1,8 @@
 problem,algorithm,runtime
-p12,concorde,0.0063
-p12,bf,2180.72205
+barachet10,bf,11.63767
+barachet10,concorde,0.00333
+barachet10,hk,0.10006
 gr17,concorde,0.01118
 gr17,hk,40.12613
+p12,bf,2180.72205
+p12,concorde,0.0063

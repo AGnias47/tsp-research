@@ -23,3 +23,7 @@ class TSP:
 
     def algorithm(self):
         raise NotImplementedError
+
+    @property
+    def big_o_runtime(self):
+        return None
