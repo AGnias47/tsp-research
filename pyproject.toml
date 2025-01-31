@@ -1,0 +1,14 @@
+[project]
+name = "tsp-research"
+version = "0.1.0"
+description = "Add your description here"
+readme = "ReadMe.md"
+requires-python = ">=3.13"
+dependencies = [
+    "black==24.10.0",
+    "isort==5.13.2",
+    "networkx==2.8.8",
+    "numpy==2.2.2",
+    "pytest==8.3.4",
+    "tsplib95==0.7.1",
+]

@@ -4,18 +4,23 @@ Implementation of research related to different methods of solving the Traveling
 
 ## Setup
 
-* Install Python (3.12)
-* Install dependencies via `pip install -r requirements.txt`
+* Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+* Install Python 3.13 via `uv python install 3.13.1`
+* Install dependencies via `uv sync`
+* Create a virtual environment with `uv venv --python 3.13.1`
+* Activate the environment via `source .venv/bin/activate`
+* Install dependencies via `uv sync`
 
 ## Run
 
-### Run unit tests
+Run the main script via
+
+```shell
+python main.py -p <problem name>
+```
+
+Tests can be run via
 
 ```shell
 pytest
 ```
-
-## Tools used
-
-* `black` - Automated Python formatting
-* `isort` - Organizes imported dependencies
