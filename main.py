@@ -10,9 +10,9 @@ import argparse
 
 import tsplib95
 
-from src.algorithms.concorde.concorde_wrapper import Concorde
-from src.algorithms.exact.brute_force import BruteForce
-from src.algorithms.exact.held_karp import HeldKarp
+from src.algorithms.concorde import Concorde
+from src.algorithms.brute_force import BruteForce
+from src.algorithms.held_karp import HeldKarp
 
 PROBLEMS = [
     "custom/p5.tsp",  # 0

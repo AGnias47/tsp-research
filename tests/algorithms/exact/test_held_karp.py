@@ -9,7 +9,7 @@ Resources
 import pytest
 import tsplib95
 
-from src.algorithms.exact.held_karp import HeldKarp
+from src.algorithms.held_karp import HeldKarp
 
 problem_file = "local/data/tsplib/ulysses16.tsp"
 tour_file = "local/data/tsplib/ulysses16.opt.tour"
