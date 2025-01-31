@@ -10,6 +10,7 @@ Implementation of research related to different methods of solving the Traveling
 * Create a virtual environment with `uv venv --python 3.13.1`
 * Activate the environment via `source .venv/bin/activate`
 * Install dependencies via `uv sync`
+* Install pyconcorde via the instructions on [GitHub](https://github.com/jvkersch/pyconcorde)
 
 ## Run
 
