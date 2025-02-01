@@ -9,7 +9,7 @@ References
 matrix to a single value in each element
 """
 
-from numpy import np
+import numpy as np
 
 from config import config
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
@@ -54,7 +54,7 @@ class AntSystem(NetworkxTSP):
         #   number of ants and C^nn is the length of a tour generated via nearest
         #   neighbor search. Initializing too low causes bias in early tours, and too
         #   high increases time to convergence.
-        nn_cost, _ = NearestNeighborSearch(filepath)
+        nn_cost, _ = NearestNeighborSearch(filepath).algorithm()
         self.tau = np.ndarray(shape=(self.n, self.n))
         self.tau[:] = self.m / nn_cost
         # Initialize ants
@@ -128,9 +128,15 @@ class AntSystem(NetworkxTSP):
                     if p_dest > best_p:
                         best_p = p_dest
                         best_dest = dest
-                ant.add_arc(source, best_dest, self.dist(source, best_dest))
+                self.add_arc(ant, source, best_dest)
                 source = best_dest
                 remaining_nodes = set(self.G.nodes) - set(ant.route)
+            self.add_arc(ant, source, ant.starting_node)
+
+    def add_arc(self, ant, i, j):
+        ant.route.append(j)
+        ant.arcs.add((i, j))
+        ant.cost += self.dist(i, j)
 
     def update_trails(self):
         """

@@ -9,8 +9,3 @@ class Ant:
     def reset(self):
         self.route = [self.starting_node]
         self.cost = 0
-
-    def add_arc(self, i, j, cost):
-        self.route.append(j)
-        self.arcs.add((i, j))
-        self.cost += cost

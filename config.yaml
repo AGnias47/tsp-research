@@ -9,4 +9,4 @@ problems:
   fri26: tsplib/fri26.tsp
 algorithms:
   ant_system:
-    iterations: 10
+    iterations: 10000

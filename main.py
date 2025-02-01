@@ -14,7 +14,16 @@ from src.algorithms.brute_force import BruteForce
 from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
+from src.algorithms.ant_system import AntSystem
 from src.utils.arg_parsing import get_filepath_for_problem
+
+ALGORITHMS = {
+    "concorde": Concorde,
+    "hk": HeldKarp,
+    "bf": BruteForce,
+    "nns": NearestNeighborSearch,
+    "as": AntSystem,
+}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -24,8 +33,23 @@ if __name__ == "__main__":
         required=True,
         help="Problem to run, either by index, problem name, or path",
     )
+    parser.add_argument(
+        "-a",
+        "--algorithm",
+        required=False,
+        help="Algorithm to use. If not specified, problem is run on all available algorithms",
+    )
     args = parser.parse_args()
     filepath = get_filepath_for_problem(args.problem)
+    if args.algorithm:
+        algorithm_list = []
+        for algo in args.algorithm.split(","):
+            try:
+                algorithm_list.append(ALGORITHMS[algo])
+            except KeyError:
+                parser.error(f"Invalid algorithm specified: {algo}")
+    else:
+        algorithm_list = ALGORITHMS.values()
     try:
         name = tsplib95.load(filepath).name
     except FileNotFoundError:
@@ -36,7 +60,7 @@ if __name__ == "__main__":
         )
     print(f"Solutions for the {name} problem")
     print("-----------------------")
-    for algorithm in [Concorde, HeldKarp, BruteForce, NearestNeighborSearch]:
+    for algorithm in algorithm_list:
         solver = algorithm(filepath)
         print(f"Results of the {solver}")
         if solver.big_o_runtime:
