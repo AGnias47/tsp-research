@@ -1,4 +1,7 @@
 """
+The algorithm adapted here is derived from Dorigo and Stützle - Ant Colony Optimization
+Chapter 3. Function descriptions are summarizations of that text.
+
 References
 ----------
 * https://stackoverflow.com/a/569063/8728749 - zero matrix
@@ -9,6 +12,7 @@ matrix to a single value in each element
 from numpy import np
 
 from src.models.networkx_tsp import NetworkxTSP
+from src.models.ant import Ant
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 
 
@@ -30,8 +34,21 @@ class ACO(NetworkxTSP):
     def __init__(self, filepath, apply_local_search=False):
         super().__init__("Ant Colony Optimization", filepath)
         self.apply_local_search = apply_local_search
-        # Number of ants
-        self.m = 1
+
+        # Hyperparameter that amplifies pheromone trails. Generally 1 is seen as the
+        #   best value, as anything greater results in stagnation.
+        self.alpha = 1
+        # Hyperparameter that amplifies node distance. Generally chosen to be between
+        #   2 and 5
+        self.beta = 2
+        # Cache heuristic information
+        self.eta = np.zeros(shape=(self.n, self.n))
+        # Number of ants. Generally chosen to be equal to the number of nodes in the
+        #   problem
+        self.m = self.n
+        # Factor used in reducing pheromone strength over time. Can also be used to
+        #   influence the initial value of pheromone strength
+        self.rho = 0.5
         # Tracks pheromone strength. Initialize using the algorithm m/C^nn, where m is
         #   number of ants and C^nn is the length of a tour generated via nearest
         #   neighbor search. Initializing too low causes bias in early tours, and too
@@ -39,11 +56,10 @@ class ACO(NetworkxTSP):
         nn_cost, _ = NearestNeighborSearch(filepath)
         self.tau = np.ndarray(shape=(self.n, self.n))
         self.tau[:] = self.m / nn_cost
-        # Cache heuristic information
-        self.eta = np.zeros(shape=(self.n, self.n))
-        # Hyperparameters
-        self.alpha = 1
-        self.beta = 1
+        # Initialize ants
+        self.ants = []
+        for _ in range(self.m):
+            self.ants.append(Ant())
 
     def algorithm(self):
         for _ in range(1000):
@@ -57,7 +73,7 @@ class ACO(NetworkxTSP):
         eta_ij = self.heuristic(i, j)
         numerator = tau_ij**self.alpha * eta_ij**self.beta
         denominator = 0
-        for l in self.G.nodes - ant.tabu_list:
+        for l in set(self.G.nodes) - set(ant.route):
             tau_il = self.tau[i, l]
             eta_il = self.heuristic(i, l)
             denominator += tau_il**self.alpha * eta_il**self.beta
@@ -90,7 +106,29 @@ class ACO(NetworkxTSP):
         pass
 
     def update_trails(self):
-        pass
+        """
+        Performs pheromone evaporation and then update.
+
+        Evaporation reduces pheromone strength by a factor of (1-rho). Allows bad tours
+        to be forgotten over time.
+
+        Update increases the pheromone strength of a node if the ant has traveled the
+        connection during a tour. Update is influenced by quality of route.
+
+        Should be performed after each run.
+
+        Returns
+        -------
+        None
+        """
+        for i in range(self.n):
+            for j in range(self.n):
+                # Evaporation
+                self.tau[i, j] = (1 - self.rho) * self.tau[i, j]
+                # Update
+                for ant in self.ants:
+                    if (i, j) in ant.arcs:
+                        self.tau[i, j] += 1 / ant.cost
 
     def local_search(self):
         pass
