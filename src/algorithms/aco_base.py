@@ -9,6 +9,8 @@ the default methods.
 
 References
 ----------
+* https://web2.qatar.cmu.edu/~gdicaro/15382/additional/aco-book.pdf - text of Ant Colony
+Optimization textbook
 * https://stackoverflow.com/a/569063/8728749 - zero matrix
 * https://stackoverflow.com/a/55507797/8728749 - efficient initialization of a
 matrix to a single value in each element
