@@ -2,11 +2,14 @@
 References
 ----------
 * https://stackoverflow.com/a/569063/8728749 - zero matrix
+* https://stackoverflow.com/a/55507797/8728749 - efficient initialization of a
+matrix to a single value in each element
 """
 
 from numpy import np
 
 from src.models.networkx_tsp import NetworkxTSP
+from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 
 
 class ACO(NetworkxTSP):
@@ -27,10 +30,15 @@ class ACO(NetworkxTSP):
     def __init__(self, filepath, apply_local_search=False):
         super().__init__("Ant Colony Optimization", filepath)
         self.apply_local_search = apply_local_search
-        # Tracks pheromone strength
-        self.tau = np.zeros(shape=(self.n, self.n))
         # Number of ants
         self.m = 1
+        # Tracks pheromone strength. Initialize using the algorithm m/C^nn, where m is
+        #   number of ants and C^nn is the length of a tour generated via nearest
+        #   neighbor search. Initializing too low causes bias in early tours, and too
+        #   high increases time to convergence.
+        nn_cost, _ = NearestNeighborSearch(filepath)
+        self.tau = np.ndarray(shape=(self.n, self.n))
+        self.tau[:] = self.m / nn_cost
         # Cache heuristic information
         self.eta = np.zeros(shape=(self.n, self.n))
         # Hyperparameters
