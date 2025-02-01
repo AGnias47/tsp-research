@@ -19,10 +19,10 @@ from src.utils.arg_parsing import get_filepath_for_problem
 
 ALGORITHMS = {
     "concorde": Concorde,
-    "hk": HeldKarp,
-    "bf": BruteForce,
     "nns": NearestNeighborSearch,
+    "hk": HeldKarp,
     "as": AntSystem,
+    "bf": BruteForce,
 }
 
 if __name__ == "__main__":

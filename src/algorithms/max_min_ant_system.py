@@ -10,11 +10,16 @@ no improved tour has been generated for a certain number of consecutive iteratio
 """
 
 from config import config
-from src.algorithms.ant_system import AntSystem
-
-ITERATIONS = config.ant_system_iterations or 10
+from src.algorithms.aco_base import ACOBase
 
 
-class MaxMinAntSystem(AntSystem):
+class MaxMinAntSystem(ACOBase):
     def __init__(self, filepath):
-        super().__init__(filepath, "Max-Min Ant System ACO")
+        super().__init__(
+            name="Max-Min Ant System ACO",
+            filepath=filepath,
+            alpha=config.mmas["alpha"],
+            beta=config.mmas["beta"],
+            rho=config.mmas["rho"],
+            iterations=config.mmas["iterations"],
+        )
