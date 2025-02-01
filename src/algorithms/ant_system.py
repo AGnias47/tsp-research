@@ -1,168 +1,18 @@
-"""
-The algorithm adapted here is derived from Dorigo and Stützle - Ant Colony Optimization
-Chapter 3. Function descriptions are summarizations of that text.
-
-References
-----------
-* https://stackoverflow.com/a/569063/8728749 - zero matrix
-* https://stackoverflow.com/a/55507797/8728749 - efficient initialization of a
-matrix to a single value in each element
-* https://stackoverflow.com/a/21088294/8728749 - np list to array
-"""
-
-import numpy as np
-
 from config import config
-from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
-from src.models.ant import Ant
-from src.models.networkx_tsp import NetworkxTSP
-
-ITERATIONS = config.ant_system_iterations or 10
+from src.algorithms.aco_base import ACOBase
 
 
-class AntSystem(NetworkxTSP):
+class AntSystem(ACOBase):
     """
-    Ant system optimization algorithm for the traveling-salesman problem. Ants act as
-    agents that construct tours. Tours are guided by pheromone trails.
-
-    Initially, m ants are placed on random cities. At each city, a state transition rule
-    is applied. Trails that are close and with high pheromone strength are
-    probabilistically preferred. Each ant has a tabu list which stores the partial tour.
-
-    Once all ants have completed a tour, the pheromones are updated. This is done by
-    lowering the pheromone trail strengths by a constant and then allowing the ants to
-    deposit pheromone on the arcs they have visited. Arcs contained in shorter tours and
-    that have been visited by many ants receive a higher pheromone update.
+    Baseline Ant Colony Optimization Algorithm
     """
 
     def __init__(self, filepath):
-        super().__init__("Ant Colony Optimization", filepath)
-        # Hyperparameter that amplifies pheromone trails. Generally 1 is seen as the
-        #   best value, as anything greater results in stagnation.
-        self.alpha = 1
-        # Hyperparameter that amplifies node distance. Generally chosen to be between
-        #   2 and 5
-        self.beta = 2
-        # Cache heuristic information
-        self.eta = np.zeros(shape=(self.n, self.n))
-        # Number of ants. Generally chosen to be equal to the number of nodes in the
-        #   problem
-        self.m = self.n
-        # Factor used in reducing pheromone strength over time. Can also be used to
-        #   influence the initial value of pheromone strength
-        self.rho = 0.5
-        # Tracks pheromone strength. Initialize using the algorithm m/C^nn, where m is
-        #   number of ants and C^nn is the length of a tour generated via nearest
-        #   neighbor search. Initializing too low causes bias in early tours, and too
-        #   high increases time to convergence.
-        nn_cost, _ = NearestNeighborSearch(filepath).algorithm()
-        self.tau = np.ndarray(shape=(self.n, self.n))
-        self.tau[:] = self.m / nn_cost
-        # Initialize ants
-        self.ants = []
-        for node in list(self.G.nodes):
-            ant = Ant(node)
-            self.ants.append(ant)
-
-    def algorithm(self):
-        for _ in range(ITERATIONS):
-            self.reset_ants()
-            self.construct_solutions()
-            self.update_trails()
-        best_cost = np.inf
-        best_route = None
-        for ant in self.ants:
-            if ant.cost < best_cost:
-                best_cost = ant.cost
-                best_route = ant.route
-        return best_cost, np.array(best_route)
-
-    def reset_ants(self):
-        for ant in self.ants:
-            ant.reset()
-
-    def probabilistic_action_choice(self, i, j, N):
-        tau_ij = self.tau[i, j]
-        eta_ij = self.heuristic(i, j)
-        numerator = tau_ij**self.alpha * eta_ij**self.beta
-        denominator = 0
-        for l in N:
-            tau_il = self.tau[i, l]
-            eta_il = self.heuristic(i, l)
-            denominator += tau_il**self.alpha * eta_il**self.beta
-        return numerator / denominator
-
-    def heuristic(self, i, j):
-        """
-        Heuristic desirability of going from city i to j
-
-        Parameters
-        ----------
-        i: int
-            Starting node
-        j: int
-            Ending node
-
-        Returns
-        -------
-        np.float
-        """
-        if self.eta[i, j] > 0:
-            return self.eta[i, j]
-        try:
-            self.eta[i, j] = 1 / self.dist(i, j)
-        except ZeroDivisionError:
-            self.eta[i, j] = 1e-9
-        return self.eta[i, j]
-
-    def construct_solutions(self):
-        for ant in self.ants:
-            source = ant.starting_node
-            remaining_nodes = set(self.G.nodes) - set(ant.route)
-            while remaining_nodes:
-                best_p = 0
-                best_dest = None
-                for dest in remaining_nodes:
-                    p_dest = self.probabilistic_action_choice(
-                        source, dest, remaining_nodes
-                    )
-                    if p_dest > best_p:
-                        best_p = p_dest
-                        best_dest = dest
-                self.add_arc(ant, source, best_dest)
-                source = best_dest
-                remaining_nodes = set(self.G.nodes) - set(ant.route)
-            self.add_arc(ant, source, ant.starting_node)
-
-    def add_arc(self, ant, i, j):
-        ant.route.append(j)
-        ant.arcs.add((i, j))
-        ant.cost += self.dist(i, j)
-
-    def update_trails(self):
-        """
-        Performs pheromone evaporation and then update.
-
-        Evaporation reduces pheromone strength by a factor of (1-rho). Allows bad tours
-        to be forgotten over time.
-
-        Update increases the pheromone strength of a node if the ant has traveled the
-        connection during a tour. Update is influenced by quality of route.
-
-        Should be performed after each run.
-
-        Returns
-        -------
-        None
-        """
-        for i in range(self.n):
-            for j in range(self.n):
-                # Evaporation
-                self.tau[i, j] = (1 - self.rho) * self.tau[i, j]
-                # Update
-                for ant in self.ants:
-                    if (i, j) in ant.arcs:
-                        self.tau[i, j] += 1 / ant.cost
-
-    def local_search(self):
-        pass
+        super().__init__(
+            name="Ant Colony Optimization",
+            filepath=filepath,
+            alpha=config.ant_system["alpha"],
+            beta=config.ant_system["beta"],
+            rho=config.ant_system["rho"],
+            iterations=config.ant_system["iterations"],
+        )

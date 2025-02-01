@@ -10,11 +10,11 @@ import argparse
 
 import tsplib95
 
+from src.algorithms.ant_system import AntSystem
 from src.algorithms.brute_force import BruteForce
 from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
-from src.algorithms.ant_system import AntSystem
 from src.utils.arg_parsing import get_filepath_for_problem
 
 ALGORITHMS = {

@@ -10,3 +10,8 @@ problems:
 algorithms:
   ant_system:
     iterations: 100
+    alpha: 1
+    beta: 2
+    rho: 0.5
+  min_max_ant_system:
+    iterations: 100

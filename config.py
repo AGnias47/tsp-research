@@ -8,12 +8,8 @@ class Config:
     def __init__(self, raw_data):
         self.problems_parent_path = raw_data["problems_parent_path"]
         self.problems = raw_data["problems"]
-        try:
-            self.ant_system_iterations = int(
-                raw_data["algorithms"]["ant_system"]["iterations"]
-            )
-        except (KeyError, ValueError):
-            self.ant_system_iterations = None
+        self.ant_system = raw_data["algorithms"]["ant_system"]
+        self.mmas = raw_data["algorithms"]["min_max_ant_system"]
 
 
 config = Config(data)
