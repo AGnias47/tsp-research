@@ -14,16 +14,6 @@ from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
 from src.utils.arg_parsing import get_filepath_for_problem
 
-PROBLEMS = {
-    "p5": "custom/p5.tsp",  # 0
-    "barachet10": "papers/barachet10.tsp",  # 1
-    "p11": "custom/p11.tsp",  # 2
-    "p12": "custom/p12.tsp",  # 3
-    "ulysses16": "tsplib/ulysses16.tsp",  # 4
-    "gr17": "tsplib/gr17.tsp",  # 5
-    "fri26": "tsplib/fri26.tsp",  # 6
-}
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -34,7 +24,7 @@ if __name__ == "__main__":
         help="Problem to run, either by index, problem name, or path",
     )
     args = parser.parse_args()
-    filepath = get_filepath_for_problem(PROBLEMS, args.problem)
+    filepath = get_filepath_for_problem(args.problem)
     name = tsplib95.load(filepath).name
     print(f"Solutions for the {name} problem")
     print("-----------------------")

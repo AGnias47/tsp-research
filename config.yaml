@@ -1,1 +1,9 @@
 problems_parent_path: local/data
+problems:
+  p5: custom/p5.tsp
+  barachet10: papers/barachet10.tsp
+  p11: custom/p11.tsp
+  p12: custom/p12.tsp
+  ulysses16: tsplib/ulysses16.tsp
+  gr17: tsplib/gr17.tsp
+  fri26: tsplib/fri26.tsp
