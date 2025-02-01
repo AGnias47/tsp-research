@@ -7,6 +7,7 @@ References
 * https://stackoverflow.com/a/569063/8728749 - zero matrix
 * https://stackoverflow.com/a/55507797/8728749 - efficient initialization of a
 matrix to a single value in each element
+* https://stackoverflow.com/a/21088294/8728749 - np list to array
 """
 
 import numpy as np
@@ -74,7 +75,7 @@ class AntSystem(NetworkxTSP):
             if ant.cost < best_cost:
                 best_cost = ant.cost
                 best_route = ant.route
-        return best_cost, best_route
+        return best_cost, np.array(best_route)
 
     def reset_ants(self):
         for ant in self.ants:

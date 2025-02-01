@@ -1,8 +1,10 @@
-problem,algorithm,runtime
-barachet10,bf,11.63767
-barachet10,concorde,0.00333
-barachet10,hk,0.10006
-gr17,concorde,0.01118
-gr17,hk,40.12613
+problem,algorithm,runtime,cost
+barachet10,bf,11.63767,378
+barachet10,concorde,0.00333,378
+barachet10,hk,0.10006,378
+barachet10,as,.012872,387
+gr17,concorde,0.01118,2085
+gr17,hk,40.12613,2085
+gr17,as,1.02849,2178,
 p12,bf,2180.72205
 p12,concorde,0.0063

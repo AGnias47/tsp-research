@@ -29,7 +29,7 @@ class NearestNeighborSearch(NetworkxTSP):
             subproblem_route[-1], self.starting_node
         )
         final_route = [self.starting_node] + subproblem_route + [self.starting_node]
-        return total_cost, final_route
+        return total_cost, np.array(final_route)
 
     def subproblem(self, source_node, S: Graph):
         if S.number_of_nodes() == 0:
