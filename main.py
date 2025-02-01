@@ -25,7 +25,14 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     filepath = get_filepath_for_problem(args.problem)
-    name = tsplib95.load(filepath).name
+    try:
+        name = tsplib95.load(filepath).name
+    except FileNotFoundError:
+        parser.error(
+            f"{filepath} is not a valid path. "
+            "Specify a problem by its index or problem name in config.yaml::problems, "
+            "or manually specify the path to the problem."
+        )
     print(f"Solutions for the {name} problem")
     print("-----------------------")
     for algorithm in [Concorde, HeldKarp, BruteForce]:

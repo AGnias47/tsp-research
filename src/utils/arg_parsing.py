@@ -44,5 +44,5 @@ def get_filepath_for_problem(user_input):
         try:
             subpath = config.problems[user_input]
         except KeyError:
-            subpath = user_input
+            return user_input
     return f"{config.problems_parent_path}/{subpath}"
