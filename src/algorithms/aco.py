@@ -6,6 +6,8 @@ References
 
 from src.models.networkx_tsp import NetworkxTSP
 from numpy import np
++
+
 class ACO(NetworkxTSP):
     """
     Ant colony optimization algorithm for the traveling-salesman problem. Ants act as
@@ -20,6 +22,7 @@ class ACO(NetworkxTSP):
     deposit pheromone on the arcs they have visited. Arcs contained in shorter tours and
     that have been visited by many ants receive a higher pheromone update.
     """
+
     def __init__(self, filepath, apply_local_search=False):
         super().__init__("Ant Colony Optimization", filepath)
         self.apply_local_search = apply_local_search
@@ -27,6 +30,9 @@ class ACO(NetworkxTSP):
         self.tau = np.zeros(shape=(self.n, self.n))
         # Number of ants
         self.m = 1
+        # Cache heuristic information
+        self.eta = np.zeros(shape=(self.n, self.n))
+        # Hyperparameters
         self.alpha = 1
         self.beta = 1
 
@@ -37,12 +43,39 @@ class ACO(NetworkxTSP):
                 self.local_search()
             self.update_trails()
 
-    def probabilistic_action_choice(self, ant, start, end):
-        numerator = self.tau[start,end]**self.alpha * (1/self.dist(start, end))**self.beta
+    def probabilistic_action_choice(self, ant, i, j):
+        tau_ij = self.tau[i, j]
+        eta_ij = self.heuristic(i, j)
+        numerator = tau_ij ** self.alpha * eta_ij ** self.beta
         denominator = 0
-        for l in (self.G.nodes - ant.tabu_list):
-            denominator += self.tau[start,l]**self.alpha * (1/self.dist(start, l))**self.beta
+        for l in self.G.nodes - ant.tabu_list:
+            tau_il = self.tau[i, l]
+            eta_il = self.heuristic(i, l)
+            denominator += tau_il ** self.alpha * eta_il ** self.beta
         return numerator / denominator
+
+    def heuristic(self, i, j):
+        """
+        Heuristic desirability of going from city i to j
+
+        Parameters
+        ----------
+        i: int
+            Starting node
+        j: int
+            Ending node
+
+        Returns
+        -------
+        np.float
+        """
+        if self.eta[i, j] > 0:
+            return self.eta[i, j]
+        try:
+            self.eta[i, j] = 1 / self.dist(i, j)
+        except ZeroDivisionError:
+            self.eta[i, j] = 1e-9
+        return self.eta[i, j]
 
     def construct_solutions(self):
         pass
