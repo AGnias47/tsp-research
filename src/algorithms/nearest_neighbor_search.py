@@ -1,12 +1,15 @@
-from itertools import permutations
-from math import factorial
+"""
+Nearest neighbor search. Produces a valid TSP path using a greedy algorithm. Not
+guaranteed to be optimal.
 
-import numpy as np
+Used to initialize the pheromone matrix of Ant colony optimization problems.
+"""
+
 import networkx.exception
+import numpy as np
+from networkx import Graph
 
 from src.models.networkx_tsp import NetworkxTSP
-
-from networkx import Graph
 
 
 class NearestNeighborSearch(NetworkxTSP):
@@ -42,3 +45,7 @@ class NearestNeighborSearch(NetworkxTSP):
             S.remove_node(best_dest)
             subproblem_cost, subproblem_route = self.subproblem(best_dest, S)
             return best_cost + subproblem_cost, [best_dest] + subproblem_route
+
+    @property
+    def big_o_runtime(self):
+        return 2 * self.n**2
