@@ -22,6 +22,31 @@ problem subpath, i.e. `problems_parent_path`/`<problem subpath>`.
 
 Custom problems can be created so long as they are in a `tsplib` compatible format.
 
+#### Sample Problem
+
+Taken from Barachet, ["Graphic Solution of the Traveling-Salesman Problem"](https://www.jstor.org/stable/166872)
+
+```shell
+NAME: barachet10
+TYPE: TSP
+COMMENT: Barachet's 10 City Example from Graphic Solution of the Traveling-Salesman Problem
+DIMENSION: 10
+EDGE_WEIGHT_TYPE: EXPLICIT
+EDGE_WEIGHT_FORMAT: LOWER_DIAG_ROW
+EDGE_WEIGHT_SECTION
+0
+28 0
+57 28 0
+72 45 20 0
+81 54 30 10 0
+85 57 28 20 22 0
+80 63 57 72 81 63 0
+113 85 57 45 41 28 80 0
+89 63 40 20 10 28 89 40 0
+80 63 57 45 41 63 113 80 40 0
+EOF
+```
+
 ## Run
 
 Run the main script via
