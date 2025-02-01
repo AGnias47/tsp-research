@@ -14,3 +14,5 @@ dependencies = [
     "ruff>=0.9.4",
     "tsplib95==0.7.1",
 ]
+[tool.ruff.lint]
+ignore = ["E741"]

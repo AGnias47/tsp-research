@@ -11,14 +11,17 @@ matrix to a single value in each element
 
 from numpy import np
 
-from src.models.networkx_tsp import NetworkxTSP
-from src.models.ant import Ant
+from config import config
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
+from src.models.ant import Ant
+from src.models.networkx_tsp import NetworkxTSP
+
+ITERATIONS = config.ant_system_iterations or 10
 
 
-class ACO(NetworkxTSP):
+class AntSystem(NetworkxTSP):
     """
-    Ant colony optimization algorithm for the traveling-salesman problem. Ants act as
+    Ant system optimization algorithm for the traveling-salesman problem. Ants act as
     agents that construct tours. Tours are guided by pheromone trails.
 
     Initially, m ants are placed on random cities. At each city, a state transition rule
@@ -31,10 +34,8 @@ class ACO(NetworkxTSP):
     that have been visited by many ants receive a higher pheromone update.
     """
 
-    def __init__(self, filepath, apply_local_search=False):
+    def __init__(self, filepath):
         super().__init__("Ant Colony Optimization", filepath)
-        self.apply_local_search = apply_local_search
-
         # Hyperparameter that amplifies pheromone trails. Generally 1 is seen as the
         #   best value, as anything greater results in stagnation.
         self.alpha = 1
@@ -58,22 +59,33 @@ class ACO(NetworkxTSP):
         self.tau[:] = self.m / nn_cost
         # Initialize ants
         self.ants = []
-        for _ in range(self.m):
-            self.ants.append(Ant())
+        for node in list(self.G.nodes):
+            ant = Ant(node)
+            self.ants.append(ant)
 
     def algorithm(self):
-        for _ in range(1000):
+        for _ in range(ITERATIONS):
+            self.reset_ants()
             self.construct_solutions()
-            if self.apply_local_search:
-                self.local_search()
             self.update_trails()
+        best_cost = np.inf
+        best_route = None
+        for ant in self.ants:
+            if ant.cost < best_cost:
+                best_cost = ant.cost
+                best_route = ant.route
+        return best_cost, best_route
 
-    def probabilistic_action_choice(self, ant, i, j):
+    def reset_ants(self):
+        for ant in self.ants:
+            ant.reset()
+
+    def probabilistic_action_choice(self, i, j, N):
         tau_ij = self.tau[i, j]
         eta_ij = self.heuristic(i, j)
         numerator = tau_ij**self.alpha * eta_ij**self.beta
         denominator = 0
-        for l in set(self.G.nodes) - set(ant.route):
+        for l in N:
             tau_il = self.tau[i, l]
             eta_il = self.heuristic(i, l)
             denominator += tau_il**self.alpha * eta_il**self.beta
@@ -103,7 +115,22 @@ class ACO(NetworkxTSP):
         return self.eta[i, j]
 
     def construct_solutions(self):
-        pass
+        for ant in self.ants:
+            source = ant.starting_node
+            remaining_nodes = set(self.G.nodes) - set(ant.route)
+            while remaining_nodes:
+                best_p = 0
+                best_dest = None
+                for dest in remaining_nodes:
+                    p_dest = self.probabilistic_action_choice(
+                        source, dest, remaining_nodes
+                    )
+                    if p_dest > best_p:
+                        best_p = p_dest
+                        best_dest = dest
+                ant.add_arc(source, best_dest, self.dist(source, best_dest))
+                source = best_dest
+                remaining_nodes = set(self.G.nodes) - set(ant.route)
 
     def update_trails(self):
         """

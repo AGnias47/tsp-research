@@ -7,3 +7,6 @@ problems:
   ulysses16: tsplib/ulysses16.tsp
   gr17: tsplib/gr17.tsp
   fri26: tsplib/fri26.tsp
+algorithms:
+  ant_system:
+    iterations: 10
