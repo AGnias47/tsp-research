@@ -24,7 +24,7 @@ Custom problems can be created so long as they are in a `tsplib` compatible form
 
 #### Sample Problem
 
-Taken from Barachet, ["Graphic Solution of the Traveling-Salesman Problem"](https://www.jstor.org/stable/166872)
+Taken from Barachet, ["Graphic Solution of the Traveling-Salesman Problem"](https://www.jstor.org/stable/166872). Optimal cost is `378` and optimal route is `[0 6 5 7 8 9 4 3 2 1 0]`.
 
 ```shell
 NAME: barachet10
