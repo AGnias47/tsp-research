@@ -9,20 +9,20 @@ References
 import argparse
 
 import tsplib95
-
 from src.algorithms.brute_force import BruteForce
 from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
+from src.utils.arg_parsing import get_filepath_for_problem
 
-PROBLEMS = [
-    "custom/p5.tsp",  # 0
-    "papers/barachet10.tsp",  # 1
-    "custom/p11.tsp",  # 2
-    "custom/p12.tsp",  # 3
-    "tsplib/ulysses16.tsp",  # 4
-    "tsplib/gr17.tsp",  # 5
-    "tsplib/fri26.tsp",  # 6
-]
+PROBLEMS = {
+    "p5": "custom/p5.tsp",  # 0
+    "barachet10": "papers/barachet10.tsp",  # 1
+    "p11": "custom/p11.tsp",  # 2
+    "p12": "custom/p12.tsp",  # 3
+    "ulysses16": "tsplib/ulysses16.tsp",  # 4
+    "gr17": "tsplib/gr17.tsp",  # 5
+    "fri26": "tsplib/fri26.tsp",  # 6
+}
 
 
 if __name__ == "__main__":
@@ -31,11 +31,10 @@ if __name__ == "__main__":
         "-p",
         "--problem",
         required=True,
-        help="Problem to run by index in the PROBLEMS list",
-        type=int,
+        help="Problem to run, either by index, problem name, or path",
     )
     args = parser.parse_args()
-    filepath = f"local/data/{PROBLEMS[args.problem]}"
+    filepath = get_filepath_for_problem(PROBLEMS, args.problem)
     name = tsplib95.load(filepath).name
     print(f"Solutions for the {name} problem")
     print("-----------------------")

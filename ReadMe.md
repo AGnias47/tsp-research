@@ -25,3 +25,7 @@ Tests can be run via
 ```shell
 pytest
 ```
+
+## Last work
+
+p. 85 Ant System and Its Direct Successors
