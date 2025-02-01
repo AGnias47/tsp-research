@@ -4,9 +4,10 @@ References
 * https://stackoverflow.com/a/569063/8728749 - zero matrix
 """
 
-from src.models.networkx_tsp import NetworkxTSP
 from numpy import np
-+
+
+from src.models.networkx_tsp import NetworkxTSP
+
 
 class ACO(NetworkxTSP):
     """
@@ -46,12 +47,12 @@ class ACO(NetworkxTSP):
     def probabilistic_action_choice(self, ant, i, j):
         tau_ij = self.tau[i, j]
         eta_ij = self.heuristic(i, j)
-        numerator = tau_ij ** self.alpha * eta_ij ** self.beta
+        numerator = tau_ij**self.alpha * eta_ij**self.beta
         denominator = 0
         for l in self.G.nodes - ant.tabu_list:
             tau_il = self.tau[i, l]
             eta_il = self.heuristic(i, l)
-            denominator += tau_il ** self.alpha * eta_il ** self.beta
+            denominator += tau_il**self.alpha * eta_il**self.beta
         return numerator / denominator
 
     def heuristic(self, i, j):

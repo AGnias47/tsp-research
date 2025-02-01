@@ -10,8 +10,8 @@ import argparse
 
 import tsplib95
 
-from src.algorithms.concorde import Concorde
 from src.algorithms.brute_force import BruteForce
+from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
 
 PROBLEMS = [

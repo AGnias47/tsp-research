@@ -28,4 +28,4 @@ def test_held_karp(expected_results):
     (cost, route), runtime = HeldKarp(problem_file).run_tsp()
     assert cost == expected_results["cost"]
     assert all([a == b for a, b in zip(route[:-1], expected_results["route"])])
-    assert type(runtime) == float
+    assert type(runtime) is float

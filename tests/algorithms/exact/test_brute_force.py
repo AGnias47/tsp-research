@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.algorithms.concorde import Concorde
 from src.algorithms.brute_force import BruteForce
+from src.algorithms.concorde import Concorde
 
 
 def test_brute_force():
