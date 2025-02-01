@@ -52,8 +52,10 @@ EOF
 Run the main script via
 
 ```shell
-python main.py -p <problem name>
+python main.py -p <problem name or comma-separated list of names>
 ```
+
+By default, the problem(s) will run on all available algorithms. Specific algorithms can be specified with the `-a` parameter, either as a single algorithm abbreviation or a comma-separated list of algorithm abbreviations (see `main.py::ALGORITHMS` for full list).
 
 Tests can be run via
 
