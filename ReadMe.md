@@ -26,6 +26,7 @@ Tests can be run via
 pytest
 ```
 
-## Last work
+## Future Work
 
-p. 85 Ant System and Its Direct Successors
+* Dynamic Traveling-Salesman Problem
+

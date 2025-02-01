@@ -12,6 +12,7 @@ import tsplib95
 from src.algorithms.brute_force import BruteForce
 from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
+from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.utils.arg_parsing import get_filepath_for_problem
 
 
@@ -35,7 +36,7 @@ if __name__ == "__main__":
         )
     print(f"Solutions for the {name} problem")
     print("-----------------------")
-    for algorithm in [Concorde, HeldKarp, BruteForce]:
+    for algorithm in [Concorde, NearestNeighborSearch]:
         solver = algorithm(filepath)
         print(f"Results of the {solver}")
         if solver.big_o_runtime:
