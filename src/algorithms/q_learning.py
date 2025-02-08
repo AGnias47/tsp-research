@@ -56,12 +56,12 @@ class QLearning(NetworkxTSP):
         route = [self.starting_node]
         cost = 0
         while len(route) < self.n:
-            action, Q_t = self.next_action(route)
+            action, Q_t = self.next_action(route, allow_exploration=False)
             cost += self.dist(route[-1], action)
             route.append(action)
         cost += self.dist(route[-1], self.starting_node)
         route.append(self.starting_node)
-        return cost, route
+        return cost, route  # [0 4 3 1 2 0]
 
     def q_learning(self):
         for self.episode in range(config.q_learning["episodes"]):
@@ -75,15 +75,13 @@ class QLearning(NetworkxTSP):
                     Q_t1 = self.Q[(tuple(S_t1), a_t1)]
                 else:
                     a_t1, Q_t1 = self.next_action(S_t1)
-                temporal_difference_target = reward + self.gamma * Q_t1
-                self.Q[(tuple(S), action)] = (
-                    1 - self.alpha
-                ) * Q_t + self.alpha * temporal_difference_target
+                temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
+                self.Q[(tuple(S), action)] = Q_t + self.alpha * temporal_difference_target
                 S = S_t1
 
-    def next_action(self, S):
+    def next_action(self, S, allow_exploration=True):
         available_actions = set(self.G.nodes) - set(S)
-        if self.rng.random() < self.epsilon:
+        if self.rng.random() < self.epsilon and allow_exploration:
             return self.explore(S, available_actions)
         else:
             return self.exploit(S, available_actions)
