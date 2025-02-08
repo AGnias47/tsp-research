@@ -75,10 +75,6 @@ class ACOBase(NetworkxTSP):
         self.initialize_tau()
 
     @property
-    def big_o_runtime(self):
-        return self.m * self.n**2
-
-    @property
     def m(self):
         """
         Number of ants. Generally chosen to be equal to the number of nodes in the

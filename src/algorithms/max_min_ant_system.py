@@ -37,6 +37,10 @@ class MaxMinAntSystem(ACOBase):
         self.tau_min = 0
         self.update_iteration = 0
 
+    @property
+    def big_o_runtime(self):
+        return config.mmas["iterations"] * self.m * self.n**2
+
     def initialize_tau(self):
         self.tau[:] = 1 / (self.rho * self.nn_cost)
 
