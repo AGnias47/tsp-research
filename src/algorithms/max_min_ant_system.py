@@ -38,16 +38,16 @@ class MaxMinAntSystem(ACOBase):
         self.update_iteration = 0
 
     @property
-    def big_o_runtime(self):
+    def big_o_runtime(self) -> int:
         return config.mmas["iterations"] * self.m * self.n**2
 
-    def initialize_tau(self):
+    def initialize_tau(self) -> None:
         self.tau[:] = 1 / (self.rho * self.nn_cost)
 
-    def calculate_tau_max(self):
+    def calculate_tau_max(self) -> float:
         return 1 / (self.rho * self.best_so_far.cost)
 
-    def calculate_tau_min(self):
+    def calculate_tau_min(self) -> float:
         """
         Calculates tau min
 
@@ -57,13 +57,13 @@ class MaxMinAntSystem(ACOBase):
 
         Returns
         -------
-
+        float
         """
         p_x = np.pow(0.05, 1 / self.n)
         avg_cities = self.n / 2
         return self.tau_max * ((1 - p_x) / ((avg_cities - 1) * p_x))
 
-    def update_trails(self, iteration):
+    def update_trails(self, iteration: int) -> None:
         """
         For the MMAS update, only update paths for either the best-so-far ant, or the
         iteration-best ant. In this algorithm, an iteration count is tracked, and the
