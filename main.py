@@ -9,6 +9,7 @@ References
 import argparse
 
 import tsplib95
+
 from config import config
 from src.algorithms.ant_system import AntSystem
 from src.algorithms.brute_force import BruteForce

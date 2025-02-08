@@ -11,8 +11,8 @@ import tsplib95
 
 from src.algorithms.held_karp import HeldKarp
 
-problem_file = "local/data/tsplib/ulysses16.tsp"
-tour_file = "local/data/tsplib/ulysses16.opt.tour"
+problem_file = "data/tsplib/ulysses16.tsp"
+tour_file = "data/tsplib/ulysses16.opt.tour"
 
 
 @pytest.fixture

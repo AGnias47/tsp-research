@@ -1,4 +1,4 @@
-problems_parent_path: local/data
+problems_parent_path: data
 problems:
   p5: custom/p5.tsp
   barachet10: papers/barachet10.tsp
