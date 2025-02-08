@@ -26,6 +26,8 @@ ALGORITHMS = {
     "as": AntSystem,
     "mmas": MaxMinAntSystem,
     "bf": BruteForce,
+    "ants": [AntSystem, MaxMinAntSystem],
+    "proj": [Concorde, MaxMinAntSystem]
 }
 
 if __name__ == "__main__":
@@ -63,7 +65,11 @@ if __name__ == "__main__":
         algorithm_list = []
         for algo in args.algorithm.split(","):
             try:
-                algorithm_list.append(ALGORITHMS[algo])
+                algorithm_choice = ALGORITHMS[algo]
+                if isinstance(algorithm_choice, list):
+                    algorithm_list.extend(algorithm_choice)
+                else:
+                    algorithm_list.append(algorithm_choice)
             except KeyError:
                 parser.error(
                     f"Invalid algorithm specified: {algo}. "
