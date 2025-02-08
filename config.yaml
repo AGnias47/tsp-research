@@ -23,4 +23,4 @@ algorithms:
   q_learning:
     episodes: 10_000
     alpha: 0.01
-    gamma: 0.5
+    gamma: 0.8

@@ -49,7 +49,10 @@ class QLearning(NetworkxTSP):
 
     @property
     def epsilon(self):
-        return 0.999**self.episode  # noqa
+        if config.q_learning["episodes"] < 8_000:
+            return 1 - self.episode / config.q_learning["episodes"]  # noqa
+        else:
+            return 0.999**self.episode  # noqa
 
     def algorithm(self):
         self.q_learning()
@@ -61,7 +64,7 @@ class QLearning(NetworkxTSP):
             route.append(action)
         cost += self.dist(route[-1], self.starting_node)
         route.append(self.starting_node)
-        return cost, route  # [0 4 3 1 2 0]
+        return cost, route
 
     def q_learning(self):
         for self.episode in range(config.q_learning["episodes"]):
@@ -76,7 +79,9 @@ class QLearning(NetworkxTSP):
                 else:
                     a_t1, Q_t1 = self.next_action(S_t1)
                 temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
-                self.Q[(tuple(S), action)] = Q_t + self.alpha * temporal_difference_target
+                self.Q[(tuple(S), action)] = (
+                    Q_t + self.alpha * temporal_difference_target
+                )
                 S = S_t1
 
     def next_action(self, S, allow_exploration=True):
@@ -101,7 +106,7 @@ class QLearning(NetworkxTSP):
         return a_t1, reward
 
     def reward(self, i, j):
-        return 1 / self.dist(i, j)
-
-    def alt_reward(self, i, j):
-        return -(self.dist(i, j) ** 2)
+        if self.n < 10:
+            return -(self.dist(i, j) ** 2)
+        else:
+            return 1 / self.dist(i, j)
