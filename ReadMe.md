@@ -4,13 +4,22 @@ Implementation of research related to different methods of solving the Traveling
 
 ## Setup
 
+### With Python and Pip
+
+* Install dependencies with `pip install -r requirements.txt`
+* Install pyconcorde via the instructions on [GitHub](https://github.com/jvkersch/pyconcorde)
+
+### With uv
+
 * Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
 * Install Python 3.13 via `uv python install 3.13.1`
 * Install dependencies via `uv sync`
 * Create a virtual environment with `uv venv --python 3.13.1`
 * Activate the environment via `source .venv/bin/activate`
 * Install dependencies via `uv sync`
-* Install pyconcorde via the instructions on [GitHub](https://github.com/jvkersch/pyconcorde)
+* Install pyconcorde
+  * Clone the repository on [GitHub](https://github.com/jvkersch/pyconcorde)
+  * `cd` into the directory and run `pip install -e .`
 
 ## TSP Problem Data
 
