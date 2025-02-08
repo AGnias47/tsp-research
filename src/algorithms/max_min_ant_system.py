@@ -88,12 +88,12 @@ class MaxMinAntSystem(ACOBase):
         for ant in self.ants:
             if ant.cost < self.best_so_far.cost:
                 self.best_so_far = ant
-                self.update_iteration = 0
+                self.update_iteration = iteration
             if ant.cost < iteration_best_ant.cost:
                 iteration_best_ant = ant
         if (iteration - self.update_iteration) > config.mmas["stagnation_tolerance"]:
             # Stagnation reset procedure
-            self.tau[:] = 1 / (self.rho * self.best_so_far)
+            self.tau[:] = 1 / (self.rho * self.best_so_far.cost)
             self.update_iteration = iteration
             return
         if iteration % 2:
