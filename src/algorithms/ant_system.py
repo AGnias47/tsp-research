@@ -20,4 +20,3 @@ class AntSystem(ACOBase):
     @property
     def big_o_runtime(self):
         return self.m * self.n**2
-
