@@ -16,7 +16,3 @@ class AntSystem(ACOBase):
             rho=config.ant_system["rho"],
             iterations=config.ant_system["iterations"],
         )
-
-    @property
-    def big_o_runtime(self):
-        return self.m * self.n**2
