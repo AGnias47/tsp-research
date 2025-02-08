@@ -14,11 +14,14 @@ examples
 """
 
 from collections import defaultdict
-
+import random
 import numpy as np
 
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
+
+
+random.seed(config.random_number_seed)
 
 
 class QLearning(NetworkxTSP):
@@ -36,9 +39,9 @@ class QLearning(NetworkxTSP):
         super().__init__("Q-Learning", filepath)
         self.alpha = config.q_learning["alpha"]
         self.gamma = config.q_learning["gamma"]
-        self.Q = defaultdict(lambda: (0, np.empty(0, dtype=float)))
+        self.Q = defaultdict(lambda: 0)
         self.starting_node = 0 if 0 in self.G else 1
-        self.rng = np.random.default_rng(config.random_number_seed)
+        self.rng = random
 
     @property
     def big_o_runtime(self):
@@ -69,9 +72,9 @@ class QLearning(NetworkxTSP):
                 S_t1 = S + [action]
                 if len(S_t1) == self.n:
                     a_t1 = self.starting_node
+                    Q_t1 = self.Q[(tuple(S_t1), a_t1)]
                 else:
-                    a_t1 = self.next_action(set(self.G.nodes) - set(S_t1))
-                Q_t1 = self.Q[(tuple(S_t1), a_t1)]
+                    a_t1, Q_t1 = self.next_action(S_t1)
                 temporal_difference_target = reward + self.gamma * Q_t1
                 self.Q[(tuple(S), action)] = (
                     1 - self.alpha
@@ -86,7 +89,7 @@ class QLearning(NetworkxTSP):
             return self.exploit(S, available_actions)
 
     def explore(self, S, A):
-        action = np.random.choice(A)
+        action = random.choice(list(A))
         return action, self.Q[(tuple(S), action)]
 
     def exploit(self, S, A):
