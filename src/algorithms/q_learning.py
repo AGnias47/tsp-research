@@ -37,7 +37,6 @@ class QLearning(NetworkxTSP):
         self.alpha = config.q_learning["alpha"]
         self.gamma = config.q_learning["gamma"]
         self.Q = defaultdict(lambda: (0, np.empty(0, dtype=float)))
-        self.iteration = 0
         self.starting_node = 0 if 0 in self.G else 1
         self.rng = np.random.default_rng(config.random_number_seed)
 
@@ -47,16 +46,26 @@ class QLearning(NetworkxTSP):
 
     @property
     def epsilon(self):
-        return 0.999**self.iteration
+        return 0.999**self.episode  # noqa
 
     def algorithm(self):
-        for episode in range(config.q_learning["episodes"]):
+        self.q_learning()
+        route = [self.starting_node]
+        cost = 0
+        while len(route) < self.n:
+            action, Q_t = self.next_action(route)
+            cost += self.dist(route[-1], action)
+            route.append(action)
+        cost += self.dist(route[-1], self.starting_node)
+        route.append(self.starting_node)
+        return cost, route
+
+    def q_learning(self):
+        for self.episode in range(config.q_learning["episodes"]):
             S = [self.starting_node]
-            starting_node = self.starting_node
             while len(S) < self.n:
-                action = self.next_action(set(self.G.nodes) - set(S))
-                Q_t = self.Q[(tuple(S), action)]
-                reward = self.reward(starting_node, action)
+                action, Q_t = self.next_action(S)
+                reward = self.reward(S[-1], action)
                 S_t1 = S + [action]
                 if len(S_t1) == self.n:
                     a_t1 = self.starting_node
@@ -69,24 +78,26 @@ class QLearning(NetworkxTSP):
                 ) * Q_t + self.alpha * temporal_difference_target
                 S = S_t1
 
-    def next_action(self, A):
+    def next_action(self, S):
+        available_actions = set(self.G.nodes) - set(S)
         if self.rng.random() < self.epsilon:
-            return self.explore(A)
+            return self.explore(S, available_actions)
         else:
-            return self.exploit(A)
+            return self.exploit(S, available_actions)
 
-    def explore(self, A):
-        return np.random.choice(A)
+    def explore(self, S, A):
+        action = np.random.choice(A)
+        return action, self.Q[(tuple(S), action)]
 
-    def exploit(self, A):
+    def exploit(self, S, A):
         max_reward = -np.inf
         a_t1 = None
         for a in A:
-            reward = self.Q[(tuple(A.nodes), a)]
+            reward = self.Q[(tuple(S), a)]
             if reward > max_reward:
                 max_reward = reward
                 a_t1 = a
-        return a_t1
+        return a_t1, reward
 
     def reward(self, i, j):
         return 1 / self.dist(i, j)

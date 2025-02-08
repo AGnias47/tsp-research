@@ -17,6 +17,7 @@ from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
 from src.algorithms.max_min_ant_system import MaxMinAntSystem
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
+from src.algorithms.q_learning import QLearning
 from src.utils.arg_parsing import get_filepath_for_problem
 
 ALGORITHMS = {
@@ -26,6 +27,7 @@ ALGORITHMS = {
     "as": AntSystem,
     "mmas": MaxMinAntSystem,
     "bf": BruteForce,
+    "q": QLearning,
     "ants": [AntSystem, MaxMinAntSystem],
     "proj": [Concorde, MaxMinAntSystem],
 }
