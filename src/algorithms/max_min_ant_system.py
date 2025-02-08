@@ -1,9 +1,8 @@
 """
 Taken from 3.3.4 of Dorigo and Stützle - Ant Colony Optimization
 Improves upon Ant System with 4 modifications:
-- Allows only the best-so-far ant to deposit pheromone
-- This can lead to stagnation, which is counteracted by limiting the possible range of
-pheromone trail values
+- Allow only the best-so-far or iteration-best ant to deposit pheromone
+- Limit the possible range of pheromone trail values
 - Pheromone trails are initialized to the upper pheromone trail limit
 - Pheromone trails are reinitialized each time the system approaches stagnation or when
 no improved tour has been generated for a certain number of consecutive iterations.
@@ -12,6 +11,7 @@ References
 ----------
 - https://iridia.ulb.ac.be/~mdorigo/ACO/aco-code/public-software.html - C-code from
 T. Stützle. Used for assistance in determining self.tau_min
+- https://stackoverflow.com/a/5996949/8728749 - Efficiently limiting a value to a range
 """
 
 import numpy as np
@@ -35,9 +35,10 @@ class MaxMinAntSystem(ACOBase):
         self.best_so_far.cost = np.inf
         self.tau_max = np.inf
         self.tau_min = 0
+        self.update_iteration = 0
 
     def initialize_tau(self):
-        self.tau[:] = self.tau_max
+        self.tau[:] = 1 / (self.rho * self.nn_cost)
 
     def calculate_tau_max(self):
         return 1 / (self.rho * self.best_so_far.cost)
@@ -55,25 +56,50 @@ class MaxMinAntSystem(ACOBase):
 
         """
         p_x = np.pow(0.05, 1 / self.n)
-        return self.tau_max * ((1 - p_x) / ((nn_ants - 1) * p_x))
+        avg_cities = self.n / 2
+        return self.tau_max * ((1 - p_x) / ((avg_cities - 1) * p_x))
 
-    def update_trails(self):
+    def update_trails(self, iteration):
         """
-        For the MMAS update, the best ant out of all iterations so far is determined,
-        and only the routes for that ant are updated.
+        For the MMAS update, only update paths for either the best-so-far ant, or the
+        iteration-best ant. In this algorithm, an iteration count is tracked, and the
+        best-so-far and iteration-best ants are alternated through for the update. The
+        iteration-best ant encourages exploration, while the best-so-far ant is most
+        likely to give the best update.
 
-        This should be alternated with
-        the best ant in just the iterations.
+        If stagnation is detected, the pheromone matrix is reset. Stagnation is
+        considered a number of consecutive iterations without improvement. This number
+        is defined in the config as stagnation_tolerance.
 
-        Should be performed after each run.
+        Parameters
+        ----------
+        iteration: int
+            Iteration count, tracked by the algorithm
+
+        References
+        ----------
+        Stagnation reset is modeled after ACOTSP/acotsp.c::search_control_and_statistics
 
         Returns
         -------
         None
         """
+        iteration_best_ant = self.ants[0]
         for ant in self.ants:
             if ant.cost < self.best_so_far.cost:
                 self.best_so_far = ant
+                self.update_iteration = 0
+            if ant.cost < iteration_best_ant.cost:
+                iteration_best_ant = ant
+        if (iteration - self.update_iteration) > config.mmas["stagnation_tolerance"]:
+            # Stagnation reset procedure
+            self.tau[:] = 1 / (self.rho * self.best_so_far)
+            self.update_iteration = iteration
+            return
+        if iteration % 2:
+            ant_for_update = self.best_so_far
+        else:
+            ant_for_update = iteration_best_ant
         self.tau_max = self.calculate_tau_max()
         self.tau_min = self.calculate_tau_min()
         for i in range(self.n):
@@ -81,5 +107,7 @@ class MaxMinAntSystem(ACOBase):
                 # Evaporation
                 self.tau[i, j] = (1 - self.rho) * self.tau[i, j]
                 # Update
-                if (i, j) in self.best_so_far.arcs:
-                    self.tau[i, j] += 1 / self.best_so_far.cost
+                if (i, j) in ant_for_update.arcs:
+                    self.tau[i, j] += max(
+                        min(self.tau_min, 1 / ant_for_update.cost), self.tau_max
+                    )

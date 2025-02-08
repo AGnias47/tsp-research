@@ -37,4 +37,5 @@ pytest
 ## Future Work
 
 * Dynamic Traveling-Salesman Problem
+* Epsilon factor in ACO
 

@@ -97,7 +97,7 @@ class ACOBase(NetworkxTSP):
         """
         self.tau[:] = self.n / self.nn_cost
 
-    def update_trails(self):
+    def update_trails(self, *args):
         """
         Performs pheromone evaporation and then update.
 
@@ -123,10 +123,10 @@ class ACOBase(NetworkxTSP):
                         self.tau[i, j] += 1 / ant.cost
 
     def algorithm(self):
-        for _ in range(self.iterations):
+        for i in range(self.iterations):
             self.reset_ants()
             self.construct_solutions()
-            self.update_trails()
+            self.update_trails(i)
         best_cost = np.inf
         best_route = None
         for ant in self.ants:
