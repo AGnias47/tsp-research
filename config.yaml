@@ -1,4 +1,5 @@
 problems_parent_path: data
+random_number_seed: 42
 problems:
   p5: custom/p5.tsp
   barachet10: papers/barachet10.tsp
@@ -19,3 +20,7 @@ algorithms:
     alpha: 1
     beta: 2
     rho: 0.02
+  q_learning:
+    episodes: 15
+    alpha: 0.01
+    gamma: 0.6

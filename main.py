@@ -27,7 +27,7 @@ ALGORITHMS = {
     "mmas": MaxMinAntSystem,
     "bf": BruteForce,
     "ants": [AntSystem, MaxMinAntSystem],
-    "proj": [Concorde, MaxMinAntSystem]
+    "proj": [Concorde, MaxMinAntSystem],
 }
 
 if __name__ == "__main__":

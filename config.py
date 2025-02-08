@@ -10,6 +10,8 @@ class Config:
         self.problems = raw_data["problems"]
         self.ant_system = raw_data["algorithms"]["ant_system"]
         self.mmas = raw_data["algorithms"]["min_max_ant_system"]
+        self.random_number_seed = raw_data["random_number_seed"]
+        self.q_learning = raw_data["q_learning"]
 
 
 config = Config(data)

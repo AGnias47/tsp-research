@@ -17,7 +17,6 @@ class AntSystem(ACOBase):
             iterations=config.ant_system["iterations"],
         )
 
-
     @property
     def big_o_runtime(self) -> int:
         return config.ant_system["iterations"] * self.m * self.n**2
