@@ -19,7 +19,7 @@ Implementation of research related to different methods of solving the Traveling
 * Install dependencies via `uv sync`
 * Install pyconcorde
   * Clone the repository on [GitHub](https://github.com/jvkersch/pyconcorde)
-  * `cd` into the directory and run `pip install -e .`
+  * `cd` into the directory and run `uv pip install -e .`
 
 ## TSP Problem Data
 
