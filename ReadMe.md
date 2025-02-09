@@ -25,7 +25,7 @@ Implementation of research related to different methods of solving the Traveling
 
 Problems used are located in the `data` repo and can be called by name in the `main.py` script. Additional problems can 
 be added by downloading a [tsplib](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)-compatibly file and updating 
-the `config.yaml`.
+the `config.yaml`. Files can be decompressed with `gzip -d`.
 
 ## Run
 
