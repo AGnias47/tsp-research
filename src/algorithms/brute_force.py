@@ -34,7 +34,6 @@ class BruteForce(NetworkxTSP):
                 best_route = p_route
         return best_cost, best_route
 
-
     @property
     def big_o_runtime(self):
         """
@@ -44,4 +43,4 @@ class BruteForce(NetworkxTSP):
         -------
         int
         """
-        return factorial(self.n-1)
+        return factorial(self.n - 1)

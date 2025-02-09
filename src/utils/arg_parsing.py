@@ -6,9 +6,10 @@ Getting all files in a dir
 * https://stackoverflow.com/a/678242/8728749 - filepath stem
 """
 
+import pathlib
 
 from config import config
-import pathlib
+
 
 def get_filepath_for_problem(user_input, parent_path=None):
     if not parent_path:

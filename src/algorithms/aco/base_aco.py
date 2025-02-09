@@ -18,6 +18,7 @@ matrix to a single value in each element
 """
 
 import numpy as np
+
 from config import config
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.models.ant import Ant
@@ -57,7 +58,7 @@ class BaseACO(NetworkxTSP):
         #   2 and 5
         self.beta = beta
         # Cache heuristic information
-        self.eta = np.zeros(shape=(self.n+1, self.n+1))
+        self.eta = np.zeros(shape=(self.n + 1, self.n + 1))
         # Factor used in reducing pheromone strength over time. Can also be used to
         #   influence the initial value of pheromone strength
         self.rho = rho
@@ -65,7 +66,7 @@ class BaseACO(NetworkxTSP):
         #   across ACO algorithm implementations
         self.nn_cost, _ = NearestNeighborSearch(filepath).algorithm()
         # Tracks pheromone strength.
-        self.tau = np.ndarray(shape=(self.n+1, self.n+1))
+        self.tau = np.ndarray(shape=(self.n + 1, self.n + 1))
         # Initialize ants. Can start each ant at each city involved in the problem
         self.ants = []
         for node in list(self.G.nodes):
