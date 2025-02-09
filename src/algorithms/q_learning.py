@@ -67,11 +67,11 @@ class QLearning(NetworkxTSP):
                 S_t1 = S + [action]
                 if len(S_t1) == self.n:
                     a_t1 = self.starting_node
-                    Q_t1 = self.Q[(tuple(S_t1), a_t1)]
+                    Q_t1 = self.Q[(action, a_t1)]
                 else:
                     a_t1, Q_t1 = self.next_action(S_t1)
                 temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
-                self.Q[(tuple(S), action)] = (
+                self.Q[S[-1], action] = (
                     Q_t + self.alpha * temporal_difference_target
                 )
                 S = S_t1
@@ -82,6 +82,7 @@ class QLearning(NetworkxTSP):
                 best_route = S + [self.starting_node]
             costs.append(episode_cost)
         self.plot_costs(costs)
+        self.print_Q_table()
         return best_cost, best_route
 
     def next_action(self, S, allow_exploration=True):
@@ -93,13 +94,13 @@ class QLearning(NetworkxTSP):
 
     def explore(self, S, A):
         action = random.choice(list(A))
-        return action, self.Q[(tuple(S), action)]
+        return action, self.Q[S[-1], action]
 
     def exploit(self, S, A):
         max_reward = -np.inf
         a_t1 = None
         for a in A:
-            reward = self.Q[(tuple(S), a)]
+            reward = self.Q[S[-1], a]
             if reward > max_reward:
                 max_reward = reward
                 a_t1 = a

@@ -21,6 +21,6 @@ algorithms:
     beta: 2
     rho: 0.02
   q_learning:
-    episodes: 10_000
+    episodes: 20_000
     alpha: 0.01
     gamma: 0.6
