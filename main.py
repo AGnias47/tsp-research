@@ -31,7 +31,7 @@ ALGORITHMS = {
     "q": QLearning,
     "dq": DoubleQLearning,
     "ants": [AntSystem, MaxMinAntSystem],
-    "proj": [Concorde, MaxMinAntSystem],
+    "proj": [Concorde, MaxMinAntSystem, DoubleQLearning],
 }
 
 if __name__ == "__main__":
