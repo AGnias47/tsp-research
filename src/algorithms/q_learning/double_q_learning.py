@@ -1,9 +1,10 @@
-from collections import defaultdict
 import random
+from collections import defaultdict
+
 import numpy as np
+
 from config import config
 from src.algorithms.q_learning.base_q_learning import BaseQLearning
-
 
 random.seed(config.random_number_seed)
 

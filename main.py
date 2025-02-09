@@ -12,13 +12,13 @@ import tsplib95
 
 from config import config
 from src.algorithms.aco.ant_system import AntSystem
+from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
 from src.algorithms.brute_force import BruteForce
 from src.algorithms.concorde import Concorde
 from src.algorithms.held_karp import HeldKarp
-from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
-from src.algorithms.q_learning.q_learning import QLearning
 from src.algorithms.q_learning.double_q_learning import DoubleQLearning
+from src.algorithms.q_learning.q_learning import QLearning
 from src.utils.arg_parsing import get_filepath_for_problem
 
 ALGORITHMS = {

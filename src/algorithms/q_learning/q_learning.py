@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 import numpy as np
 
 from src.algorithms.q_learning.base_q_learning import BaseQLearning

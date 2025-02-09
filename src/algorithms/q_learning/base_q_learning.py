@@ -14,11 +14,12 @@ examples
 """
 
 import random
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
-
 
 random.seed(config.random_number_seed)
 
@@ -88,12 +89,6 @@ class BaseQLearning(NetworkxTSP):
             self.plot_costs(costs)
             self.print_Q_table()
         return best_cost, best_route
-
-    def update_Q_table(self, state, action, reward, a_t1):
-        Q_t = self.Q[state, action]
-        Q_t1 = self.Q[action, a_t1]
-        temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
-        self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
 
     def next_action(self, state, environment, allow_exploration=True):
         if self.rng.random() < self.epsilon and allow_exploration:
