@@ -1,15 +1,7 @@
 debug: false
 problems_parent_path: data
+problems_file_extension: .tsp
 random_number_seed: 42
-problems:
-  p5: custom/p5.tsp
-  barachet10: papers/barachet10.tsp
-  p11: custom/p11.tsp
-  p12: custom/p12.tsp
-  ulysses16: tsplib/ulysses16.tsp
-  gr17: tsplib/gr17.tsp
-  fri26: tsplib/fri26.tsp
-  brazil58: tsplib/brazil58.tsp
 algorithms:
   ant_system:
     iterations: 100

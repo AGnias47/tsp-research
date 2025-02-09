@@ -139,8 +139,23 @@ class BaseQLearning(NetworkxTSP):
         raise NotImplementedError
 
     def algorithm(self):
-        best_cost = np.inf
-        best_route = None
+        costs = self.q_learning()
+        if config.debug:
+            self.plot_costs(costs)
+            self.print_Q_table()
+        route = [self.starting_node]
+        cost = 0
+        state = self.starting_node
+        while len(route) < self.n:
+            action = self.next_action(state, set(self.G.nodes) - set(route), allow_exploration=False)
+            cost += self.dist(state, action)
+            route.append(action)
+            state = action
+        cost += self.dist(state, self.starting_node)
+        route.append(self.starting_node)
+        return cost, route
+
+    def q_learning(self):
         costs = []
         for self.episode in range(config.q_learning["episodes"]):
             episode_cost = 0
@@ -159,14 +174,8 @@ class BaseQLearning(NetworkxTSP):
                 route = updated_route
                 episode_cost += self.dist(route[-2], route[-1])
             episode_cost += self.dist(route[-1], self.starting_node)
-            if episode_cost < best_cost:
-                best_cost = episode_cost
-                best_route = route + [self.starting_node]
             costs.append(episode_cost)
-        if config.debug:
-            self.plot_costs(costs)
-            self.print_Q_table()
-        return best_cost, best_route
+        return costs
 
     def next_action(self, state, environment, allow_exploration=True):
         if self.rng.random() < self.epsilon and allow_exploration:
@@ -183,19 +192,6 @@ class BaseQLearning(NetworkxTSP):
             return -(self.dist(i, j) ** 2)
         else:
             return 1 / self.dist(i, j)
-
-    def use_q_table(self):
-        costs = self.algorithm()
-        self.plot_costs(costs)
-        route = [self.starting_node]
-        cost = 0
-        while len(route) < self.n:
-            action, Q_t = self.next_action(route, allow_exploration=False)
-            cost += self.dist(route[-1], action)
-            route.append(action)
-        cost += self.dist(route[-1], self.starting_node)
-        route.append(self.starting_node)
-        return cost, route
 
     def print_Q_table(self):
         for k, v in self.Q.items():
