@@ -1,5 +1,5 @@
 """
-Brute force exact solution to the Traveling Salesman Problem
+Brute force exact solution to the Traveling Salesman Problem.
 """
 
 from itertools import permutations
@@ -37,4 +37,11 @@ class BruteForce(NetworkxTSP):
 
     @property
     def big_o_runtime(self):
+        """
+        Reduced from O(n!) to O((n-1)!) by fixing the starting point
+
+        Returns
+        -------
+        int
+        """
         return factorial(self.n-1)
