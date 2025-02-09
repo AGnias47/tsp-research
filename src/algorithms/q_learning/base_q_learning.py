@@ -187,7 +187,31 @@ class BaseQLearning(NetworkxTSP):
     def explore(environment):
         return random.choice(list(environment))
 
-    def reward(self, i, j):
+    def reward(self, i: int, j: int) -> float:
+        """
+        Reward function, either penalizing for long routes or rewarding for short
+        routes. Functions taken from Wang et al.
+
+        r1 - reciprocal of distance, shorter distances will be larger
+        r2 - negative of distance
+        r3 - negative of distance squared
+
+        Generally r1 was found to have the best average performance in Wang et al.
+
+        Parameters
+        ----------
+        i: start
+        j: end
+
+        Raises
+        ------
+        ValueError
+            If an invalid reward function is specified in the config
+
+        Returns
+        -------
+        float
+        """
         if config.q_learning["reward"] == "r1":
             return 1 / self.dist(i, j)
         if config.q_learning["reward"] == "r3":
