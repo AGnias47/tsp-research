@@ -11,6 +11,8 @@ https://librarysearch.temple.edu/articles/cdi_proquest_miscellaneous_25830152
 e-greedy choice
 * https://www.baeldung.com/cs/epsilon-greedy-q-learning - Q-learning description with
 examples
+* https://github.com/mehdibnc/TSP-Q-Learning-/blob/master/src/utils.py - Implementation
+reference. Inspired plotting and using state as current city in Q-table
 """
 
 import random

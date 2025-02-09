@@ -1,7 +1,7 @@
 [project]
 name = "tsp-research"
 version = "0.1.0"
-description = "Add your description here"
+description = "Research on state-of-the-art methods for solving the Traveling-Salesman Problem"
 readme = "ReadMe.md"
 requires-python = ">=3.13"
 dependencies = [
