@@ -1,12 +1,17 @@
 """
-Q-Learning Reinforcement Algorithm for solving the Traveling-Salesman problem
+Q-Learning Reinforcement Learning Algorithm for solving the Traveling-Salesman Problem.
+Adapted from:
+
+Wang, J., Xiao, C., Wang, S.,
+Ruan, Y.: Reinforcement learning for the traveling
+salesman problem: Performance comparison of three
+algorithms. J. Eng. 2023, e12303 (2023).
+https://doi.org/10.1049/tje2.12303
 
 References
 ----------
 * https://en.wikipedia.org/wiki/Q-learning - More explicit instructions on Q-table
 update
-* Watkins. Q-learning. Machine learning, 1992-05, Vol.8 (3-4), p.279-292. 1992,
-https://librarysearch.temple.edu/articles/cdi_proquest_miscellaneous_25830152
 * https://jamesmccaffrey.wordpress.com/2017/11/30/the-epsilon-greedy-algorithm/ -
 e-greedy choice
 * https://www.baeldung.com/cs/epsilon-greedy-q-learning - Q-learning description with
@@ -28,37 +33,109 @@ random.seed(config.random_number_seed)
 
 class BaseQLearning(NetworkxTSP):
     """
-    agent - traveler
-    environment - cities to visit
-    state - cities that have been visited
-    action - next city to visit
-    reward - distance between cities, reciprocal of cost, negative of cost squared
-    Q-table - action values
-    action selection - E-greedy strategy
+    Base Library for solving the Traveling-Salesman Problem using Q-Learning.
+
+    Agent - Salesman
+    Environment - Cities left to visit
+    State - Current City of the Agent
+    Action - Next City to visit
+    Reward - Value representative of distance between two Cities, where closer Cities
+    give a higher Reward
+
+    Requires
+    --------
+    update_Q_table - Function that updates the Q-table
+    exploit - Function for deciding the next action
     """
 
     def __init__(self, filepath, name="Q-Learning"):
         super().__init__(name, filepath)
+        # learning rate
         self.alpha = config.q_learning["alpha"]
+        # discount factor
         self.gamma = config.q_learning["gamma"]
         self.starting_node = 0 if 0 in self.G else 1
+        # random number generator; used in exploratory action choice. Should be able to
+        #   call self.rng.random() and return a random float between 0 and 1
         self.rng = random
 
     @property
     def big_o_runtime(self):
-        return None
+        """
+        Rough estimate. Similar to dynamic programming methods. More thorough
+        algorithmic analysis is needed to definitively give a good estimate of the
+        runtime.
+
+        Returns
+        -------
+        int
+        """
+        return config.q_learning["episodes"] * self.n**2
 
     @property
-    def epsilon(self):
+    def epsilon(self) -> int:
+        """
+        Exploratory factor. When a new action must be decided, a random value between
+        0 and 1 is chosen. If it is below epsilon, the next action is randomly chosen,
+        else the best next action based on the Q-table is used.
+
+        For problems where less than 8,000 episodes are used, an epsilon starting at 1
+        with linear decay is used. Else, an exponential function is used that was
+        discovered to be effective in Wang et al. Doesn't start to truly utilize the
+        Q-table until episode > 7,500.
+
+        Returns
+        -------
+        float
+        """
         if config.q_learning["episodes"] < 8_000:
             return 1 - self.episode / config.q_learning["episodes"]  # noqa
         else:
             return 0.999**self.episode  # noqa
 
-    def update_Q_table(self, state, action, reward, a_t1):
+    def update_Q_table(self, state: int, action: int, reward: float, a_t1: int) -> None:
+        """
+        Once an action and next best action are chosen, update the Q-table for the
+        current state and action.
+
+        Parameters
+        ----------
+        state: int
+            Current location of the Agent
+        action: int
+            Where the Agent will travel to next
+        reward: float
+            Reward for traveling from state to action
+        a_t1: int
+            Best destination from action, i.e. ideal action in the next state
+
+        Raises
+        ------
+        NotImplementedError
+            If the function is not implemented in the inheriting class
+
+        Returns
+        -------
+        None
+        """
         raise NotImplementedError
 
-    def exploit(self, s, E):
+    def exploit(self, s, environment):
+        """
+        Next action to choose based on values provided in Q-table.
+
+        Parameters
+        ----------
+        s: int
+            Node value representing the current state
+        environment: list
+            Available nodes to travel to
+
+        Returns
+        -------
+        int
+            Ideal node to travel to based on value in Q-table
+        """
         raise NotImplementedError
 
     def algorithm(self):
@@ -86,7 +163,6 @@ class BaseQLearning(NetworkxTSP):
                 best_cost = episode_cost
                 best_route = route + [self.starting_node]
             costs.append(episode_cost)
-
         if config.debug:
             self.plot_costs(costs)
             self.print_Q_table()

@@ -16,10 +16,10 @@ class QLearning(BaseQLearning):
         temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
         self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
 
-    def exploit(self, s, E):
+    def exploit(self, s, environment):
         max_reward = -np.inf
         a_t1 = None
-        for a in E:
+        for a in environment:
             reward = self.Q[s, a]
             if reward > max_reward:
                 max_reward = reward

@@ -23,10 +23,10 @@ class DoubleQLearning(BaseQLearning):
         self.Q_a[state, action] = self.Q_a[state, action] + self.alpha * tdt_a
         self.Q_b[state, action] = self.Q_b[state, action] + self.alpha * tdt_b
 
-    def exploit(self, s, E):
+    def exploit(self, s, environment):
         max_reward = -np.inf
         a_t1 = None
-        for a in E:
+        for a in environment:
             reward = np.average([self.Q_a[s, a], self.Q_b[s, a]])
             if reward > max_reward:
                 max_reward = reward
