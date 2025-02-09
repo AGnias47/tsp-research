@@ -22,12 +22,9 @@ reference. Inspired plotting and using state as current city in Q-table
 
 import random
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
-
+from src.utils.figures import plot_costs
 random.seed(config.random_number_seed)
 
 
@@ -141,7 +138,7 @@ class BaseQLearning(NetworkxTSP):
     def algorithm(self):
         costs = self.q_learning()
         if config.debug:
-            self.plot_costs(costs)
+            plot_costs(costs)
             self.print_Q_table()
         route = [self.starting_node]
         cost = 0
@@ -197,10 +194,4 @@ class BaseQLearning(NetworkxTSP):
         for k, v in self.Q.items():
             print(f"{k[0]} | {k[1]} | {v}")
 
-    def plot_costs(self, costs):
-        fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 5))
-        ax.set_title("Cost over each RL episode")
-        ax.set_xlabel("Episode")
-        ax.set_ylabel("Cost")
-        ax.plot(costs)
-        plt.show()
+

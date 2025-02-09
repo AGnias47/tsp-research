@@ -9,7 +9,7 @@ References
 import argparse
 
 import tsplib95
-
+from config import config
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
 from src.algorithms.brute_force import BruteForce
@@ -55,15 +55,12 @@ if __name__ == "__main__":
     problems = []
     for problem in args.problem.split(","):
         filepath = get_filepath_for_problem(problem)
-        try:
-            name = tsplib95.load(filepath).name
-        except FileNotFoundError:
+        if not filepath:
             parser.error(
-                f"{filepath} is not a valid path. "
-                "Specify a problem by its index or problem name in config.yaml::problems, "
-                "or manually specify the path to the problem."
+                f"Could not find {problem}.tsp within the "
+                f"{config.problems_parent_path} directory."
             )
-        problems.append((filepath, name))
+        problems.append((filepath, tsplib95.load(filepath).name))
     if args.algorithm:
         algorithm_list = []
         for algo in args.algorithm.split(","):

@@ -1,3 +1,12 @@
+"""
+References
+----------
+* https://stackoverflow.com/questions/39909655/listing-of-all-files-in-directory -
+Getting all files in a dir
+* https://stackoverflow.com/a/678242/8728749 - filepath stem
+"""
+
+
 from config import config
 import pathlib
 

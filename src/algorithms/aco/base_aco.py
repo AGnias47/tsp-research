@@ -18,10 +18,11 @@ matrix to a single value in each element
 """
 
 import numpy as np
-
+from config import config
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.models.ant import Ant
 from src.models.networkx_tsp import NetworkxTSP
+from src.utils.figures import plot_costs
 
 
 class BaseACO(NetworkxTSP):
@@ -56,7 +57,7 @@ class BaseACO(NetworkxTSP):
         #   2 and 5
         self.beta = beta
         # Cache heuristic information
-        self.eta = np.zeros(shape=(self.n, self.n))
+        self.eta = np.zeros(shape=(self.n+1, self.n+1))
         # Factor used in reducing pheromone strength over time. Can also be used to
         #   influence the initial value of pheromone strength
         self.rho = rho
@@ -64,7 +65,7 @@ class BaseACO(NetworkxTSP):
         #   across ACO algorithm implementations
         self.nn_cost, _ = NearestNeighborSearch(filepath).algorithm()
         # Tracks pheromone strength.
-        self.tau = np.ndarray(shape=(self.n, self.n))
+        self.tau = np.ndarray(shape=(self.n+1, self.n+1))
         # Initialize ants. Can start each ant at each city involved in the problem
         self.ants = []
         for node in list(self.G.nodes):
@@ -111,7 +112,8 @@ class BaseACO(NetworkxTSP):
 
         Returns
         -------
-        None
+        int
+            Iter
         """
         for i in range(self.n):
             for j in range(self.n):
@@ -123,10 +125,15 @@ class BaseACO(NetworkxTSP):
                         self.tau[i, j] += 1 / ant.cost
 
     def algorithm(self):
+        costs = []
         for i in range(self.iterations):
             self.reset_ants()
             self.construct_solutions()
             self.update_trails(i)
+            if config.debug:
+                costs.append(min(ant.cost for ant in self.ants))
+        if config.debug:
+            plot_costs(costs)
         best_cost = np.inf
         best_route = None
         for ant in self.ants:

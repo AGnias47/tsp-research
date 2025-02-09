@@ -115,3 +115,4 @@ class MaxMinAntSystem(BaseACO):
                     self.tau[i, j] += max(
                         min(self.tau_min, 1 / ant_for_update.cost), self.tau_max
                     )
+        return iteration_best_ant.cost
