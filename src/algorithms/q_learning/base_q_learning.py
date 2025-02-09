@@ -25,6 +25,7 @@ import random
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs
+
 random.seed(config.random_number_seed)
 
 
@@ -144,7 +145,9 @@ class BaseQLearning(NetworkxTSP):
         cost = 0
         state = self.starting_node
         while len(route) < self.n:
-            action = self.next_action(state, set(self.G.nodes) - set(route), allow_exploration=False)
+            action = self.next_action(
+                state, set(self.G.nodes) - set(route), allow_exploration=False
+            )
             cost += self.dist(state, action)
             route.append(action)
             state = action
@@ -185,13 +188,28 @@ class BaseQLearning(NetworkxTSP):
         return random.choice(list(environment))
 
     def reward(self, i, j):
-        if self.n < 1:
-            return -(self.dist(i, j) ** 2)
-        else:
+        if config.q_learning["reward"] == "r1":
             return 1 / self.dist(i, j)
+        if config.q_learning["reward"] == "r3":
+            return -self.dist(i, j)
+        if config.q_learning["reward"] == "r3":
+            return -(self.dist(i, j) ** 2)
+        raise ValueError(
+            "Invalid reward function specified in config. Must be r{1,2,3}"
+        )
 
     def print_Q_table(self):
-        for k, v in self.Q.items():
-            print(f"{k[0]} | {k[1]} | {v}")
-
-
+        if hasattr(self, "Q"):
+            for k, v in self.Q.items():
+                print(f"{k[0]} | {k[1]} | {v}")
+        if hasattr(self, "Q_a") and hasattr(self, "Q_b"):
+            print("------------------")
+            print("Q_a")
+            print("------------------")
+            for k, v in self.Q_a.items():
+                print(f"{k[0]} | {k[1]} | {v}")
+            print("------------------")
+            print("Q_b")
+            print("------------------")
+            for k, v in self.Q_b.items():
+                print(f"{k[0]} | {k[1]} | {v}")
