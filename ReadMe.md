@@ -43,8 +43,19 @@ Tests can be run via
 pytest
 ```
 
+## Workload stack
+
+### Current Week
+
+* Documentation and strong typing for existing functions
+* Write midterm paper
+* Get project in a submittable format for external testing
+
+### Part II
+
+* Algorithm tuning, mainly for Q-learning
+
 ## Future Work
 
 * Dynamic Traveling-Salesman Problem
 * Epsilon factor in ACO
-

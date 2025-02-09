@@ -31,6 +31,7 @@ ALGORITHMS = {
     "q": QLearning,
     "dq": DoubleQLearning,
     "ants": [AntSystem, MaxMinAntSystem],
+    "rl": [QLearning, DoubleQLearning],
     "proj": [Concorde, MaxMinAntSystem, DoubleQLearning],
 }
 
