@@ -13,7 +13,6 @@ e-greedy choice
 examples
 """
 
-from collections import defaultdict
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,7 +23,7 @@ from src.models.networkx_tsp import NetworkxTSP
 random.seed(config.random_number_seed)
 
 
-class QLearning(NetworkxTSP):
+class BaseQLearning(NetworkxTSP):
     """
     agent - traveler
     environment - cities to visit
@@ -35,11 +34,10 @@ class QLearning(NetworkxTSP):
     action selection - E-greedy strategy
     """
 
-    def __init__(self, filepath):
-        super().__init__("Q-Learning", filepath)
+    def __init__(self, filepath, name="Q-Learning"):
+        super().__init__(name, filepath)
         self.alpha = config.q_learning["alpha"]
         self.gamma = config.q_learning["gamma"]
-        self.Q = defaultdict(lambda: 0)
         self.starting_node = 0 if 0 in self.G else 1
         self.rng = random
 
@@ -54,6 +52,12 @@ class QLearning(NetworkxTSP):
         else:
             return 0.999**self.episode  # noqa
 
+    def update_Q_table(self, state, action, reward, a_t1):
+        raise NotImplementedError
+
+    def exploit(self, s, E):
+        raise NotImplementedError
+
     def algorithm(self):
         best_cost = np.inf
         best_route = None
@@ -63,16 +67,15 @@ class QLearning(NetworkxTSP):
             route = [self.starting_node]
             while len(route) < self.n:
                 state = route[-1]
-                action, Q_t = self.next_action(state, set(self.G.nodes) - set(route))
+                action = self.next_action(state, set(self.G.nodes) - set(route))
                 reward = self.reward(state, action)
                 updated_route = route + [action]
                 updated_environment = set(self.G.nodes) - set(updated_route)
                 if updated_environment:
-                    _, Q_t1 = self.next_action(action, updated_environment)
+                    a_t1 = self.next_action(action, updated_environment)
                 else:
-                    Q_t1 = self.Q[(action, self.starting_node)]
-                temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
-                self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
+                    a_t1 = self.starting_node
+                self.update_Q_table(state, action, reward, a_t1)
                 route = updated_route
                 episode_cost += self.dist(route[-2], route[-1])
             episode_cost += self.dist(route[-1], self.starting_node)
@@ -80,29 +83,27 @@ class QLearning(NetworkxTSP):
                 best_cost = episode_cost
                 best_route = route + [self.starting_node]
             costs.append(episode_cost)
-        self.plot_costs(costs)
-        self.print_Q_table()
+
+        if config.debug:
+            self.plot_costs(costs)
+            self.print_Q_table()
         return best_cost, best_route
+
+    def update_Q_table(self, state, action, reward, a_t1):
+        Q_t = self.Q[state, action]
+        Q_t1 = self.Q[action, a_t1]
+        temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
+        self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
 
     def next_action(self, state, environment, allow_exploration=True):
         if self.rng.random() < self.epsilon and allow_exploration:
-            return self.explore(state, environment)
+            return self.explore(environment)
         else:
             return self.exploit(state, environment)
 
-    def explore(self, s, E):
-        action = random.choice(list(E))
-        return action, self.Q[s, action]
-
-    def exploit(self, s, E):
-        max_reward = -np.inf
-        a_t1 = None
-        for a in E:
-            reward = self.Q[s, a]
-            if reward > max_reward:
-                max_reward = reward
-                a_t1 = a
-        return a_t1, reward  # noqa
+    @staticmethod
+    def explore(environment):
+        return random.choice(list(environment))
 
     def reward(self, i, j):
         if self.n < 1:

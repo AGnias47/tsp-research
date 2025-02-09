@@ -1,8 +1,8 @@
 from config import config
-from src.algorithms.aco_base import ACOBase
+from src.algorithms.aco.base_aco import BaseACO
 
 
-class AntSystem(ACOBase):
+class AntSystem(BaseACO):
     """
     Baseline Ant Colony Optimization Algorithm
     """

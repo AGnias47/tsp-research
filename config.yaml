@@ -1,3 +1,4 @@
+debug: false
 problems_parent_path: data
 random_number_seed: 42
 problems:
@@ -21,6 +22,6 @@ algorithms:
     beta: 2
     rho: 0.02
   q_learning:
-    episodes: 20_000
+    episodes: 10_000
     alpha: 0.01
     gamma: 0.6

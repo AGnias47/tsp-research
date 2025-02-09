@@ -17,11 +17,11 @@ T. Stützle. Used for assistance in determining self.tau_min
 import numpy as np
 
 from config import config
-from src.algorithms.aco_base import ACOBase
+from src.algorithms.aco.base_aco import BaseACO
 from src.models.ant import Ant
 
 
-class MaxMinAntSystem(ACOBase):
+class MaxMinAntSystem(BaseACO):
     def __init__(self, filepath):
         super().__init__(
             name="Max-Min Ant System ACO",

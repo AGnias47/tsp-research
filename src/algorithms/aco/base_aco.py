@@ -24,7 +24,7 @@ from src.models.ant import Ant
 from src.models.networkx_tsp import NetworkxTSP
 
 
-class ACOBase(NetworkxTSP):
+class BaseACO(NetworkxTSP):
     """
     Ant system optimization algorithm for the traveling-salesman problem. Ants act as
     agents that construct tours. Tours are guided by pheromone trails.
