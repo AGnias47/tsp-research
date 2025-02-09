@@ -16,7 +16,7 @@ examples
 from collections import defaultdict
 import random
 import numpy as np
-
+import matplotlib.pyplot as plt
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 
@@ -55,19 +55,11 @@ class QLearning(NetworkxTSP):
             return 0.999**self.episode  # noqa
 
     def algorithm(self):
-        self.q_learning()
-        route = [self.starting_node]
-        cost = 0
-        while len(route) < self.n:
-            action, Q_t = self.next_action(route, allow_exploration=False)
-            cost += self.dist(route[-1], action)
-            route.append(action)
-        cost += self.dist(route[-1], self.starting_node)
-        route.append(self.starting_node)
-        return cost, route
-
-    def q_learning(self):
+        best_cost = np.inf
+        best_route = None
+        costs = []
         for self.episode in range(config.q_learning["episodes"]):
+            episode_cost = 0
             S = [self.starting_node]
             while len(S) < self.n:
                 action, Q_t = self.next_action(S)
@@ -83,6 +75,14 @@ class QLearning(NetworkxTSP):
                     Q_t + self.alpha * temporal_difference_target
                 )
                 S = S_t1
+                episode_cost += self.dist(S[-2], S[-1])
+            episode_cost += self.dist(S[-1], self.starting_node)
+            if episode_cost < best_cost:
+                best_cost = episode_cost
+                best_route = S + [self.starting_node]
+            costs.append(episode_cost)
+        self.plot_costs(costs)
+        return best_cost, best_route
 
     def next_action(self, S, allow_exploration=True):
         available_actions = set(self.G.nodes) - set(S)
@@ -103,10 +103,35 @@ class QLearning(NetworkxTSP):
             if reward > max_reward:
                 max_reward = reward
                 a_t1 = a
-        return a_t1, reward
+        return a_t1, reward  # noqa
 
     def reward(self, i, j):
-        if self.n < 10:
+        if self.n < 1:
             return -(self.dist(i, j) ** 2)
         else:
             return 1 / self.dist(i, j)
+
+    def use_q_table(self):
+        costs = self.algorithm()
+        self.plot_costs(costs)
+        route = [self.starting_node]
+        cost = 0
+        while len(route) < self.n:
+            action, Q_t = self.next_action(route, allow_exploration=False)
+            cost += self.dist(route[-1], action)
+            route.append(action)
+        cost += self.dist(route[-1], self.starting_node)
+        route.append(self.starting_node)
+        return cost, route
+
+    def print_Q_table(self):
+        for k, v in self.Q.items():
+            print(f"{k[0]} | {k[1]} | {v}")
+
+    def plot_costs(self, costs):
+        fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 5))
+        ax.set_title("Cost over each RL episode")
+        ax.set_xlabel("Episode")
+        ax.set_ylabel("Cost")
+        ax.plot(costs)
+        plt.show()
