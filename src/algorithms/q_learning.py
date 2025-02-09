@@ -60,47 +60,45 @@ class QLearning(NetworkxTSP):
         costs = []
         for self.episode in range(config.q_learning["episodes"]):
             episode_cost = 0
-            S = [self.starting_node]
-            while len(S) < self.n:
-                action, Q_t = self.next_action(S)
-                reward = self.reward(S[-1], action)
-                S_t1 = S + [action]
-                if len(S_t1) == self.n:
-                    a_t1 = self.starting_node
-                    Q_t1 = self.Q[(action, a_t1)]
+            route = [self.starting_node]
+            while len(route) < self.n:
+                state = route[-1]
+                action, Q_t = self.next_action(state, set(self.G.nodes) - set(route))
+                reward = self.reward(state, action)
+                updated_route = route + [action]
+                updated_environment = set(self.G.nodes) - set(updated_route)
+                if updated_environment:
+                    _, Q_t1 = self.next_action(action, updated_environment)
                 else:
-                    a_t1, Q_t1 = self.next_action(S_t1)
+                    Q_t1 = self.Q[(action, self.starting_node)]
                 temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
-                self.Q[S[-1], action] = (
-                    Q_t + self.alpha * temporal_difference_target
-                )
-                S = S_t1
-                episode_cost += self.dist(S[-2], S[-1])
-            episode_cost += self.dist(S[-1], self.starting_node)
+                self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
+                route = updated_route
+                episode_cost += self.dist(route[-2], route[-1])
+            episode_cost += self.dist(route[-1], self.starting_node)
             if episode_cost < best_cost:
                 best_cost = episode_cost
-                best_route = S + [self.starting_node]
+                best_route = route + [self.starting_node]
             costs.append(episode_cost)
         self.plot_costs(costs)
         self.print_Q_table()
         return best_cost, best_route
 
-    def next_action(self, S, allow_exploration=True):
-        available_actions = set(self.G.nodes) - set(S)
+    def next_action(self, state, environment, allow_exploration=True):
         if self.rng.random() < self.epsilon and allow_exploration:
-            return self.explore(S, available_actions)
+            return self.explore(state, environment)
         else:
-            return self.exploit(S, available_actions)
+            return self.exploit(state, environment)
 
-    def explore(self, S, A):
-        action = random.choice(list(A))
-        return action, self.Q[S[-1], action]
+    def explore(self, s, E):
+        action = random.choice(list(E))
+        return action, self.Q[s, action]
 
-    def exploit(self, S, A):
+    def exploit(self, s, E):
         max_reward = -np.inf
         a_t1 = None
-        for a in A:
-            reward = self.Q[S[-1], a]
+        for a in E:
+            reward = self.Q[s, a]
             if reward > max_reward:
                 max_reward = reward
                 a_t1 = a
