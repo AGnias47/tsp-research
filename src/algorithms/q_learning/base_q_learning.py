@@ -178,7 +178,7 @@ class BaseQLearning(NetworkxTSP):
             state = route[-1]
             action = self.starting_node
             reward = self.reward(state, action)
-            a_t1 = self.next_action(action, self.G.nodes)
+            a_t1 = self.next_action(action, set(self.G.nodes) - set(np.array([self.starting_node])))
             self.update_Q_table(state, action, reward, a_t1)
             episode_cost += self.dist(route[-1], self.starting_node)
             costs.append(episode_cost)
