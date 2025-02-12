@@ -21,7 +21,7 @@ reference. Inspired plotting and using state as current city in Q-table
 """
 
 import random
-
+import numpy as np
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs
@@ -141,7 +141,7 @@ class BaseQLearning(NetworkxTSP):
         if config.debug:
             plot_costs(costs)
             self.print_Q_table()
-        route = [self.starting_node]
+        route = np.array([self.starting_node])
         cost = 0
         state = self.starting_node
         while len(route) < self.n:
@@ -149,22 +149,22 @@ class BaseQLearning(NetworkxTSP):
                 state, set(self.G.nodes) - set(route), allow_exploration=False
             )
             cost += self.dist(state, action)
-            route.append(action)
+            route = np.concatenate((route, np.array([action])))
             state = action
         cost += self.dist(state, self.starting_node)
-        route.append(self.starting_node)
+        route = np.concatenate((route, np.array([self.starting_node])))
         return cost, route
 
     def q_learning(self):
         costs = []
         for self.episode in range(config.q_learning["episodes"]):
             episode_cost = 0
-            route = [self.starting_node]
+            route = np.array([self.starting_node])
             while len(route) < self.n:
                 state = route[-1]
                 action = self.next_action(state, set(self.G.nodes) - set(route))
                 reward = self.reward(state, action)
-                updated_route = route + [action]
+                updated_route = np.concatenate((route, np.array([action])))
                 updated_environment = set(self.G.nodes) - set(updated_route)
                 if updated_environment:
                     a_t1 = self.next_action(action, updated_environment)
