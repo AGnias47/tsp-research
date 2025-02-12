@@ -21,7 +21,9 @@ reference. Inspired plotting and using state as current city in Q-table
 """
 
 import random
+
 import numpy as np
+
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs
