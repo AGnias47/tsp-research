@@ -82,6 +82,7 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
 
 * Algorithm tuning, mainly for Q-learning
 * Exploring unique problem shapes
+* Neural network with Q-learning
 
 ## Future Work
 
