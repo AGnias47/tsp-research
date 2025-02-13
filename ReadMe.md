@@ -69,7 +69,7 @@ Everything runs through the `main.py` script. The script takes 2 arguments. All 
 
 ## Runtime
 
-Currently, excluding the exact methods, Min-Max Ant System takes the longest to run. Around half an hour should be allocated if running on one of the 50+ city problems. Exact runtimes for several methods can be found in `results.csv`. Generally `barachet10.tsp` is used frequently in testing, as it runs quickly and is slightly challenging for an algorithm to solve, so is a decent way to test new implementations. The problem was taken from [Graphic Solution of the Traveling-Salesman Problem by L.L. Barachet](https://www.jstor.org/stable/166872).
+Currently, excluding the exact methods, Min-Max Ant System takes the longest to run. Around half an hour should be allocated if running on one of the 50+ city problems. Exact runtimes for several methods can be found in `results.csv`. Generally `barachet10.tsp` is used frequently in testing, as it runs quickly and is slightly challenging for an algorithm to solve, so is a decent way to test new implementations. The problem was taken from L.L. Barachet's [Graphic Solution of the Traveling-Salesman Problem](https://www.jstor.org/stable/166872).
 
 ## Workload stack
 
