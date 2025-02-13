@@ -1,4 +1,4 @@
-debug: true
+debug: false
 problems_parent_path: data
 problems_file_extension: .tsp
 random_number_seed: 42

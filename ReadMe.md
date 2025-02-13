@@ -4,6 +4,11 @@ Implementation of research related to different methods of solving the Traveling
 
 ## Setup
 
+### From Zip
+
+* Extract the zip file on a Linux (Ubuntu) server
+* Run  to activate the virtual environment
+
 ### With Python and Pip
 
 * Install dependencies with `pip install -r requirements.txt`
@@ -24,8 +29,8 @@ Implementation of research related to different methods of solving the Traveling
 ## TSP Problem Data
 
 Problems used are located in the `data` repo and can be called by name in the `main.py` script. Additional problems can 
-be added by downloading a [tsplib](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)-compatibly file and updating 
-the `config.yaml`. Files can be decompressed with `gzip -d`.
+be added by downloading a [tsplib](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)-compatible files and adding 
+them to the `data` directory. Files can be decompressed with `gzip -d`.
 
 ## Run
 

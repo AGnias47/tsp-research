@@ -79,7 +79,7 @@ if __name__ == "__main__":
                     f"{list(ALGORITHMS.keys())}"
                 )
     else:
-        algorithm_list = ALGORITHMS.values()
+        algorithm_list = algorithm_choice = ALGORITHMS["proj"]
     for filepath, name in problems:
         print(f"Solutions for the {name} problem")
         print("-----------------------")
