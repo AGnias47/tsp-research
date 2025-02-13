@@ -161,26 +161,27 @@ class BaseQLearning(NetworkxTSP):
         costs = []
         for self.episode in range(config.q_learning["episodes"]):
             episode_cost = 0
-            route = np.array([self.starting_node])
+            episode_starting_node = self.starting_node
+            route = np.array([episode_starting_node])
             while len(route) < self.n:
                 state = route[-1]
                 action = self.next_action(state, set(self.G.nodes) - set(route))
-                reward = self.reward(state, action)
+                reward = self.reward(int(state), action)
                 updated_route = np.concatenate((route, np.array([action])))
                 updated_environment = set(self.G.nodes) - set(updated_route)
                 if updated_environment:
                     a_t1 = self.next_action(action, updated_environment)
                 else:
-                    a_t1 = self.starting_node
-                self.update_Q_table(state, action, reward, a_t1)
+                    a_t1 = episode_starting_node
+                self.update_Q_table(int(state), action, reward, a_t1)
                 route = updated_route
                 episode_cost += self.dist(route[-2], route[-1])
             state = route[-1]
-            action = self.starting_node
-            reward = self.reward(state, action)
-            a_t1 = self.next_action(action, set(self.G.nodes) - set(np.array([self.starting_node])))
-            self.update_Q_table(state, action, reward, a_t1)
-            episode_cost += self.dist(route[-1], self.starting_node)
+            action = episode_starting_node
+            reward = self.reward(int(state), action)
+            a_t1 = self.next_action(action, set(self.G.nodes) - set(np.array([episode_starting_node])))
+            self.update_Q_table(int(state), action, reward, a_t1)
+            episode_cost += self.dist(route[-1], episode_starting_node)
             costs.append(episode_cost)
         return costs
 
