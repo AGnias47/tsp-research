@@ -63,7 +63,6 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
 
 * Documentation and strong typing for existing functions
 * Write midterm paper
-* Get project in a submittable format for external testing
 
 ### Part II
 
