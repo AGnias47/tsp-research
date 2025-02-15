@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import numpy as np
 
 from src.algorithms.q_learning.base_q_learning import BaseQLearning
@@ -9,17 +7,17 @@ class QLearning(BaseQLearning):
     algorithm_name = "Q-Learning"
     abbreviation = "q"
 
-    def __init__(self, filepath):
+    def __init__(self, filepath: str):
         super().__init__(filepath)
-        self.Q = defaultdict(lambda: 0)
+        self.Q = np.zeros(shape=(self.n + 1, self.n + 1))
 
-    def update_Q_table(self, state, action, reward, a_t1):
+    def update_Q_table(self, state: int, action: int, reward: float, a_t1: int) -> None:
         Q_t = self.Q[state, action]
         Q_t1 = self.Q[action, a_t1]
         temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
         self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
 
-    def exploit(self, s, environment):
+    def exploit(self, s: int, environment: set[int]) -> int:
         max_reward = -np.inf
         a_t1 = None
         for a in environment:

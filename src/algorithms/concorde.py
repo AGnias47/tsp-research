@@ -1,5 +1,9 @@
 """
 Solves TSP via Concorde. Used as a source of truth for finding the Optimal Tour Value.
+
+References
+----------
+* https://www.math.uwaterloo.ca/tsp/concorde.html - Concorde homepage
 """
 
 import numpy as np
@@ -14,7 +18,7 @@ class Concorde(TSP):
     algorithm_name = "Concorde"
     abbreviation = "concorde"
 
-    def __init__(self, filepath: str, suppress_output: bool=True):
+    def __init__(self, filepath: str, suppress_output: bool = True):
         """
         Constructor.
 
@@ -36,6 +40,13 @@ class Concorde(TSP):
             self.concorde_solver = TSPSolver.from_tspfile(filepath)
 
     def algorithm(self) -> (int, list[int]):
+        """
+        Returns the result of the Concorde sovler.
+
+        Returns
+        -------
+
+        """
         if self.suppress_output:
             with redirect_output_to_null():
                 solution = self.concorde_solver.solve()

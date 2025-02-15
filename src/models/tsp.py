@@ -41,7 +41,7 @@ class TSP:
         Returns
         -------
         int
-            None if not implemented
+            Runtime units. None if not implemented.
         """
         return None
 

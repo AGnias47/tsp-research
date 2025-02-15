@@ -11,13 +11,13 @@ https://doi.org/10.1049/tje2.12303
 References
 ----------
 * https://en.wikipedia.org/wiki/Q-learning - More explicit instructions on Q-table
-update
+  update
 * https://jamesmccaffrey.wordpress.com/2017/11/30/the-epsilon-greedy-algorithm/ -
-e-greedy choice
+  e-greedy choice
 * https://www.baeldung.com/cs/epsilon-greedy-q-learning - Q-learning description with
-examples
+  examples
 * https://github.com/mehdibnc/TSP-Q-Learning-/blob/master/src/utils.py - Implementation
-reference. Inspired plotting and using state as current city in Q-table
+  reference. Inspired plotting and using state as current city in Q-table
 """
 
 import random
@@ -48,8 +48,8 @@ class BaseQLearning(NetworkxTSP):
     exploit - Function for deciding the next action
     """
 
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, filepath: str):
+        super().__init__(filepath)
         # learning rate
         self.alpha = config.q_learning["alpha"]
         # discount factor
@@ -60,15 +60,17 @@ class BaseQLearning(NetworkxTSP):
         self.rng = random
 
     @property
-    def big_o_runtime(self):
+    def big_o_runtime(self) -> int:
         """
         Rough estimate. Similar to dynamic programming methods. More thorough
         algorithmic analysis is needed to definitively give a good estimate of the
-        runtime.
+        runtime. For example, this is being used for both Q and Double Q-Learning, and
+        Double-Q Learning is slower in practice.
 
         Returns
         -------
         int
+            Runtime units
         """
         return config.q_learning["episodes"] * self.n**2
 
@@ -92,6 +94,63 @@ class BaseQLearning(NetworkxTSP):
             return 1 - self.episode / config.q_learning["episodes"]  # noqa
         else:
             return 0.999**self.episode  # noqa
+
+    def algorithm(self) -> (int, list[int]):
+        costs = self.q_learning()
+        if config.debug:
+            plot_costs(costs)  # noqa
+            self.print_Q_table()
+        route = np.array([self.starting_node])
+        cost = 0
+        state = self.starting_node
+        while len(route) < self.n:
+            action = self.next_action(
+                state, set(self.G.nodes) - set(route), allow_exploration=False
+            )
+            cost += self.dist(state, action)
+            route = np.concatenate((route, np.array([action])))
+            state = action
+        cost += self.dist(state, self.starting_node)
+        route = np.concatenate((route, np.array([self.starting_node])))
+        return cost, route
+
+    def q_learning(self) -> list[int]:
+        """
+        Develops Q Matrix
+
+        Returns
+        -------
+        list
+            Cost for route found in each iteration
+        """
+        costs = []
+        for self.episode in range(config.q_learning["episodes"]):
+            episode_cost = 0
+            episode_starting_node = self.starting_node
+            route = np.array([episode_starting_node])
+            while len(route) < self.n:
+                state = route[-1]
+                action = self.next_action(int(state), set(self.G.nodes) - set(route))
+                reward = self.reward(int(state), action)
+                updated_route = np.concatenate((route, np.array([action])))
+                updated_environment = set(self.G.nodes) - set(updated_route)
+                if updated_environment:
+                    a_t1 = self.next_action(action, updated_environment)
+                else:
+                    a_t1 = episode_starting_node
+                self.update_Q_table(int(state), action, reward, a_t1)
+                route = updated_route
+                episode_cost += self.dist(route[-2], route[-1])
+            state = route[-1]
+            action = episode_starting_node
+            reward = self.reward(int(state), action)
+            a_t1 = self.next_action(
+                action, set(self.G.nodes) - set(np.array([episode_starting_node]))
+            )
+            self.update_Q_table(int(state), action, reward, a_t1)
+            episode_cost += self.dist(int(route[-1]), episode_starting_node)
+            costs.append(episode_cost)
+        return costs
 
     def update_Q_table(self, state: int, action: int, reward: float, a_t1: int) -> None:
         """
@@ -120,7 +179,7 @@ class BaseQLearning(NetworkxTSP):
         """
         raise NotImplementedError
 
-    def exploit(self, s, environment):
+    def exploit(self, s: int, environment: set[int]) -> int:
         """
         Next action to choose based on values provided in Q-table.
 
@@ -128,8 +187,13 @@ class BaseQLearning(NetworkxTSP):
         ----------
         s: int
             Node value representing the current state
-        environment: list
+        environment: set
             Available nodes to travel to
+
+        Raises
+        ------
+        NotImplementedError
+            If the function is not implemented in the inheriting class
 
         Returns
         -------
@@ -138,63 +202,48 @@ class BaseQLearning(NetworkxTSP):
         """
         raise NotImplementedError
 
-    def algorithm(self):
-        costs = self.q_learning()
-        if config.debug:
-            plot_costs(costs)
-            self.print_Q_table()
-        route = np.array([self.starting_node])
-        cost = 0
-        state = self.starting_node
-        while len(route) < self.n:
-            action = self.next_action(
-                state, set(self.G.nodes) - set(route), allow_exploration=False
-            )
-            cost += self.dist(state, action)
-            route = np.concatenate((route, np.array([action])))
-            state = action
-        cost += self.dist(state, self.starting_node)
-        route = np.concatenate((route, np.array([self.starting_node])))
-        return cost, route
+    def next_action(
+        self, state: int, environment: set[int], allow_exploration: bool = True
+    ) -> int:
+        """
+        Decides the next action for the agent to take. Utilizes a random float and
+        epsilon to determine if a random destination should be chosen (explore) or if
+        the knowledge from the Q-table should be used (exploit).
 
-    def q_learning(self):
-        costs = []
-        for self.episode in range(config.q_learning["episodes"]):
-            episode_cost = 0
-            episode_starting_node = self.starting_node
-            route = np.array([episode_starting_node])
-            while len(route) < self.n:
-                state = route[-1]
-                action = self.next_action(state, set(self.G.nodes) - set(route))
-                reward = self.reward(int(state), action)
-                updated_route = np.concatenate((route, np.array([action])))
-                updated_environment = set(self.G.nodes) - set(updated_route)
-                if updated_environment:
-                    a_t1 = self.next_action(action, updated_environment)
-                else:
-                    a_t1 = episode_starting_node
-                self.update_Q_table(int(state), action, reward, a_t1)
-                route = updated_route
-                episode_cost += self.dist(route[-2], route[-1])
-            state = route[-1]
-            action = episode_starting_node
-            reward = self.reward(int(state), action)
-            a_t1 = self.next_action(
-                action, set(self.G.nodes) - set(np.array([episode_starting_node]))
-            )
-            self.update_Q_table(int(state), action, reward, a_t1)
-            episode_cost += self.dist(route[-1], episode_starting_node)
-            costs.append(episode_cost)
-        return costs
+        Parameters
+        ----------
+        state: int
+            Starting node
+        environment: set
+            Available nodes to travel to
+        allow_exploration: bool (defaults to True)
+            If exploration should be allowed. Should be set to True during Q-Learning
+            and False when generating the optimal route.
 
-    def next_action(self, state, environment, allow_exploration=True):
+        Returns
+        -------
+        int
+            Destination node
+        """
         if self.rng.random() < self.epsilon and allow_exploration:
             return self.explore(environment)
         else:
             return self.exploit(state, environment)
 
     @staticmethod
-    def explore(environment):
+    def explore(environment: set[int]) -> int:
+        """
+        Chooses a random node from the environment
+
+        Parameters
+        ----------
+        environment: list
+            Available nodes to travel to
+
+        Returns
+        -------
+        int
+        """
         return random.choice(list(environment))
 
     def reward(self, i: int, j: int) -> float:
@@ -233,6 +282,13 @@ class BaseQLearning(NetworkxTSP):
         )
 
     def print_Q_table(self):
+        """
+        Prints the contents of the Q table(s)
+
+        Returns
+        -------
+        None
+        """
         if hasattr(self, "Q"):
             for k, v in self.Q.items():
                 print(f"{k[0]} | {k[1]} | {v}")

@@ -18,6 +18,15 @@ class BruteForce(NetworkxTSP):
         super().__init__(filepath)
 
     def algorithm(self) -> (int, list[int]):
+        """
+        Involves iterating through every permutation of routes and calculating the cost.
+        The best route is chosen as the one with the lowest cost. Starting and ending
+        node is fixed as the first node in the graph.
+
+        Returns
+        -------
+        int, list
+        """
         best_cost = np.inf
         best_route = None
         starting_point = list(self.G.nodes)[0]

@@ -19,22 +19,21 @@ from src.algorithms.q_learning.double_q_learning import DoubleQLearning
 from src.algorithms.q_learning.q_learning import QLearning
 from src.utils.arg_parsing import get_available_problems, get_filepath_for_problem
 
-ALGORITHMS = {
-    a.abbreviation: a
-    for a in [
-        Concorde,
-        NearestNeighborSearch,
-        BruteForce,
-        HeldKarp,
-        AntSystem,
-        MaxMinAntSystem,
-        QLearning,
-        DoubleQLearning,
-    ]
-} | {
+ALGORITHMS = [
+    Concorde,
+    NearestNeighborSearch,
+    BruteForce,
+    HeldKarp,
+    AntSystem,
+    MaxMinAntSystem,
+    QLearning,
+    DoubleQLearning,
+]
+ALGORITHM_DICT = {a.abbreviation: a for a in ALGORITHMS} | {
     "aco": [AntSystem, MaxMinAntSystem],
     "rl": [QLearning, DoubleQLearning],
     "proj": [Concorde, MaxMinAntSystem, DoubleQLearning],
+    "all": ALGORITHMS,
 }
 
 
@@ -53,8 +52,8 @@ if __name__ == "__main__":
         "--algorithm",
         required=False,
         help="Algorithm to use. If not specified, problem is run on all available "
-        f"algorithms. Valid algorithm names include: {list(ALGORITHMS.keys())}. "
-        f"See main.py::ALGORITHMS for mapping to each algorithm name.",
+        f"algorithms. Valid algorithm names include: {list(ALGORITHM_DICT.keys())}. "
+        f"See main.py::ALGORITHM_DICT for mapping to each algorithm name.",
     )
     parser.add_argument(
         "-w", "--write", action="store_true", help="Appends results to results.csv"
@@ -73,7 +72,7 @@ if __name__ == "__main__":
         algorithm_list = []
         for algo in args.algorithm.split(","):
             try:
-                algorithm_choice = ALGORITHMS[algo]
+                algorithm_choice = ALGORITHM_DICT[algo]
                 if isinstance(algorithm_choice, list):
                     algorithm_list.extend(algorithm_choice)
                 else:
@@ -82,10 +81,10 @@ if __name__ == "__main__":
                 parser.error(
                     f"Invalid algorithm specified: {algo}. "
                     f"Must be one of, or a comma-separated list including only: "
-                    f"{list(ALGORITHMS.keys())}"
+                    f"{list(ALGORITHM_DICT.keys())}"
                 )
     else:
-        algorithm_list = algorithm_choice = ALGORITHMS["proj"]
+        algorithm_list = algorithm_choice = ALGORITHM_DICT["proj"]
     for filepath, name in problems:
         print(f"Solutions for the {name} problem")
         print("-----------------------")
