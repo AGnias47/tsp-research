@@ -185,13 +185,7 @@ class BaseACO(NetworkxTSP):
         """
         tau_ij = self.tau[i, j]
         eta_ij = self.heuristic(i, j)
-        numerator = tau_ij**self.alpha * eta_ij**self.beta
-        denominator = 0
-        for l in N:
-            tau_il = self.tau[i, l]
-            eta_il = self.heuristic(i, l)
-            denominator += tau_il**self.alpha * eta_il**self.beta
-        return numerator / denominator
+        return tau_ij**self.alpha * eta_ij**self.beta
 
     def heuristic(self, i: int, j: int) -> float:
         """
