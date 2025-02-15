@@ -7,7 +7,7 @@ Implementation of research related to different methods of solving the Traveling
 ### With Python and Pip
 
 * Install dependencies with `pip install -r requirements.txt`
-* Install pyconcorde via the instructions on [GitHub](https://github.com/jvkersch/pyconcorde)
+* Install pyconcorde via `pip install 'pyconcorde @ git+https://github.com/jvkersch/pyconcorde'`
 
 ### With uv
 
@@ -17,21 +17,17 @@ Implementation of research related to different methods of solving the Traveling
 * Create a virtual environment with `uv venv --python 3.13.1`
 * Activate the environment via `source .venv/bin/activate`
 * Install dependencies via `uv sync`
-* Install pyconcorde
-  * Clone the repository on [GitHub](https://github.com/jvkersch/pyconcorde)
-  * `cd` into the directory and run `uv pip install -e .`
+* Install pyconcorde via `uv pip install 'pyconcorde @ git+https://github.com/jvkersch/pyconcorde'`
 
 ## TSP Problem Data
 
-Problems used are located in the `data` repo and can be called by name in the `main.py` script. Additional problems can 
-be added by downloading a [tsplib](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)-compatible files and adding 
-them to the `data` directory. Files can be decompressed with `gzip -d`.
+Problems used are located in the `data` repo and can be called by name in the `main.py` script. Problems should be in a [tsplib](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/)-compatible format. Additional problems can be added by creating them, or downloading them from tsplib and adding them to the `data` directory. Files from tsplib can be decompressed with `gzip -d`.
 
 ## Algorithm Implementations
 
-The algorithm implementations are included in `src/algorithms`. Algorithms have been implemented by using procedures described in research papers, with help from online resources as needed. None of the concepts are original at this point, but all code is my own, and any references used in created the code are listed.
+The algorithm implementations are included in `src/algorithms`. Algorithms have been implemented by using procedures described in research papers, with help from online resources as needed. None of the concepts are original at this point, but all code is my own, and any references used in code are listed.
 
-Code follows object-oriented programming principles. All algorithms inherit from the base class `models/tsp::TSP`, and all except the Concorde wrapper inherit from `models/networkx_tsp::NetworkxTSP`, a subclass of `TSP`.
+Code follows object-oriented design principles. All algorithms inherit from the base class `models/tsp::TSP`, and all except the Concorde wrapper inherit from `models/networkx_tsp::NetworkxTSP`, a subclass of `TSP`.
 
 ### External Source of Truth
 
@@ -40,7 +36,7 @@ Code follows object-oriented programming principles. All algorithms inherit from
 ### Exact Methods
 
 * `brute_force.py` - A brute-force implementation. This was really just done to get a better understanding of the problem and to show why it is not a good solution.
-* `held_karp.py` - A dynamic programming implementation. Similar to brute force, was done more to gain a better understanding of exact solutions to the problem. Implemented based on  Held-Karp's [A Dynamic Programming Approach to Sequencing Problems](https://www.jstor.org/stable/2098806).
+* `held_karp.py` - A dynamic programming implementation. Similar to brute force, was done more to gain a better understanding of exact solutions to the problem. Implemented based on Held-Karp's [A Dynamic Programming Approach to Sequencing Problems](https://www.jstor.org/stable/2098806).
 
 ### Ant Colony Optimization
 
@@ -65,7 +61,19 @@ Code follows object-oriented programming principles. All algorithms inherit from
 Everything runs through the `main.py` script. The script takes 2 arguments. All available options can be seen by running `python main.py --help`.
 
 * `-p` or `--problem` - Required. Specifies the problem to run by its filename without the suffix. For example, `-p fri26` will run the problem from the file at `data/tsplib/fri26.tsp`.
-* `-a` or `--algorithm` - Optional. Algorithm(s) to run by the abbreviated name defined at `main.py:24`. If not specified, runs the problem using the Concorde solver, Min-Max Ant System, and Double Q-Learning. For example, running `python main.py -p p5` will run the problem from the file at `data/custom/p5.tsp` on these 3 algorithms.
+* `-a` or `--algorithm` - Optional. Algorithm(s) to run by the abbreviated name. If not specified, runs the problem using the Concorde solver, Min-Max Ant System, and Double Q-Learning. For example, running `python main.py -p p5` will run the problem from the file at `data/custom/p5.tsp` on these 3 algorithms. Other options include
+  * `concorde` - Concorde solver
+  * `nns` - Nearest Neighbor Search
+  * `bf` - Brute force
+  * `hk` - Held-Karp Dynamic Programming solution
+  * `as` - Ant System
+  * `mmas` - Max-Min Ant System
+  * `q` - Q-Learning
+  * `dq` - Double Q-Learning
+  * `aco` - Ant System and Max-Min Ant System
+  * `rl` - Q-Learning and Double Q-Learning
+  * `proj` - Concorde, Max-Min Ant System, and Double Q-Learning
+  * `all` - All available algorithms
 
 ## Runtime
 
@@ -75,9 +83,7 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
 
 ### Current Week
 
-* Documentation and strong typing for existing functions
 * Write midterm paper
-* Script that automatically writes results
 
 ### Part II
 
