@@ -11,10 +11,13 @@ from src.models.networkx_tsp import NetworkxTSP
 
 
 class BruteForce(NetworkxTSP):
-    def __init__(self, filepath):
-        super().__init__("Brute Force", filepath)
+    algorithm_name = "Brute Force"
+    abbreviation = "bf"
 
-    def algorithm(self):
+    def __init__(self, filepath: str):
+        super().__init__(filepath)
+
+    def algorithm(self) -> (int, list[int]):
         best_cost = np.inf
         best_route = None
         starting_point = list(self.G.nodes)[0]
@@ -35,7 +38,7 @@ class BruteForce(NetworkxTSP):
         return best_cost, best_route
 
     @property
-    def big_o_runtime(self):
+    def big_o_runtime(self) -> int:
         """
         Reduced from O(n!) to O((n-1)!) by fixing the starting point
 

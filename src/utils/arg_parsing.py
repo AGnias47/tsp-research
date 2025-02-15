@@ -1,4 +1,6 @@
 """
+Functions to assist main.py in handling arguments.
+
 References
 ----------
 * https://stackoverflow.com/questions/39909655/listing-of-all-files-in-directory -
@@ -7,11 +9,37 @@ Getting all files in a dir
 """
 
 import pathlib
+from typing import Optional
 
 from config import config
 
 
-def get_filepath_for_problem(user_input, parent_path=None):
+def get_filepath_for_problem(
+    user_input: str, parent_path: Optional[str] = None
+) -> Optional[str]:
+    """
+    Finds the full path for a given problem name, where the problem name is the TSPLIB
+    file without an extension. For example, if a TSPLIB file exists at:
+    config.problems_parent_path/lorem/ipsum/p25.tsp, the function would return this
+    path when user_input=p25.
+
+    Function works recursively such that it will search all subdirectories in the parent
+    path for the file. If no file exists, returns None.
+
+    Parameters
+    ----------
+    user_input: str
+        Filename of problem without suffix, ex. berlin52 for berlin52.tsp
+    parent_path: str
+        Path to search for file under. Meant to be called with None so that
+        config.problems_parent_path is used, and filled when called recursively.
+        However, can also override from the start by manually specifying a parent path.
+
+    Returns
+    -------
+    str or None
+        Full path to the problem
+    """
     if not parent_path:
         parent_path = config.problems_parent_path
     for file_obj in pathlib.Path(parent_path).iterdir():
@@ -24,7 +52,25 @@ def get_filepath_for_problem(user_input, parent_path=None):
     return None
 
 
-def get_available_problems(parent_path=None):
+def get_available_problems(parent_path: Optional[str] = None) -> list[Optional[str]]:
+    """
+    Returns all problem names under the parent path. For example, if the following
+    problems exist:
+    * config.problems_parent_path/lorem/berlin52.tsp
+    * config.problems_parent_path/ipsum/dolor/fri26.tsp
+    The function will return [berlin52, fri26]
+
+    Parameters
+    ----------
+    parent_path: str
+        Path to search for problems under. Meant to be called with None so that
+        config.problems_parent_path is used, and filled when called recursively.
+        However, can also override from the start by manually specifying a parent path.
+
+    Returns
+    -------
+    list
+    """
     if not parent_path:
         parent_path = config.problems_parent_path
     problems = []

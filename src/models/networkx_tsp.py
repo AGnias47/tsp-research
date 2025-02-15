@@ -17,7 +17,7 @@ class NetworkxTSP(TSP):
         Number of nodes in the graph
     """
 
-    def __init__(self, algorithm_name: str, filepath: str):
+    def __init__(self, filepath: str):
         """
         Constructor
 
@@ -26,11 +26,26 @@ class NetworkxTSP(TSP):
         filepath: str
             Path to file hosting tsplib-formatted problem
         """
-        super().__init__(algorithm_name)
+        super().__init__()
         problem = tsplib95.load(filepath)
         self.name = problem.name
         self.G = problem.get_graph()
         self.n = self.G.number_of_nodes()
 
-    def dist(self, i, j):
+    def dist(self, i: int, j: int) -> int:
+        """
+        Cost of traveling from node i to node j
+
+        Parameters
+        ----------
+        i: int
+            Index of starting node
+        j: int
+            Index of ending node
+
+        Returns
+        -------
+        int
+            Cost from traveling from i to j
+        """
         return self.G.edges[i, j]["weight"]

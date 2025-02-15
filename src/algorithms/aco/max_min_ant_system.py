@@ -1,17 +1,18 @@
 """
-Taken from 3.3.4 of Dorigo and Stützle - Ant Colony Optimization
+Taken from 3.3.4 of Dorigo and Stützle - Ant Colony Optimization.
+
 Improves upon Ant System with 4 modifications:
 - Allow only the best-so-far or iteration-best ant to deposit pheromone
 - Limit the possible range of pheromone trail values
 - Pheromone trails are initialized to the upper pheromone trail limit
 - Pheromone trails are reinitialized each time the system approaches stagnation or when
-no improved tour has been generated for a certain number of consecutive iterations.
+  no improved tour has been generated for a certain number of consecutive iterations.
 
 References
 ----------
-- https://iridia.ulb.ac.be/~mdorigo/ACO/aco-code/public-software.html - C-code from
+* https://iridia.ulb.ac.be/~mdorigo/ACO/aco-code/public-software.html - C-code from
 T. Stützle. Used for assistance in determining self.tau_min
-- https://stackoverflow.com/a/5996949/8728749 - Efficiently limiting a value to a range
+* https://stackoverflow.com/a/5996949/8728749 - Efficiently limiting a value to a range
 """
 
 import numpy as np
@@ -22,9 +23,11 @@ from src.models.ant import Ant
 
 
 class MaxMinAntSystem(BaseACO):
+    algorithm_name = "Min-Max Ant System ACO"
+    abbreviation = "mmas"
+
     def __init__(self, filepath):
         super().__init__(
-            name="Max-Min Ant System ACO",
             filepath=filepath,
             alpha=config.mmas["alpha"],
             beta=config.mmas["beta"],
@@ -39,20 +42,43 @@ class MaxMinAntSystem(BaseACO):
 
     @property
     def big_o_runtime(self) -> int:
+        """
+        Rough estimate. Haven't done a deep dive into what this should actually be.
+        Takes longer than Ant System and currently both of these functions are the same.
+
+        Returns
+        -------
+        int
+        """
         return config.mmas["iterations"] * self.m * self.n**2
 
     def initialize_tau(self) -> None:
         self.tau[:] = 1 / (self.rho * self.nn_cost)
 
     def calculate_tau_max(self) -> float:
+        """
+        Calculates tau max using the best-so-far cost
+
+        References
+        ----------
+        ACOTSP.V1.03.tgz at
+        https://iridia.ulb.ac.be/~mdorigo/ACO/aco-code/public-software.html - referenced
+        acotsp.c
+
+        Returns
+        -------
+        float
+        """
         return 1 / (self.rho * self.best_so_far.cost)
 
     def calculate_tau_min(self) -> float:
         """
-        Calculates tau min
+        Calculates tau min using tau max
 
         References
         ----------
+        ACOTSP.V1.03.tgz at
+        https://iridia.ulb.ac.be/~mdorigo/ACO/aco-code/public-software.html - referenced
         acotsp.c
 
         Returns
@@ -83,6 +109,8 @@ class MaxMinAntSystem(BaseACO):
         References
         ----------
         Stagnation reset is modeled after ACOTSP/acotsp.c::search_control_and_statistics
+        in ACOTSP.V1.03.tgz at
+        https://iridia.ulb.ac.be/~mdorigo/ACO/aco-code/public-software.html
 
         Returns
         -------

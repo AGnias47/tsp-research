@@ -1,16 +1,16 @@
 """
-Dynamic Programming exact solution to the Traveling Salesman Problem. Implemented from Held-Karp's "A Dynamic
-Programming Approach to Sequencing Problems".
+Dynamic Programming exact solution to the Traveling Salesman Problem. Implemented from
+Held-Karp's "A Dynamic Programming Approach to Sequencing Problems".
 
-Uses a memoization matrix, D. Doesn't seem to have a noticeable impact on runtime, but good to have if distance
-function ever gets more complex.
+Uses a memoization matrix, D. Doesn't seem to have a noticeable impact on runtime,
+but good to have if distance function ever gets more complex.
 
 Resources
 ---------
 * https://stackoverflow.com/a/46151546/8728749 - initializing an infinity matrix
 * https://en.wikipedia.org/wiki/Held%E2%80%93Karp_algorithm - reference for pseudocode
-* https://github.com/CarlEkerot/held-karp/blob/master/held-karp.py - Inspiration to use cost instead of distance
-memoization
+* https://github.com/CarlEkerot/held-karp/blob/master/held-karp.py - Inspiration to use
+  cost instead of distance memoization
 * https://stackoverflow.com/a/51660293/8728749 - Using tuples as dict keys
 * https://stackoverflow.com/a/8483900/8728749 - Initializing a defaultdict with tuples
 """
@@ -25,12 +25,15 @@ from src.models.networkx_tsp import NetworkxTSP
 
 
 class HeldKarp(NetworkxTSP):
-    def __init__(self, filepath):
-        super().__init__("Held-Karp", filepath)
+    algorithm_name = "Held-Karp"
+    abbreviation = "hk"
+
+    def __init__(self, filepath: str):
+        super().__init__(filepath)
         self.starting_node = 0
         self.D = defaultdict(lambda: (-1, np.empty(0, dtype=int)))
 
-    def algorithm(self):
+    def algorithm(self) -> (int, list[int]):
         S = self.G.copy()
         try:
             S.remove_node(self.starting_node)
@@ -56,7 +59,7 @@ class HeldKarp(NetworkxTSP):
                 )
         return best_cost, best_route
 
-    def dp_subproblem(self, S: Graph, l: int):
+    def dp_subproblem(self, S: Graph, l: int) -> (int, list[int]):
         cost, route = self.D[(tuple(S.nodes), l)]
         if route.size > 0:
             return cost, route
@@ -76,9 +79,9 @@ class HeldKarp(NetworkxTSP):
                 if cost < best_cost:
                     best_cost = cost
                     best_route = np.concatenate((route, np.array([m])))
-            self.D[(tuple(S.nodes), l)] = best_cost, best_route
+            self.D[(tuple(S.nodes), l)] = best_cost, best_route  # noqa
             return best_cost, best_route
 
     @property
-    def big_o_runtime(self):
+    def big_o_runtime(self) -> int:
         return self.n**2 * 2**self.n

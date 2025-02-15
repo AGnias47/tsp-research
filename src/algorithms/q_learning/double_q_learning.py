@@ -10,8 +10,11 @@ random.seed(config.random_number_seed)
 
 
 class DoubleQLearning(BaseQLearning):
+    algorithm_name = "Double Q-Learning"
+    abbreviation = "dq"
+
     def __init__(self, filepath):
-        super().__init__(filepath, "Double Q-Learning")
+        super().__init__(filepath)
         self.Q_a = defaultdict(lambda: 0)
         self.Q_b = defaultdict(lambda: 0)
 

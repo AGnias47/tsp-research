@@ -1,15 +1,19 @@
-"""
-Directly imported from https://stackoverflow.com/a/17954769/8728749 with added code to redirect stderr
-"""
-
 import os
 import sys
 from contextlib import contextmanager
 
 
 @contextmanager
-def redirect_output_to_null(to=os.devnull):
+def redirect_output_to_null(to: str = os.devnull) -> None:
     """
+    Redirects output from STD{OUT,ERR} to /dev/null. Useful for programs that wrap
+    C code where it is difficult to directly manage the I/O behavior.
+
+    Directly imported from https://stackoverflow.com/a/17954769/8728749 with added code
+    to redirect stderr.
+
+    Usage
+    -----
     import os
 
     with stdout_redirected(to=filename):

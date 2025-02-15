@@ -2,7 +2,7 @@
 Nearest neighbor search. Produces a valid TSP path using a greedy algorithm. Not
 guaranteed to be optimal.
 
-Used to initialize the pheromone matrix of Ant colony optimization problems.
+Used to initialize the pheromone matrix of Ant Colony Optimization problems.
 """
 
 import networkx.exception
@@ -13,11 +13,14 @@ from src.models.networkx_tsp import NetworkxTSP
 
 
 class NearestNeighborSearch(NetworkxTSP):
-    def __init__(self, filepath):
-        super().__init__("Nearest Neighbor Search", filepath)
+    algorithm_name = "Nearest Neighbor Search"
+    abbreviation = "nns"
+
+    def __init__(self, filepath: str):
+        super().__init__(filepath)
         self.starting_node = 0
 
-    def algorithm(self):
+    def algorithm(self) -> (int, list[int]):
         S = self.G.copy()
         try:
             S.remove_node(self.starting_node)
@@ -31,7 +34,7 @@ class NearestNeighborSearch(NetworkxTSP):
         final_route = [self.starting_node] + subproblem_route + [self.starting_node]
         return total_cost, np.array(final_route)
 
-    def subproblem(self, source_node, S: Graph):
+    def subproblem(self, source_node, S: Graph) -> (int, list[int]):
         if S.number_of_nodes() == 0:
             return 0, []
         else:
@@ -47,5 +50,5 @@ class NearestNeighborSearch(NetworkxTSP):
             return best_cost + subproblem_cost, [best_dest] + subproblem_route
 
     @property
-    def big_o_runtime(self):
+    def big_o_runtime(self) -> int:
         return 2 * self.n**2

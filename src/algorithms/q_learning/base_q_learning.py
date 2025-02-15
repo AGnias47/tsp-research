@@ -48,8 +48,8 @@ class BaseQLearning(NetworkxTSP):
     exploit - Function for deciding the next action
     """
 
-    def __init__(self, filepath, name="Q-Learning"):
-        super().__init__(name, filepath)
+    def __init__(self, name):
+        super().__init__(name)
         # learning rate
         self.alpha = config.q_learning["alpha"]
         # discount factor
@@ -179,7 +179,9 @@ class BaseQLearning(NetworkxTSP):
             state = route[-1]
             action = episode_starting_node
             reward = self.reward(int(state), action)
-            a_t1 = self.next_action(action, set(self.G.nodes) - set(np.array([episode_starting_node])))
+            a_t1 = self.next_action(
+                action, set(self.G.nodes) - set(np.array([episode_starting_node]))
+            )
             self.update_Q_table(int(state), action, reward, a_t1)
             episode_cost += self.dist(route[-1], episode_starting_node)
             costs.append(episode_cost)

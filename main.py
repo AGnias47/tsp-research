@@ -8,8 +8,6 @@ References
 
 import argparse
 
-import tsplib95
-
 from config import config
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
@@ -22,18 +20,23 @@ from src.algorithms.q_learning.q_learning import QLearning
 from src.utils.arg_parsing import get_available_problems, get_filepath_for_problem
 
 ALGORITHMS = {
-    "concorde": Concorde,
-    "nns": NearestNeighborSearch,
-    "hk": HeldKarp,
-    "as": AntSystem,
-    "mmas": MaxMinAntSystem,
-    "bf": BruteForce,
-    "q": QLearning,
-    "dq": DoubleQLearning,
-    "ants": [AntSystem, MaxMinAntSystem],
+    a.abbreviation: a
+    for a in [
+        Concorde,
+        NearestNeighborSearch,
+        BruteForce,
+        HeldKarp,
+        AntSystem,
+        MaxMinAntSystem,
+        QLearning,
+        DoubleQLearning,
+    ]
+} | {
+    "aco": [AntSystem, MaxMinAntSystem],
     "rl": [QLearning, DoubleQLearning],
     "proj": [Concorde, MaxMinAntSystem, DoubleQLearning],
 }
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -51,7 +54,10 @@ if __name__ == "__main__":
         required=False,
         help="Algorithm to use. If not specified, problem is run on all available "
         f"algorithms. Valid algorithm names include: {list(ALGORITHMS.keys())}. "
-        f"See main.py::ALGORITHMS for references to each algorithm name.",
+        f"See main.py::ALGORITHMS for mapping to each algorithm name.",
+    )
+    parser.add_argument(
+        "-w", "--write", action="store_true", help="Appends results to results.csv"
     )
     args = parser.parse_args()
     problems = []
@@ -62,7 +68,7 @@ if __name__ == "__main__":
                 f"Could not find {problem}.tsp within the "
                 f"{config.problems_parent_path} directory."
             )
-        problems.append((filepath, tsplib95.load(filepath).name))
+        problems.append((filepath, problem))
     if args.algorithm:
         algorithm_list = []
         for algo in args.algorithm.split(","):
@@ -88,8 +94,13 @@ if __name__ == "__main__":
             print(f"Results of the {solver}")
             if solver.big_o_runtime:
                 print(f"Runtime units: {solver.big_o_runtime:_}")
-            (best_cost, best_route), total_time = solver.run_tsp()
-            print(f"Best Cost: {best_cost}")
-            print(f"Best Route: {best_route}")
+            (cost, route), total_time = solver.run_tsp()
+            print(f"Cost: {cost}")
+            print(f"Route: {route}")
             print(f"Time to Solve: {total_time}")
             print("-----------------------")
+            if args.write:
+                with open("results.csv", "a") as F:
+                    F.write(
+                        f"{name},{solver.abbreviation},{total_time},{cost},{route}\n"
+                    )

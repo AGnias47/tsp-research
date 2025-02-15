@@ -1,6 +1,5 @@
 """
-Solves TSP via Concorde. Used as a source of truth for finding the Optimal Tour Value
-for custom-generated tours.
+Solves TSP via Concorde. Used as a source of truth for finding the Optimal Tour Value.
 """
 
 import numpy as np
@@ -12,8 +11,22 @@ from src.utils.context_managers import redirect_output_to_null
 
 
 class Concorde(TSP):
-    def __init__(self, filepath, suppress_output=True):
-        super().__init__("Concorde")
+    algorithm_name = "Concorde"
+    abbreviation = "concorde"
+
+    def __init__(self, filepath: str, suppress_output: bool=True):
+        """
+        Constructor.
+
+        Parameters
+        ----------
+        filepath: str
+            Full path to problem
+        suppress_output: bool (defaults to True)
+            If True, sends output from Concorde executable to /dev/null. Else, prints
+            to STD{OUT,ERR}.
+        """
+        super().__init__()
         self.name = tsplib95.load(filepath).name
         self.suppress_output = suppress_output
         if self.suppress_output:
@@ -22,7 +35,7 @@ class Concorde(TSP):
         else:
             self.concorde_solver = TSPSolver.from_tspfile(filepath)
 
-    def algorithm(self):
+    def algorithm(self) -> (int, list[int]):
         if self.suppress_output:
             with redirect_output_to_null():
                 solution = self.concorde_solver.solve()

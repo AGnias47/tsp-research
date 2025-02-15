@@ -6,8 +6,11 @@ from src.algorithms.q_learning.base_q_learning import BaseQLearning
 
 
 class QLearning(BaseQLearning):
+    algorithm_name = "Q-Learning"
+    abbreviation = "q"
+
     def __init__(self, filepath):
-        super().__init__(filepath, "Q-Learning")
+        super().__init__(filepath)
         self.Q = defaultdict(lambda: 0)
 
     def update_Q_table(self, state, action, reward, a_t1):
