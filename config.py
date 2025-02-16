@@ -13,6 +13,7 @@ class Config:
         self.mmas = raw_data["algorithms"]["min_max_ant_system"]
         self.random_number_seed = raw_data["random_number_seed"]
         self.q_learning = raw_data["algorithms"]["q_learning"]
+        self.mlflow_uri = raw_data["mlflow_uri"]
 
     @property
     def debug(self):

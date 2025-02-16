@@ -84,12 +84,22 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
 ### Current Week
 
 * Write midterm paper
+* Implement MLFlow
+  * Problem name
+  * City length
+  * Algorithm
+  * Runtime
+  * Cost
+  * Route
+  * Hyperparameters from config
 
 ### Part II
 
 * Algorithm tuning, mainly for Q-learning
 * Exploring unique problem shapes
+* Come up with a plan for complex graph shapes
 * Neural network with Q-learning
+* Putting your own spin on existing algorithms
 
 ## Future Work
 
