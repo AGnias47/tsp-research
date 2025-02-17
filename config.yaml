@@ -25,5 +25,15 @@ algorithms:
     alpha: 0.01
     gamma: 0.6
     reward: r1
+problems:
+  concorde_result:
+    barachet10: 378
+    gr17: 2085
+    fri26: 937
+    berlin52: 7542
+    brazil58: 25395
+    kroA100: 21282
+    a280: 2579
+    pr1002: 259045
 mlflow:
   artifacts_directory: mlflow_artifacts

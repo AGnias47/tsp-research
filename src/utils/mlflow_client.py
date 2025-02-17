@@ -18,6 +18,7 @@ ARTIFACTS_DIRECTORY = config.mlflow["artifacts_directory"]
 SIZE_REGEX = regex.compile(r"[A-Za-z]+(?P<problem_size>\d+)")
 
 
+
 def log_results(problem_name: str, algorithm: TSP):
     with mlflow.start_run(run_name=f"{problem_name}-{algorithm.abbreviation}"):
         print("Logging results to MLflow")
@@ -34,3 +35,6 @@ def log_results(problem_name: str, algorithm: TSP):
         filename = f"{ARTIFACTS_DIRECTORY}/{uuid4()}.txt"
         np.savetxt(filename, algorithm.best_route, fmt="%d")
         mlflow.log_artifact(filename)
+        if concorde_result := config.concorde_results.get(problem_name):
+            error_rate = round(abs(concorde_result - algorithm.best_cost) / concorde_result, 5)
+            mlflow.log_metric("error_rate", error_rate)
