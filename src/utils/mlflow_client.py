@@ -20,6 +20,7 @@ SIZE_REGEX = regex.compile(r"[A-Za-z]+(?P<problem_size>\d+)")
 
 def log_results(problem_name: str, algorithm: TSP):
     with mlflow.start_run(run_name=get_short_hash()):
+        print("Logging results to MLflow")
         mlflow.log_param("problem_name", problem_name)
         mlflow.log_param(
             "problem_size", SIZE_REGEX.search(problem_name)["problem_size"]

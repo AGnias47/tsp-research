@@ -172,5 +172,3 @@ df/
 bin
 local
 pyconcorde/
-mlruns/
-mlflow_artifacts/
