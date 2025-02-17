@@ -83,7 +83,6 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
 
 ### Current Week
 
-* Write midterm paper
 * Implement MLFlow
   * Problem name
   * City length
@@ -92,6 +91,7 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
   * Cost
   * Route
   * Hyperparameters from config
+* 
 
 ### Part II
 
