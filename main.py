@@ -8,7 +8,8 @@ References
 
 import argparse
 import sys
-
+import mlflow
+from src.utils.mlflow_client import log_results
 from config import config
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
@@ -90,6 +91,8 @@ if __name__ == "__main__":
     else:
         algorithm_list = algorithm_choice = ALGORITHM_DICT["proj"]
     for filepath, name in problems:
+        if args.write:
+            mlflow.set_experiment("TSP Project")
         print(f"Solutions for the {name} problem")
         print("-----------------------")
         for algorithm in algorithm_list:
@@ -103,7 +106,7 @@ if __name__ == "__main__":
             print(f"Time to Solve: {total_time}")
             print("-----------------------")
             if args.write:
-                with open("results.csv", "a") as F:
-                    F.write(
-                        f"{name},{solver.abbreviation},{total_time},{cost},{route}\n"
-                    )
+                solver.best_cost = cost
+                solver.best_route = route
+                solver.runtime = total_time
+

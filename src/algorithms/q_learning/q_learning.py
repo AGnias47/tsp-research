@@ -1,5 +1,5 @@
 import numpy as np
-
+from config import config
 from src.algorithms.q_learning.base_q_learning import BaseQLearning
 
 
@@ -8,8 +8,18 @@ class QLearning(BaseQLearning):
     abbreviation = "q"
 
     def __init__(self, filepath: str):
-        super().__init__(filepath)
+        super().__init__(
+            filepath,
+            config.q_learning["alpha"],
+            config.q_learning["gamma"],
+            config.q_learning["reward"],
+            config.q_learning["episodes"],
+        )
         self.Q = np.zeros(shape=(self.n + 1, self.n + 1))
+
+    @property
+    def hyperparameters(self):
+        return config.q_learning
 
     def update_Q_table(self, state: int, action: int, reward: float, a_t1: int) -> None:
         Q_t = self.Q[state, action]

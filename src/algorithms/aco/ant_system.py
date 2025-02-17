@@ -16,6 +16,10 @@ class AntSystem(BaseACO):
         )
 
     @property
+    def hyperparameters(self):
+        return config.ant_system
+
+    @property
     def big_o_runtime(self) -> int:
         """
         Rough estimate. Haven't done a deep dive into what this should actually be.

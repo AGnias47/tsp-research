@@ -13,9 +13,19 @@ class DoubleQLearning(BaseQLearning):
     abbreviation = "dq"
 
     def __init__(self, filepath: str):
-        super().__init__(filepath)
+        super().__init__(
+            filepath,
+            config.double_q_learning["alpha"],
+            config.double_q_learning["gamma"],
+            config.double_q_learning["reward"],
+            config.double_q_learning["episodes"],
+        )
         self.Q_a = np.zeros(shape=(self.n + 1, self.n + 1))
         self.Q_b = np.zeros(shape=(self.n + 1, self.n + 1))
+
+    @property
+    def hyperparameters(self):
+        return config.double_q_learning
 
     def update_Q_table(self, state: int, action: int, reward: float, a_t1: int) -> None:
         Q_a_t1 = self.Q_a[action, a_t1]

@@ -1,5 +1,5 @@
 from typing import Optional
-
+from config import config
 import numpy as np
 
 from src.utils.decorators import timing
@@ -28,9 +28,14 @@ class TSP:
     def __init__(self):
         self.best_cost = np.inf
         self.best_route = None
+        self.runtime = np.inf
 
     def __repr__(self):
         return f"{self.algorithm_name} Algorithm"
+
+    @property
+    def hyperparameters(self):
+        return {}
 
     @property
     def big_o_runtime(self) -> Optional[None]:

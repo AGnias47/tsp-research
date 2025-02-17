@@ -23,7 +23,7 @@ References
 import random
 
 import numpy as np
-
+from types import ModuleType
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs
@@ -48,16 +48,39 @@ class BaseQLearning(NetworkxTSP):
     exploit - Function for deciding the next action
     """
 
-    def __init__(self, filepath: str):
+    def __init__(
+        self,
+        filepath: str,
+        alpha: float,
+        gamma: float,
+        reward_func_key: str,
+        episodes: int,
+        rng: ModuleType = random,
+    ):
+        """
+
+        Parameters
+        ----------
+        filepath: str
+        alpha: float
+            Learning rate
+        gamma: float
+            Discount factor
+        reward_func_key: str
+            One of r{1,2,3}
+        episodes: int
+            Number of episodes for Q-Learning
+        rng: module
+            Random number generator; used in exploratory action choice. Should be able
+            to call self.rng.random() and return a random float between 0 and 1
+        """
         super().__init__(filepath)
-        # learning rate
-        self.alpha = config.q_learning["alpha"]
-        # discount factor
-        self.gamma = config.q_learning["gamma"]
+        self.alpha = alpha
+        self.gamma = gamma
+        self.reward_func_key = reward_func_key
+        self.episodes = episodes
+        self.rng = rng
         self.starting_node = 0 if 0 in self.G else 1
-        # random number generator; used in exploratory action choice. Should be able to
-        #   call self.rng.random() and return a random float between 0 and 1
-        self.rng = random
 
     @property
     def big_o_runtime(self) -> int:
@@ -72,7 +95,7 @@ class BaseQLearning(NetworkxTSP):
         int
             Runtime units
         """
-        return config.q_learning["episodes"] * self.n**2
+        return self.episodes * self.n**2
 
     @property
     def epsilon(self) -> int:
@@ -90,8 +113,8 @@ class BaseQLearning(NetworkxTSP):
         -------
         float
         """
-        if config.q_learning["episodes"] < 8_000:
-            return 1 - self.episode / config.q_learning["episodes"]  # noqa
+        if self.episodes < 8_000:
+            return 1 - self.episode / self.episodes  # noqa
         else:
             return 0.999**self.episode  # noqa
 
@@ -124,7 +147,7 @@ class BaseQLearning(NetworkxTSP):
             Cost for route found in each iteration
         """
         costs = []
-        for self.episode in range(config.q_learning["episodes"]):
+        for self.episode in range(self.episodes):
             episode_cost = 0
             episode_starting_node = self.starting_node
             route = np.array([episode_starting_node])
@@ -271,11 +294,11 @@ class BaseQLearning(NetworkxTSP):
         -------
         float
         """
-        if config.q_learning["reward"] == "r1":
+        if self.reward_func_key == "r1":
             return 1 / self.dist(i, j)
-        if config.q_learning["reward"] == "r3":
+        if self.reward_func_key == "r3":
             return -self.dist(i, j)
-        if config.q_learning["reward"] == "r3":
+        if self.reward_func_key == "r3":
             return -(self.dist(i, j) ** 2)
         raise ValueError(
             "Invalid reward function specified in config. Must be r{1,2,3}"
