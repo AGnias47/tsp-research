@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/3f37c18ada1e40be87053ec7b66f58a9/artifacts
+end_time: 1739828984843
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: 3f37c18ada1e40be87053ec7b66f58a9
+run_name: brazil58-concorde
+run_uuid: 3f37c18ada1e40be87053ec7b66f58a9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739828984826
+status: 3
+tags: []
+user_id: andy

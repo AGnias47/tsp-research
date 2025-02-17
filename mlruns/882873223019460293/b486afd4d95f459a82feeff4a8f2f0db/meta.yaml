@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/b486afd4d95f459a82feeff4a8f2f0db/artifacts
+end_time: 1739830038570
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: b486afd4d95f459a82feeff4a8f2f0db
+run_name: a280-concorde
+run_uuid: b486afd4d95f459a82feeff4a8f2f0db
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739830038558
+status: 3
+tags: []
+user_id: andy

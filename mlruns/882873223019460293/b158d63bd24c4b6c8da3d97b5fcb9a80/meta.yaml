@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/b158d63bd24c4b6c8da3d97b5fcb9a80/artifacts
+end_time: 1739829219246
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: b158d63bd24c4b6c8da3d97b5fcb9a80
+run_name: kroA100-concorde
+run_uuid: b158d63bd24c4b6c8da3d97b5fcb9a80
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739829219235
+status: 3
+tags: []
+user_id: andy

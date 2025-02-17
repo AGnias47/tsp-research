@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/1dada35547e74ababe00e9b26210aae8/artifacts
+end_time: 1739829219157
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: 1dada35547e74ababe00e9b26210aae8
+run_name: brazil58-nns
+run_uuid: 1dada35547e74ababe00e9b26210aae8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739829219144
+status: 3
+tags: []
+user_id: andy

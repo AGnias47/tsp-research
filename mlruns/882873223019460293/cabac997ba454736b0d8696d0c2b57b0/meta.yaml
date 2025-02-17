@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/cabac997ba454736b0d8696d0c2b57b0/artifacts
+end_time: 1739828670182
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: cabac997ba454736b0d8696d0c2b57b0
+run_name: barachet10-concorde
+run_uuid: cabac997ba454736b0d8696d0c2b57b0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739828670173
+status: 3
+tags: []
+user_id: andy

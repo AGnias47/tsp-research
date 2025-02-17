@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/6b95dd3feccc428c82248206fe37dbad/artifacts
+end_time: 1739828794416
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: 6b95dd3feccc428c82248206fe37dbad
+run_name: berlin52-concorde
+run_uuid: 6b95dd3feccc428c82248206fe37dbad
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739828794408
+status: 3
+tags: []
+user_id: andy
