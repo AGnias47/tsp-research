@@ -19,13 +19,14 @@ SIZE_REGEX = regex.compile(r"[A-Za-z]+(?P<problem_size>\d+)")
 
 
 def log_results(problem_name: str, algorithm: TSP):
-    with mlflow.start_run(run_name=get_short_hash()):
+    with mlflow.start_run(run_name=f"{problem_name}-{algorithm.abbreviation}"):
         print("Logging results to MLflow")
         mlflow.log_param("problem_name", problem_name)
         mlflow.log_param(
             "problem_size", SIZE_REGEX.search(problem_name)["problem_size"]
         )
         mlflow.log_param("algorithm", algorithm.algorithm_name)
+        mlflow.log_param("commit_hash", get_short_hash())
         mlflow.log_params(algorithm.hyperparameters)
         mlflow.log_metric("runtime", algorithm.runtime)
         mlflow.log_metric("cost", algorithm.best_cost)
