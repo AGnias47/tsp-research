@@ -1,5 +1,5 @@
 from typing import Optional
-from config import config
+
 import numpy as np
 
 from src.utils.decorators import timing

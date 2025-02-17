@@ -8,8 +8,9 @@ References
 
 import argparse
 import sys
+
 import mlflow
-from src.utils.mlflow_client import log_results
+
 from config import config
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
@@ -19,8 +20,8 @@ from src.algorithms.held_karp import HeldKarp
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.algorithms.q_learning.double_q_learning import DoubleQLearning
 from src.algorithms.q_learning.q_learning import QLearning
-from src.utils.arg_parsing import (get_available_problems,
-                                   get_filepath_for_problem)
+from src.utils.arg_parsing import get_available_problems, get_filepath_for_problem
+from src.utils.mlflow_client import log_results
 
 ALGORITHMS = [
     Concorde,
@@ -61,7 +62,7 @@ if __name__ == "__main__":
         f"See main.py::ALGORITHM_DICT for mapping to each algorithm name.",
     )
     parser.add_argument(
-        "-w", "--write", action="store_true", help="Appends results to results.csv"
+        "-l", "--log-results", action="store_true", help="Logs results to MLflow"
     )
     args = parser.parse_args()
     problems = []
@@ -91,7 +92,7 @@ if __name__ == "__main__":
     else:
         algorithm_list = algorithm_choice = ALGORITHM_DICT["proj"]
     for filepath, name in problems:
-        if args.write:
+        if args.log_results:
             mlflow.set_experiment("TSP Project")
         print(f"Solutions for the {name} problem")
         print("-----------------------")
@@ -105,8 +106,8 @@ if __name__ == "__main__":
             print(f"Route: {route}")
             print(f"Time to Solve: {total_time}")
             print("-----------------------")
-            if args.write:
+            if args.log_results:
                 solver.best_cost = cost
                 solver.best_route = route
                 solver.runtime = total_time
-
+                log_results(name, solver)

@@ -14,7 +14,7 @@ class Config:
         self.random_number_seed = raw_data["random_number_seed"]
         self.q_learning = raw_data["algorithms"]["q_learning"]
         self.double_q_learning = raw_data["algorithms"]["double_q_learning"]
-        self.mlflow_uri = raw_data["mlflow_uri"]
+        self.mlflow = raw_data["mlflow"]
 
     @property
     def debug(self):

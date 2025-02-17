@@ -21,9 +21,10 @@ References
 """
 
 import random
+from types import ModuleType
 
 import numpy as np
-from types import ModuleType
+
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs

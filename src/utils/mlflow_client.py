@@ -2,21 +2,33 @@
 Utilized Google Gemini to set this up
 """
 
+from pathlib import Path
+from uuid import uuid4
+
 import mlflow
+import numpy as np
+import regex
 
 from config import config
 from src.models.tsp import TSP
-import tempfile
-import numpy as np
-# mlflow.set_tracking_uri(config.mlflow_uri)
+from src.utils.git_utils import get_short_hash
+
+ARTIFACTS_DIRECTORY = config.mlflow["artifacts_directory"]
+# https://regex101.com/r/05tJx2/1
+SIZE_REGEX = regex.compile(r"[A-Za-z]+(?P<problem_size>\d+)")
+
 
 def log_results(problem_name: str, algorithm: TSP):
-    with mlflow.start_run() as run:
-        mlflow.log_param("problem", problem_name)
+    with mlflow.start_run(run_name=get_short_hash()):
+        mlflow.log_param("problem_name", problem_name)
+        mlflow.log_param(
+            "problem_size", SIZE_REGEX.search(problem_name)["problem_size"]
+        )
         mlflow.log_param("algorithm", algorithm.algorithm_name)
         mlflow.log_params(algorithm.hyperparameters)
         mlflow.log_metric("runtime", algorithm.runtime)
         mlflow.log_metric("cost", algorithm.best_cost)
-        with tempfile.NamedTemporaryFile() as fp:
-            np.savetxt(fp, algorithm.best_route)
-            mlflow.log_artifact(fp.name)
+        Path(ARTIFACTS_DIRECTORY).mkdir(parents=True, exist_ok=True)
+        filename = f"{ARTIFACTS_DIRECTORY}/{uuid4()}.txt"
+        np.savetxt(filename, algorithm.best_route, fmt="%d")
+        mlflow.log_artifact(filename)
