@@ -296,7 +296,15 @@ class BaseQLearning(NetworkxTSP):
         float
         """
         if self.reward_func_key == "r1":
-            return 1 / self.dist(i, j)
+            try:
+                return 1 / self.dist(i, j)
+            except ZeroDivisionError as e:
+                # If these are actually 2 different cities, return best possible reward
+                if abs(i - j) > 0:
+                    return 10
+                # Else this is a bug, raise error
+                print(i,j)
+                raise e
         if self.reward_func_key == "r3":
             return -self.dist(i, j)
         if self.reward_func_key == "r3":
