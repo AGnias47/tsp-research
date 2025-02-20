@@ -12,9 +12,8 @@ Implementation of research related to different methods of solving the Traveling
 ### With uv
 
 * Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-* Install Python 3.13 via `uv python install 3.13.1`
-* Install dependencies via `uv sync`
-* Create a virtual environment with `uv venv --python 3.13.1`
+* Install Python 3.13 via `uv python install 3.13.2`
+* Create a virtual environment with `uv venv --python 3.13.2`
 * Activate the environment via `source .venv/bin/activate`
 * Install dependencies via `uv sync`
 * Install pyconcorde via `uv pip install 'pyconcorde @ git+https://github.com/jvkersch/pyconcorde'`
