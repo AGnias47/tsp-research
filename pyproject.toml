@@ -17,6 +17,7 @@ dependencies = [
     "pyyaml>=6.0.2",
     "regex>=2024.11.6",
     "ruff>=0.9.4",
+    "setuptools>=75.8.0",
     "tsplib95==0.7.1",
 ]
 [tool.ruff.lint]
