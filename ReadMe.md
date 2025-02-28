@@ -106,6 +106,7 @@ uv run pyreverse -o png -p . .
 * Come up with a plan for complex graph shapes
 * Neural network with Q-learning
 * Putting your own spin on existing algorithms
+* Try different epsilon algorithms
 
 ## Future Work
 
