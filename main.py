@@ -64,6 +64,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "-l", "--log-results", action="store_true", help="Logs results to MLflow"
     )
+    parser.add_argument(
+        "-m",
+        "--mlflow-project",
+        required=False,
+        help="MLflow Project name. "
+        "log-results must be active for this to have any effect.",
+    )
     args = parser.parse_args()
     problems = []
     for problem in args.problem.split(","):
@@ -93,7 +100,10 @@ if __name__ == "__main__":
         algorithm_list = algorithm_choice = ALGORITHM_DICT["proj"]
     for filepath, name in problems:
         if args.log_results:
-            mlflow.set_experiment("TSP Project")
+            if args.mlflow_project:
+                mlflow.set_experiment(args.mlflow_project)
+            else:
+                mlflow.set_experiment("TSP Project")
         print(f"Solutions for the {name} problem")
         print("-----------------------")
         for algorithm in algorithm_list:
