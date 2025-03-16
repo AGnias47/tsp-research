@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/874586957407654680/2007ff5bf04e47e4ae9ef2039101a0f2/artifacts
+end_time: 1742156836255
+entry_point_name: ''
+experiment_id: '874586957407654680'
+lifecycle_stage: active
+run_id: 2007ff5bf04e47e4ae9ef2039101a0f2
+run_name: Tnm52-concorde
+run_uuid: 2007ff5bf04e47e4ae9ef2039101a0f2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742156836238
+status: 3
+tags: []
+user_id: andy

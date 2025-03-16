@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/874586957407654680/853eff91498f4713a7df35c52ff4f5d0/artifacts
+end_time: 1742158578951
+entry_point_name: ''
+experiment_id: '874586957407654680'
+lifecycle_stage: active
+run_id: 853eff91498f4713a7df35c52ff4f5d0
+run_name: Tnm106-q
+run_uuid: 853eff91498f4713a7df35c52ff4f5d0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742158578931
+status: 3
+tags: []
+user_id: andy
