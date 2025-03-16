@@ -10,11 +10,12 @@ class QLearning(BaseQLearning):
 
     def __init__(self, filepath: str):
         super().__init__(
-            filepath,
-            config.q_learning["alpha"],
-            config.q_learning["gamma"],
-            config.q_learning["reward"],
-            config.q_learning["episodes"],
+            filepath=filepath,
+            alpha=config.q_learning["alpha"],
+            gamma=config.q_learning["gamma"],
+            epsilon_func_key=config.q_learning["epsilon"],
+            reward_func_key=config.q_learning["reward"],
+            episodes=config.q_learning["episodes"],
         )
         self.Q = np.zeros(shape=(self.n + 1, self.n + 1))
 

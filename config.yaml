@@ -19,11 +19,13 @@ algorithms:
     episodes: 10_000
     alpha: 0.01
     gamma: 0.6
+    epsilon: e3
     reward: r1
   double_q_learning:
     episodes: 10_000
     alpha: 0.01
     gamma: 0.6
+    epsilon: e3
     reward: r1
 problems:
   optimum_cost:  # From either Concorde or http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf

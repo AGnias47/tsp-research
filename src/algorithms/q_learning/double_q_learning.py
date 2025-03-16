@@ -14,11 +14,12 @@ class DoubleQLearning(BaseQLearning):
 
     def __init__(self, filepath: str):
         super().__init__(
-            filepath,
-            config.double_q_learning["alpha"],
-            config.double_q_learning["gamma"],
-            config.double_q_learning["reward"],
-            config.double_q_learning["episodes"],
+            filepath=filepath,
+            alpha=config.double_q_learning["alpha"],
+            gamma=config.double_q_learning["gamma"],
+            epsilon_func_key=config.double_q_learning["epsilon"],
+            reward_func_key=config.double_q_learning["reward"],
+            episodes=config.double_q_learning["episodes"],
         )
         self.Q_a = np.zeros(shape=(self.n + 1, self.n + 1))
         self.Q_b = np.zeros(shape=(self.n + 1, self.n + 1))
