@@ -47,5 +47,11 @@ problems:
     rbg403: 2465
     spiral79: 286
     star85: 275
+    temple84: 151
+    Tnm52: 551609
+    Tnm70: 881036
+    Tnm106: 1469617
+    Tnm160: 1000000000000000000000000000000
+    Tnm199: 1000000000000000000000000000000
 mlflow:
   artifacts_directory: mlflow_artifacts
