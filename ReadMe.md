@@ -112,3 +112,4 @@ uv run pyreverse -o png -p . .
 
 * Dynamic Traveling-Salesman Problem
 * Epsilon factor in ACO
+* 3D Instances

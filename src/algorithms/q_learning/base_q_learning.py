@@ -54,6 +54,7 @@ class BaseQLearning(NetworkxTSP):
         filepath: str,
         alpha: float,
         gamma: float,
+        epsilon_func_key: str,
         reward_func_key: str,
         episodes: int,
         rng: ModuleType = random,
@@ -67,6 +68,8 @@ class BaseQLearning(NetworkxTSP):
             Learning rate
         gamma: float
             Discount factor
+        epsilon_func_key: str
+            One of e{1,2,3,4}
         reward_func_key: str
             One of r{1,2,3}
         episodes: int
@@ -78,6 +81,7 @@ class BaseQLearning(NetworkxTSP):
         super().__init__(filepath)
         self.alpha = alpha
         self.gamma = gamma
+        self.epsilon_func_key = epsilon_func_key
         self.reward_func_key = reward_func_key
         self.episodes = episodes
         self.rng = rng
@@ -105,19 +109,27 @@ class BaseQLearning(NetworkxTSP):
         0 and 1 is chosen. If it is below epsilon, the next action is randomly chosen,
         else the best next action based on the Q-table is used.
 
-        For problems where less than 8,000 episodes are used, an epsilon starting at 1
-        with linear decay is used. Else, an exponential function is used that was
-        discovered to be effective in Wang et al. Doesn't start to truly utilize the
-        Q-table until episode > 7,500.
+        e1 - decreases linearly
+        e2 - concave function
+        e3 - convex function
+        e4 - step function
+
+        In Wang et al., e1 and e3 generally performed best
 
         Returns
         -------
         float
         """
-        if self.episodes < 8_000:
+        if self.epsilon_func_key == "e1":
             return 1 - self.episode / self.episodes  # noqa
-        else:
+        elif self.epsilon_func_key == "e2":
             return 0.999**self.episode  # noqa
+        elif self.epsilon_func_key == "e2":
+            return -(self.episode/self.episodes)**6 + 1 # noqa
+        elif self.epsilon_func_key == "e2":
+            return 1 - (0.1*(self.episode // (self.episodes//10))) # noqa
+        else:
+            raise ValueError("Invalid epsilon function specified in config. Must be e{1,2,3,4}")
 
     def algorithm(self) -> (int, list[int]):
         costs = self.q_learning()
