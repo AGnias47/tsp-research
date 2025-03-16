@@ -35,13 +35,19 @@ class Concorde(TSP):
         self.suppress_output = suppress_output
         if self.suppress_output:
             with redirect_output_to_null():
-                self.concorde_solver = TSPSolver.from_tspfile(filepath)
+                try:
+                    self.concorde_solver = TSPSolver.from_tspfile(filepath)
+                except RuntimeError as e:
+                    raise RuntimeError(
+                        "Failed to parse problem. "
+                        "Concorde can only solve symmetric TSPLIB problems"
+                    )
         else:
             self.concorde_solver = TSPSolver.from_tspfile(filepath)
 
     def algorithm(self) -> (int, list[int]):
         """
-        Returns the result of the Concorde sovler.
+        Returns the result of the Concorde solver.
 
         Returns
         -------

@@ -35,6 +35,6 @@ def log_results(problem_name: str, algorithm: TSP):
         filename = f"{ARTIFACTS_DIRECTORY}/{uuid4()}.txt"
         np.savetxt(filename, algorithm.best_route, fmt="%d")
         mlflow.log_artifact(filename)
-        if concorde_result := config.concorde_results.get(problem_name):
-            error_rate = round((abs(concorde_result - algorithm.best_cost) / concorde_result) * 100, 3)
+        if optimum_cost := config.optimum_costs.get(problem_name):
+            error_rate = round((abs(optimum_cost - algorithm.best_cost) / optimum_cost) * 100, 3)
             mlflow.log_metric("error_rate", error_rate)

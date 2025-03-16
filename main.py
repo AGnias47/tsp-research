@@ -51,7 +51,6 @@ if __name__ == "__main__":
         required=True,
         help="Problem to run, either by problem name, index, or absolute path. "
         f"Valid names include: {get_available_problems()}. "
-        f"See config.yaml::problems for path information and to add new problem names.",
     )
     parser.add_argument(
         "-a",
@@ -69,7 +68,7 @@ if __name__ == "__main__":
         "--mlflow-project",
         required=False,
         help="MLflow Project name. "
-        "log-results must be active for this to have any effect.",
+        "Activates MLflow logging.",
     )
     args = parser.parse_args()
     problems = []
@@ -99,11 +98,8 @@ if __name__ == "__main__":
     else:
         algorithm_list = algorithm_choice = ALGORITHM_DICT["proj"]
     for filepath, name in problems:
-        if args.log_results:
-            if args.mlflow_project:
-                mlflow.set_experiment(args.mlflow_project)
-            else:
-                mlflow.set_experiment("TSP Project")
+        if args.mlflow_project:
+            mlflow.set_experiment(args.mlflow_project)
         print(f"Solutions for the {name} problem")
         print("-----------------------")
         for algorithm in algorithm_list:
@@ -116,7 +112,7 @@ if __name__ == "__main__":
             print(f"Route: {route}")
             print(f"Time to Solve: {total_time}")
             print("-----------------------")
-            if args.log_results:
+            if args.mlflow_project:
                 solver.best_cost = cost
                 solver.best_route = route
                 solver.runtime = total_time

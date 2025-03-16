@@ -15,7 +15,7 @@ class Config:
         self.q_learning = raw_data["algorithms"]["q_learning"]
         self.double_q_learning = raw_data["algorithms"]["double_q_learning"]
         self.mlflow = raw_data["mlflow"]
-        self.concorde_results = raw_data["problems"]["concorde_result"]
+        self.optimum_costs = raw_data["problems"]["optimum_cost"]
 
     @property
     def debug(self):
