@@ -12,9 +12,8 @@ Implementation of research related to different methods of solving the Traveling
 ### With uv
 
 * Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-* Install Python 3.13 via `uv python install 3.13.1`
-* Install dependencies via `uv sync`
-* Create a virtual environment with `uv venv --python 3.13.1`
+* Install Python 3.13 via `uv python install 3.13.2`
+* Create a virtual environment with `uv venv --python 3.13.2`
 * Activate the environment via `source .venv/bin/activate`
 * Install dependencies via `uv sync`
 * Install pyconcorde via `uv pip install 'pyconcorde @ git+https://github.com/jvkersch/pyconcorde'`
@@ -89,6 +88,15 @@ Results for tracked experiments are stored in a local instance of MLflow. To vie
 
 Currently, excluding the exact methods, Min-Max Ant System takes the longest to run. Around half an hour should be allocated if running on one of the 50+ city problems. Exact runtimes for several methods can be found in the MLflow results. Generally `barachet10.tsp` is used frequently in testing, as it runs quickly and is slightly challenging for an algorithm to solve, so is a decent way to test new implementations. The problem was taken from L.L. Barachet's [Graphic Solution of the Traveling-Salesman Problem](https://www.jstor.org/stable/166872).
 
+## Generate UML
+
+Done with pyreverse.
+
+```shell
+cd src
+uv run pyreverse -o png -p . .
+```
+
 ## Workload stack
 
 ### Part II
@@ -98,6 +106,7 @@ Currently, excluding the exact methods, Min-Max Ant System takes the longest to 
 * Come up with a plan for complex graph shapes
 * Neural network with Q-learning
 * Putting your own spin on existing algorithms
+* Try different epsilon algorithms
 
 ## Future Work
 
