@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/244579155577031097/06141fd92c874183ad81351833c7885c/artifacts
+deleted_time: 1742137197538
+end_time: 1742136386713
+entry_point_name: ''
+experiment_id: '244579155577031097'
+lifecycle_stage: deleted
+run_id: 06141fd92c874183ad81351833c7885c
+run_name: star85-concorde
+run_uuid: 06141fd92c874183ad81351833c7885c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742136386703
+status: 3
+tags: []
+user_id: andy

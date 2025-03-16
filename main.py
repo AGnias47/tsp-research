@@ -36,7 +36,14 @@ ALGORITHMS = [
 ALGORITHM_DICT = {a.abbreviation: a for a in ALGORITHMS} | {
     "aco": [AntSystem, MaxMinAntSystem],
     "rl": [QLearning, DoubleQLearning],
-    "proj": [Concorde, MaxMinAntSystem, DoubleQLearning],
+    "proj": [
+        Concorde,
+        NearestNeighborSearch,
+        AntSystem,
+        MaxMinAntSystem,
+        QLearning,
+        DoubleQLearning,
+    ],
     "all": ALGORITHMS,
 }
 
@@ -50,7 +57,7 @@ if __name__ == "__main__":
         "--problem",
         required=True,
         help="Problem to run, either by problem name, index, or absolute path. "
-        f"Valid names include: {get_available_problems()}. "
+        f"Valid names include: {get_available_problems()}. ",
     )
     parser.add_argument(
         "-a",
@@ -67,8 +74,7 @@ if __name__ == "__main__":
         "-m",
         "--mlflow-project",
         required=False,
-        help="MLflow Project name. "
-        "Activates MLflow logging.",
+        help="MLflow Project name. " "Activates MLflow logging.",
     )
     args = parser.parse_args()
     problems = []

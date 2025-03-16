@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/244579155577031097/fa63ea42438e4c08986d8f8fef7fd4ea/artifacts
+deleted_time: 1742137197538
+end_time: 1742136597794
+entry_point_name: ''
+experiment_id: '244579155577031097'
+lifecycle_stage: deleted
+run_id: fa63ea42438e4c08986d8f8fef7fd4ea
+run_name: star85-mmas
+run_uuid: fa63ea42438e4c08986d8f8fef7fd4ea
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742136597785
+status: 3
+tags: []
+user_id: andy

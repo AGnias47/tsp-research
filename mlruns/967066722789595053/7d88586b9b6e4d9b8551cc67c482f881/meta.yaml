@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/967066722789595053/7d88586b9b6e4d9b8551cc67c482f881/artifacts
+deleted_time: 1742136970170
+end_time: 1742134736916
+entry_point_name: ''
+experiment_id: '967066722789595053'
+lifecycle_stage: deleted
+run_id: 7d88586b9b6e4d9b8551cc67c482f881
+run_name: dh39-concorde
+run_uuid: 7d88586b9b6e4d9b8551cc67c482f881
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742134736902
+status: 3
+tags: []
+user_id: andy

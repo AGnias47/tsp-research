@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/244579155577031097/194810d7b28f4dbf80b576a7726db12e/artifacts
+deleted_time: 1742137197538
+end_time: 1742135185850
+entry_point_name: ''
+experiment_id: '244579155577031097'
+lifecycle_stage: deleted
+run_id: 194810d7b28f4dbf80b576a7726db12e
+run_name: asterisk9-as
+run_uuid: 194810d7b28f4dbf80b576a7726db12e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742135185841
+status: 3
+tags: []
+user_id: andy

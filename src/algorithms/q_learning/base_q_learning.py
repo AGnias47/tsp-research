@@ -124,9 +124,9 @@ class BaseQLearning(NetworkxTSP):
             return 1 - self.episode / self.episodes  # noqa
         elif self.epsilon_func_key == "e2":
             return 0.999**self.episode  # noqa
-        elif self.epsilon_func_key == "e2":
+        elif self.epsilon_func_key == "e3":
             return -(self.episode/self.episodes)**6 + 1 # noqa
-        elif self.epsilon_func_key == "e2":
+        elif self.epsilon_func_key == "e4":
             return 1 - (0.1*(self.episode // (self.episodes//10))) # noqa
         else:
             raise ValueError("Invalid epsilon function specified in config. Must be e{1,2,3,4}")

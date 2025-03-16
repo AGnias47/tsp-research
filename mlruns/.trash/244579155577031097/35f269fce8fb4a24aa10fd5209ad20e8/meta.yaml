@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/244579155577031097/35f269fce8fb4a24aa10fd5209ad20e8/artifacts
+deleted_time: 1742137197538
+end_time: 1742135187342
+entry_point_name: ''
+experiment_id: '244579155577031097'
+lifecycle_stage: deleted
+run_id: 35f269fce8fb4a24aa10fd5209ad20e8
+run_name: asterisk100-concorde
+run_uuid: 35f269fce8fb4a24aa10fd5209ad20e8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742135187335
+status: 3
+tags: []
+user_id: andy
