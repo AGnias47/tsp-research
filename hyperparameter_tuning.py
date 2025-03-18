@@ -1,9 +1,20 @@
 #!/usr/bin/env python
 
+"""
+Hyperparameter tuning script. Determines ideal hyperparameters for algorithms.
+
+Can also be used to run a problem with n different iterations of hyperparameters to
+determine the best possible result.
+
+Adapted from
+https://github.com/AGnias47/optical-hypertension-detection/blob/main/optuna_study.py
+"""
+
 import argparse
 
 import optuna
 from optuna.integration.mlflow import MLflowCallback
+
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
 from src.algorithms.q_learning.double_q_learning import DoubleQLearning
@@ -111,7 +122,9 @@ if __name__ == "__main__":
             print("Ending study")
     elif args.algorithm == "mmas":
         print("Running Max-Min Ant System Study")
-        study = optuna.create_study(study_name="Max-Min Ant System Hyperparameter Tuning")
+        study = optuna.create_study(
+            study_name="Max-Min Ant System Hyperparameter Tuning"
+        )
         try:
             study.optimize(
                 func=ACOObjective(MaxMinAntSystem, args.problem, mmas=True),
