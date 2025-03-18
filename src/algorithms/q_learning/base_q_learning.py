@@ -317,7 +317,7 @@ class BaseQLearning(NetworkxTSP):
                 # Else this is a bug, raise error
                 print(i,j)
                 raise e
-        if self.reward_func_key == "r3":
+        if self.reward_func_key == "r2":
             return -self.dist(i, j)
         if self.reward_func_key == "r3":
             return -(self.dist(i, j) ** 2)

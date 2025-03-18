@@ -12,6 +12,8 @@ dependencies = [
     "mlflow>=2.20.2",
     "networkx==2.8.8",
     "numpy==2.2.2",
+    "optuna>=4.2.1",
+    "optuna-integration[mlflow]>=4.2.1",
     "pyqt6>=6.8.1",
     "pytest",
     "pyyaml>=6.0.2",

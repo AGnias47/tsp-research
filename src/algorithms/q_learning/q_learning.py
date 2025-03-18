@@ -8,14 +8,22 @@ class QLearning(BaseQLearning):
     algorithm_name = "Q-Learning"
     abbreviation = "q"
 
-    def __init__(self, filepath: str):
+    def __init__(
+        self,
+        filepath: str,
+        alpha: float = config.q_learning["alpha"],
+        gamma: float = config.q_learning["gamma"],
+        epsilon_func_key: str = config.q_learning["epsilon"],
+        reward_func_key: str = config.q_learning["reward"],
+        episodes: int = config.q_learning["episodes"],
+    ):
         super().__init__(
             filepath=filepath,
-            alpha=config.q_learning["alpha"],
-            gamma=config.q_learning["gamma"],
-            epsilon_func_key=config.q_learning["epsilon"],
-            reward_func_key=config.q_learning["reward"],
-            episodes=config.q_learning["episodes"],
+            alpha=alpha,
+            gamma=gamma,
+            epsilon_func_key=epsilon_func_key,
+            reward_func_key=reward_func_key,
+            episodes=episodes,
         )
         self.Q = np.zeros(shape=(self.n + 1, self.n + 1))
 
