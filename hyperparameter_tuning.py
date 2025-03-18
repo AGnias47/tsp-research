@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Hyperparameter tuning script. Determines ideal hyperparameters for algorithms.
+Hyperparameter tuning script. Determrerereines ideal hyperparameters for algorithms.
 
 Can also be used to run a problem with n different iterations of hyperparameters to
 determine the best possible result.
@@ -22,6 +22,7 @@ from src.algorithms.q_learning.q_learning import QLearning
 from src.utils.arg_parsing import get_filepath_for_problem
 
 DEFAULT_TRIALS = 10
+N_JOBS = 1
 
 
 class Objective:
@@ -40,7 +41,7 @@ class ACOObjective(Objective):
         trial.set_user_attr("problem", self.problem)
         alpha = trial.suggest_int("alpha", 1, 2)
         beta = trial.suggest_int("beta", 2, 5)
-        iterations = trial.suggest_int("iterations", 100, 10000)
+        iterations = trial.suggest_int("iterations", 100, 2500)
         if self.mmas:
             rho = trial.suggest_float("rho", 0.01, 0.2)
             st = trial.suggest_int("stagnation_tolerance", 20, 350)
@@ -111,57 +112,34 @@ if __name__ == "__main__":
     if args.algorithm == "as":
         print("Running Ant System Study")
         study = optuna.create_study(study_name="Ant System Hyperparameter Tuning")
-        try:
-            study.optimize(
-                func=ACOObjective(AntSystem, args.problem),
-                n_jobs=2,
-                callbacks=[MLflowCallback(metric_name="cost")],
-                **kwargs,
-            )
-        except KeyboardInterrupt:
-            print("Ending study")
+        objective = ACOObjective(AntSystem, args.problem)
     elif args.algorithm == "mmas":
         print("Running Max-Min Ant System Study")
         study = optuna.create_study(
             study_name="Max-Min Ant System Hyperparameter Tuning"
         )
-        try:
-            study.optimize(
-                func=ACOObjective(MaxMinAntSystem, args.problem, mmas=True),
-                n_jobs=2,
-                callbacks=[MLflowCallback(metric_name="cost")],
-                **kwargs,
-            )
-        except KeyboardInterrupt:
-            print("Ending study")
+        objective = ACOObjective(MaxMinAntSystem, args.problem, mmas=True)
     elif args.algorithm == "q":
         print("Running Q-Learning Study")
         study = optuna.create_study(study_name="Q-Learning Hyperparameter Tuning")
-        try:
-            study.optimize(
-                func=QLearningObjective(QLearning, args.problem),
-                n_jobs=2,
-                callbacks=[MLflowCallback(metric_name="cost")],
-                **kwargs,
-            )
-        except KeyboardInterrupt:
-            print("Ending study")
+        objective = QLearningObjective(QLearning, args.problem)
     elif args.algorithm == "dq":
         print("Running Double Q-Learning Study")
         study = optuna.create_study(
             study_name="Double Q-Learning Hyperparameter Tuning"
         )
-        try:
-            study.optimize(
-                func=QLearningObjective(DoubleQLearning, args.problem),
-                n_jobs=1,
-                callbacks=[MLflowCallback(metric_name="cost")],
-                **kwargs,
-            )
-        except KeyboardInterrupt:
-            print("Ending study")
+        objective = QLearningObjective(DoubleQLearning, args.problem)
     else:
         raise ValueError("Invalid algorithm specified")
+    try:
+        study.optimize(
+            func=objective,
+            n_jobs=N_JOBS,
+            callbacks=[MLflowCallback(metric_name="cost")],
+            **kwargs,
+        )
+    except KeyboardInterrupt:
+        print("Ending study")
     print("Optuna study best trial:")
     trial = study.best_trial
     cost = trial.value
