@@ -26,14 +26,23 @@ class MaxMinAntSystem(BaseACO):
     algorithm_name = "Min-Max Ant System ACO"
     abbreviation = "mmas"
 
-    def __init__(self, filepath):
+    def __init__(
+        self,
+        filepath: str,
+        alpha: int = config.mmas["alpha"],
+        beta: int = config.mmas["beta"],
+        rho: float = config.mmas["rho"],
+        iterations: int = config.mmas["iterations"],
+        stagnation_tolerance: int = config.mmas["stagnation_tolerance"],
+    ):
         super().__init__(
             filepath=filepath,
-            alpha=config.mmas["alpha"],
-            beta=config.mmas["beta"],
-            rho=config.mmas["rho"],
-            iterations=config.mmas["iterations"],
+            alpha=alpha,
+            beta=beta,
+            rho=rho,
+            iterations=iterations,
         )
+        self.stagnation_tolerance = stagnation_tolerance
         self.best_so_far = Ant(0)
         self.best_so_far.cost = np.inf
         self.tau_max = np.inf
@@ -127,7 +136,7 @@ class MaxMinAntSystem(BaseACO):
                 self.update_iteration = iteration
             if ant.cost < iteration_best_ant.cost:
                 iteration_best_ant = ant
-        if (iteration - self.update_iteration) > config.mmas["stagnation_tolerance"]:
+        if (iteration - self.update_iteration) > self.stagnation_tolerance:
             # Stagnation reset procedure
             self.tau[:] = 1 / (self.rho * self.best_so_far.cost)
             self.update_iteration = iteration

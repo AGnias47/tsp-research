@@ -6,13 +6,20 @@ class AntSystem(BaseACO):
     algorithm_name = "Ant System ACO"
     abbreviation = "as"
 
-    def __init__(self, filepath: str):
+    def __init__(
+        self,
+        filepath: str,
+        alpha: int = config.ant_system["alpha"],
+        beta: int = config.ant_system["beta"],
+        rho: float = config.ant_system["rho"],
+        iterations: int = config.ant_system["iterations"],
+    ):
         super().__init__(
             filepath=filepath,
-            alpha=config.ant_system["alpha"],
-            beta=config.ant_system["beta"],
-            rho=config.ant_system["rho"],
-            iterations=config.ant_system["iterations"],
+            alpha=alpha,
+            beta=beta,
+            rho=rho,
+            iterations=iterations,
         )
 
     @property
