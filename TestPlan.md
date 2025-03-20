@@ -28,6 +28,11 @@ If results from the Initial Pass test are promising, a deep dive into any promis
 
 Hyperparameters should be adjusted to their ideal values. This can be done with Optuna.
 
+### Points of Interest
+
+* ACO not much variability with hyperparameter tuning
+* Q-Learning much variability with hyperparameter tuning, sometimes as good as ACO, ex. with brazil 58, got as good as 27145 when both ACO algorithms returned 27384. Seemed to do better when more myopic.
+
 ## Algorithm Improvement
 
 If no other test routes are promising, there is room for improvement on the Q-Learning Algorithm. While it is currently the worse performing algorithm, it is possible that using it in conjunction with deep learning, i.e. a neural network, would show promising results. This is an area of interest that could prove promising if no other testing is fruitful, or ends in a timely manner.

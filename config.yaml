@@ -17,16 +17,16 @@ algorithms:
     rho: 0.02
   q_learning:
     episodes: 10_000
-    alpha: 0.01
+    alpha: 0.08
     gamma: 0.6
     epsilon: e3
     reward: r1
   double_q_learning:
     episodes: 10_000
-    alpha: 0.01
-    gamma: 0.6
-    epsilon: e3
-    reward: r1
+    alpha: 0.02
+    gamma: 0.12
+    epsilon: e4
+    reward: r2
 problems:
   optimum_cost:  # From either Concorde or http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf
     5clusters43: 100
