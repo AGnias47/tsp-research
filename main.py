@@ -15,7 +15,11 @@ from config import config
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
 from src.algorithms.brute_force import BruteForce
-from src.algorithms.concorde import Concorde
+try:
+    from src.algorithms.concorde import Concorde as Baseline
+except ModuleNotFoundError:
+    print("Warning: Concorde not installed; using No-op as the baseline algorithm.")
+    from src.algorithms.no_op import NoOp as Baseline
 from src.algorithms.held_karp import HeldKarp
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.algorithms.q_learning.double_q_learning import DoubleQLearning
@@ -24,7 +28,7 @@ from src.utils.arg_parsing import get_available_problems, get_filepath_for_probl
 from src.utils.mlflow_client import log_results
 
 ALGORITHMS = [
-    Concorde,
+    Baseline,
     NearestNeighborSearch,
     BruteForce,
     HeldKarp,
@@ -34,10 +38,11 @@ ALGORITHMS = [
     DoubleQLearning,
 ]
 ALGORITHM_DICT = {a.abbreviation: a for a in ALGORITHMS} | {
+    "baseline": Baseline,
     "aco": [AntSystem, MaxMinAntSystem],
     "rl": [QLearning, DoubleQLearning],
     "proj": [
-        Concorde,
+        Baseline,
         NearestNeighborSearch,
         AntSystem,
         MaxMinAntSystem,
