@@ -8,6 +8,7 @@ Implementation of research related to different methods of solving the Traveling
 
 * Install dependencies with `pip install -r requirements.txt`
 * Install pyconcorde via `pip install 'pyconcorde @ git+https://github.com/jvkersch/pyconcorde'`
+  * Note that this step can be skipped, as `pyconcorde` can only be installed on Linux. If not installed, a No-op class that simply returns the best known cost from a config will be used in place of Concorde
 
 ### With uv
 
@@ -17,6 +18,7 @@ Implementation of research related to different methods of solving the Traveling
 * Activate the environment via `source .venv/bin/activate`
 * Install dependencies via `uv sync`
 * Install pyconcorde via `uv pip install 'pyconcorde @ git+https://github.com/jvkersch/pyconcorde'`
+  * Note that this step can be skipped, as `pyconcorde` can only be installed on Linux. If not installed, a No-op class that simply returns the best known cost from a config will be used in place of Concorde
 
 ## TSP Problem Data
 
@@ -101,9 +103,6 @@ uv run pyreverse -o png -p . .
 
 ### Part II
 
-* Algorithm tuning, mainly for Q-learning
-* Exploring unique problem shapes
-* Come up with a plan for complex graph shapes
 * Neural network with Q-learning
 * Putting your own spin on existing algorithms
 * Try different epsilon algorithms
