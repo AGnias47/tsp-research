@@ -1,6 +1,7 @@
 artifact_location: file:///home/andy/github/tsp-research/mlruns/136562477786329152
 creation_time: 1742137319920
 experiment_id: '136562477786329152'
-last_update_time: 1742137319920
+last_update_time: 1743273089610
 lifecycle_stage: active
-name: Star Problems v2
+name: Star Problems
+tags: {}

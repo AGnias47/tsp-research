@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/897668194981506122/7da8ba59c1f84a7e98ae5a14fa0870cc/artifacts
+deleted_time: 1743270668121
+end_time: 1742268496363
+entry_point_name: ''
+experiment_id: '897668194981506122'
+lifecycle_stage: deleted
+run_id: 7da8ba59c1f84a7e98ae5a14fa0870cc
+run_name: '410'
+run_uuid: 7da8ba59c1f84a7e98ae5a14fa0870cc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742268496340
+status: 3
+tags: []
+user_id: andy

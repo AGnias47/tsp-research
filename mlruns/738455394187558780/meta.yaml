@@ -1,0 +1,6 @@
+artifact_location: file:///home/andy/github/tsp-research/mlruns/738455394187558780
+creation_time: 1742263981726
+experiment_id: '738455394187558780'
+last_update_time: 1742263981726
+lifecycle_stage: active
+name: Max-Min Ant System Hyperparameter Tuning
