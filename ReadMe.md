@@ -103,9 +103,7 @@ uv run pyreverse -o png -p . .
 
 ### Part II
 
-* Neural network with Q-learning
-* Putting your own spin on existing algorithms
-* Try different epsilon algorithms
+Most promising development is the heightened performance of Q-learning on ATSP problems. Should see if there are particular reasons for this, and if we can improve it more with a NN-Q algorithm.
 
 ## Future Work
 
