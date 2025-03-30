@@ -1,0 +1,16 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/709098389546901036/2d54481e781f49ae9972ee9de117f8a7/artifacts
+deleted_time: 1742951476338
+end_time: 1742949199971
+entry_point_name: ''
+experiment_id: '709098389546901036'
+lifecycle_stage: deleted
+run_id: 2d54481e781f49ae9972ee9de117f8a7
+run_name: rbg323-noop
+run_uuid: 2d54481e781f49ae9972ee9de117f8a7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742949199840
+status: 4
+tags: []
+user_id: andy
