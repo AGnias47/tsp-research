@@ -32,10 +32,16 @@ class QLearning(BaseQLearning):
         return config.q_learning
 
     def update_Q_table(self, state: int, action: int, reward: float, a_t1: int) -> None:
+        """
+        References
+        ----------
+        * https://huggingface.co/learn/deep-rl-course/en/unit3/deep-q-algorithm
+        """
         Q_t = self.Q[state, action]
         Q_t1 = self.Q[action, a_t1]
-        temporal_difference_target = reward + self.gamma * Q_t1 - Q_t
-        self.Q[state, action] = Q_t + self.alpha * temporal_difference_target
+        temporal_difference_target = reward + self.gamma * Q_t1
+        temporal_difference_error = temporal_difference_target - Q_t
+        self.Q[state, action] = Q_t + self.alpha * temporal_difference_error
 
     def exploit(self, s: int, environment: set[int]) -> int:
         max_reward = -np.inf
