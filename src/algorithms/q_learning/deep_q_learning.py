@@ -14,9 +14,9 @@ import torch.optim as optim
 from collections import deque
 import torch.nn as nn
 
-class QLearning(BaseQLearning):
-    algorithm_name = "Q-Learning"
-    abbreviation = "q"
+class DeepQLearning(BaseQLearning):
+    algorithm_name = "Deep Q-Learning"
+    abbreviation = "dqn"
 
     def __init__(
         self,
@@ -36,8 +36,8 @@ class QLearning(BaseQLearning):
             episodes=episodes,
         )
         self.Q = np.zeros(shape=(self.n + 1, self.n + 1))
-        self.input_dim = self.n
-        self.output_dim = 1
+        self.input_dim = 64
+        self.output_dim = 64
         self.batch_size = 64
         self.target_update_freq = 1000
         self.policy_net = DQN(input_dim=self.input_dim, output_dim=self.output_dim)
@@ -91,9 +91,9 @@ class QLearning(BaseQLearning):
 
     def q_learning(self):
         # Main training loop
-        rewards_per_episode = []
         steps_done = 0
-        for episode in range(self.episodes):
+        costs = []
+        for self.episode in range(self.episodes):
             episode_cost = 0
             episode_starting_node = self.starting_node
             route = np.array([episode_starting_node])
@@ -105,20 +105,24 @@ class QLearning(BaseQLearning):
                 updated_environment = set(self.G.nodes) - set(updated_route)
                 if updated_environment:
                     a_t1 = self.next_action(action, updated_environment)
+                    done = False
                 else:
                     a_t1 = episode_starting_node
+                    done = True
                 route = updated_route
-                episode_cost += self.dist(route[-2], route[-1])
-                self.memory.append((state, action, reward, a_t1))
-                # Update state
-                state = action
-                episode_cost += reward
-                # Optimize model
+                self.memory.append((state, action, reward, a_t1, done))
                 self.optimize_model()
-
                 # Update target network periodically
                 if steps_done % self.target_update_freq == 0:
                     self.target_net.load_state_dict(self.policy_net.state_dict())
-
                 steps_done += 1
-            rewards_per_episode.append(episode_cost)
+            state = route[-1]
+            action = episode_starting_node
+            reward = self.reward(int(state), action)
+            a_t1 = self.next_action(
+                action, set(self.G.nodes) - set(np.array([episode_starting_node]))
+            )
+            self.update_Q_table(int(state), action, reward, a_t1)
+            episode_cost += self.dist(int(route[-1]), episode_starting_node)
+            costs.append(episode_cost)
+        return costs
