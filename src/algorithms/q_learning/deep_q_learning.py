@@ -12,7 +12,7 @@ from src.models.dqn import DQN
 import torch.optim as optim
 import torch.nn as nn
 from src.models.replay_memory import ReplayMemory, Transition
-
+import rainbow_tqdm
 
 device = torch.device(
     "cuda"
@@ -56,7 +56,16 @@ class DeepQLearning(BaseQLearning):
 
     def exploit(self, s: int, environment: set[int]) -> int:
         with torch.no_grad():
-            return self.policy_net(s).max(1).indices.view(1, 1)
+            rewards = self.policy_net(torch.tensor(s, dtype=torch.float32).unsqueeze(0).to(device))
+            max_reward = -torch.inf
+            a_t1 = None
+            for a in environment:
+                reward = rewards[a]
+                if reward > max_reward:
+                    max_reward = reward
+                    a_t1 = a
+        return a_t1
+
 
     def optimize_model(self):
         if len(self.memory) < self.batch_size:
@@ -102,11 +111,11 @@ class DeepQLearning(BaseQLearning):
                 self.target_net(non_final_next_states).max(1).values
             )
         # Compute the expected Q values
-        expected_state_action_values = (next_state_values * self.gamma) + reward_batch
+        expected_state_action_values = (next_state_values.unsqueeze(1) * self.gamma) + reward_batch
 
         # Compute Huber loss
         criterion = nn.SmoothL1Loss()
-        loss = criterion(state_action_values, expected_state_action_values.unsqueeze(1))
+        loss = criterion(state_action_values, expected_state_action_values)
 
         # Optimize the model
         self.optimizer.zero_grad()
@@ -119,7 +128,7 @@ class DeepQLearning(BaseQLearning):
         # Main training loop
         steps_done = 0
         costs = []
-        for self.episode in range(self.episodes):
+        for self.episode in rainbow_tqdm.tqdm(range(self.episodes)):
             episode_cost = 0
             episode_starting_node = self.starting_node
             route = np.array([episode_starting_node])

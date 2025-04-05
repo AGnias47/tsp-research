@@ -1306,6 +1306,18 @@ wheels = [
 ]
 
 [[package]]
+name = "rainbow-tqdm"
+version = "0.1.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/81/dc/f15c2a65abcac396650e94b788c58ff273e92b32d22d22f8b8a772f280c5/rainbow_tqdm-0.1.5.tar.gz", hash = "sha256:2c4f636ea523dca7a7448fcd43ddcd46e97debf33135d44e078fe88ffa110867", size = 7667 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/c6/a8196f72dd7a6124bd475ce07afa66b1cfc70d3cfaebec03a6887d83f389/rainbow_tqdm-0.1.5-py3-none-any.whl", hash = "sha256:be052c0394fcda6441e9cfdef1a233ae8d694029209c4e05cf40cb3aaa07d337", size = 8661 },
+]
+
+[[package]]
 name = "regex"
 version = "2024.11.6"
 source = { registry = "https://pypi.org/simple" }
@@ -1587,6 +1599,7 @@ dependencies = [
     { name = "pyqt6" },
     { name = "pytest" },
     { name = "pyyaml" },
+    { name = "rainbow-tqdm" },
     { name = "regex" },
     { name = "ruff" },
     { name = "setuptools" },
@@ -1608,6 +1621,7 @@ requires-dist = [
     { name = "pyqt6", specifier = ">=6.8.1" },
     { name = "pytest" },
     { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "rainbow-tqdm", specifier = ">=0.1.5" },
     { name = "regex", specifier = ">=2024.11.6" },
     { name = "ruff", specifier = ">=0.9.4" },
     { name = "setuptools", specifier = ">=75.8.0" },
