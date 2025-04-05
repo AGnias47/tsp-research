@@ -18,7 +18,7 @@ References
 """
 
 import numpy as np
-
+from rainbow_tqdm import tqdm
 from config import config
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.models.ant import Ant
@@ -138,7 +138,7 @@ class BaseACO(NetworkxTSP):
 
     def algorithm(self) -> (int, list[int]):
         costs = []
-        for i in range(self.iterations):
+        for i in tqdm(range(self.iterations)):
             self.reset_ants()
             self.construct_solutions()
             self.update_trails(i)

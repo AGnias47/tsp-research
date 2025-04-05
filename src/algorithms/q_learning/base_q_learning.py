@@ -24,7 +24,7 @@ import random
 from types import ModuleType
 
 import numpy as np
-
+from rainbow_tqdm import tqdm
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs
@@ -162,7 +162,7 @@ class BaseQLearning(NetworkxTSP):
             Cost for route found in each iteration
         """
         costs = []
-        for self.episode in range(self.episodes):
+        for self.episode in tqdm(range(self.episodes)):
             episode_cost = 0
             episode_starting_node = self.starting_node
             route = np.array([episode_starting_node])

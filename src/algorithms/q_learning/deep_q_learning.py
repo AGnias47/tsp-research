@@ -1,7 +1,7 @@
 """
-Example from https://medium.com/@samina.amin/deep-q-learning-dqn-71c109586bae
-https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
-Building a DQN network. Still in progress.
+Implements Deep Q Learning algorithm. Largely adapted from
+* https://medium.com/@samina.amin/deep-q-learning-dqn-71c109586bae
+* https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
 """
 
 import numpy as np
@@ -90,7 +90,7 @@ class DeepQLearning(BaseQLearning):
             .unsqueeze(1)
             .to(device)
         )
-        # unsqueeze from gemini
+        # unsqueeze - utilized suggestion from Google Gemini (LLM)
         state_batch = torch.tensor(batch.state).unsqueeze(1).to(device)
         action_batch = torch.tensor(batch.action).unsqueeze(1).to(device)
         reward_batch = torch.tensor(batch.reward).unsqueeze(1).to(device)
