@@ -5,14 +5,15 @@ Building a DQN network. Still in progress.
 """
 
 import numpy as np
+import rainbow_tqdm
 import torch
+import torch.nn as nn
+import torch.optim as optim
+
 from config import config
 from src.algorithms.q_learning.base_q_learning import BaseQLearning
 from src.models.dqn import DQN
-import torch.optim as optim
-import torch.nn as nn
 from src.models.replay_memory import ReplayMemory, Transition
-import rainbow_tqdm
 
 device = torch.device(
     "cuda"
@@ -56,7 +57,9 @@ class DeepQLearning(BaseQLearning):
 
     def exploit(self, s: int, environment: set[int]) -> int:
         with torch.no_grad():
-            rewards = self.policy_net(torch.tensor(s, dtype=torch.float32).unsqueeze(0).to(device))
+            rewards = self.policy_net(
+                torch.tensor(s, dtype=torch.float32).unsqueeze(0).to(device)
+            )
             max_reward = -torch.inf
             a_t1 = None
             for a in environment:
@@ -65,7 +68,6 @@ class DeepQLearning(BaseQLearning):
                     max_reward = reward
                     a_t1 = a
         return a_t1
-
 
     def optimize_model(self):
         if len(self.memory) < self.batch_size:
@@ -111,7 +113,9 @@ class DeepQLearning(BaseQLearning):
                 self.target_net(non_final_next_states).max(1).values
             )
         # Compute the expected Q values
-        expected_state_action_values = (next_state_values.unsqueeze(1) * self.gamma) + reward_batch
+        expected_state_action_values = (
+            next_state_values.unsqueeze(1) * self.gamma
+        ) + reward_batch
 
         # Compute Huber loss
         criterion = nn.SmoothL1Loss()

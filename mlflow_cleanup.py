@@ -3,8 +3,9 @@ Removes deleted mlflow runs on the host backend.
 Taken from https://stackoverflow.com/a/63844571/8728749
 """
 
-import mlflow
 import shutil
+
+import mlflow
 
 
 def get_run_dir(artifacts_uri):

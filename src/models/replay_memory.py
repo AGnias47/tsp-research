@@ -5,9 +5,7 @@ Stores transitions that the agent observes for reuse later. Decorrelates transit
 """
 
 import random
-
-from collections import namedtuple, deque
-
+from collections import deque, namedtuple
 
 Transition = namedtuple("Transition", ("state", "action", "next_state", "reward"))
 

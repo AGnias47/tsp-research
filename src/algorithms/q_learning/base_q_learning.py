@@ -125,11 +125,13 @@ class BaseQLearning(NetworkxTSP):
         elif self.epsilon_func_key == "e2":
             return 0.999**self.episode  # noqa
         elif self.epsilon_func_key == "e3":
-            return -(self.episode/self.episodes)**6 + 1 # noqa
+            return -((self.episode / self.episodes) ** 6) + 1  # noqa
         elif self.epsilon_func_key == "e4":
-            return 1 - (0.1*(self.episode // (self.episodes//10))) # noqa
+            return 1 - (0.1 * (self.episode // (self.episodes // 10)))  # noqa
         else:
-            raise ValueError("Invalid epsilon function specified in config. Must be e{1,2,3,4}")
+            raise ValueError(
+                "Invalid epsilon function specified in config. Must be e{1,2,3,4}"
+            )
 
     def algorithm(self) -> (int, list[int]):
         costs = self.q_learning()
@@ -315,7 +317,7 @@ class BaseQLearning(NetworkxTSP):
                 if abs(i - j) > 0:
                     return 10
                 # Else this is a bug, raise error
-                print(i,j)
+                print(i, j)
                 raise e
         if self.reward_func_key == "r2":
             return -self.dist(i, j)

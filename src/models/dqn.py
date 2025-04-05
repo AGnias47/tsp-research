@@ -2,8 +2,8 @@
 From https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
 """
 
-import torch.nn.functional as F
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class DQN(nn.Module):
