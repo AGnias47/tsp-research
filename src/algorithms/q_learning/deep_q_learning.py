@@ -5,10 +5,10 @@ Implements Deep Q Learning algorithm. Largely adapted from
 """
 
 import numpy as np
-from rainbow_tqdm import tqdm
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from rainbow_tqdm import tqdm
 
 from config import config
 from src.algorithms.q_learning.base_q_learning import BaseQLearning
@@ -45,8 +45,8 @@ class DeepQLearning(BaseQLearning):
         )
         self.batch_size = 128
         self.target_update_freq = 1000
-        self.policy_net = DQN(n_observations=1, n_actions=self.n+1).to(device)
-        self.target_net = DQN(n_observations=1, n_actions=self.n+1).to(device)
+        self.policy_net = DQN(n_observations=1, n_actions=self.n + 1).to(device)
+        self.target_net = DQN(n_observations=1, n_actions=self.n + 1).to(device)
         self.target_net.load_state_dict(self.policy_net.state_dict())
         self.optimizer = optim.Adam(self.policy_net.parameters(), lr=self.alpha)
         self.memory = ReplayMemory(10_000)

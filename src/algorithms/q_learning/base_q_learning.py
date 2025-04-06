@@ -25,6 +25,7 @@ from types import ModuleType
 
 import numpy as np
 from rainbow_tqdm import tqdm
+
 from config import config
 from src.models.networkx_tsp import NetworkxTSP
 from src.utils.figures import plot_costs

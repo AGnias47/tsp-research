@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Hyperparameter tuning script. Determrerereines ideal hyperparameters for algorithms.
+Hyperparameter tuning script. Determines ideal hyperparameters for algorithms.
 
 Can also be used to run a problem with n different iterations of hyperparameters to
 determine the best possible result.
@@ -17,6 +17,7 @@ from optuna.integration.mlflow import MLflowCallback
 
 from src.algorithms.aco.ant_system import AntSystem
 from src.algorithms.aco.max_min_ant_system import MaxMinAntSystem
+from src.algorithms.q_learning.deep_q_learning import DeepQLearning
 from src.algorithms.q_learning.double_q_learning import DoubleQLearning
 from src.algorithms.q_learning.q_learning import QLearning
 from src.utils.arg_parsing import get_filepath_for_problem
@@ -84,7 +85,7 @@ class QLearningObjective(Objective):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-a", "--algorithm", required=True, choices=["as", "mmas", "q", "dq"]
+        "-a", "--algorithm", required=True, choices=["as", "mmas", "q", "dq", "dqn"]
     )
     parser.add_argument("-p", "--problem", required=True)
     group = parser.add_mutually_exclusive_group()
@@ -129,6 +130,10 @@ if __name__ == "__main__":
             study_name="Double Q-Learning Hyperparameter Tuning"
         )
         objective = QLearningObjective(DoubleQLearning, args.problem)
+    elif args.algorithm == "dqn":
+        print("Running Deep Q-Learning Study")
+        study = optuna.create_study(study_name="Deep Q-Learning Hyperparameter Tuning")
+        objective = QLearningObjective(DeepQLearning, args.problem)
     else:
         raise ValueError("Invalid algorithm specified")
     try:

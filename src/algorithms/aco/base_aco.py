@@ -19,6 +19,7 @@ References
 
 import numpy as np
 from rainbow_tqdm import tqdm
+
 from config import config
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.models.ant import Ant

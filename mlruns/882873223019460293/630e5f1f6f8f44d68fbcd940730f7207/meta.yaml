@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/630e5f1f6f8f44d68fbcd940730f7207/artifacts
+end_time: 1743966685990
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: 630e5f1f6f8f44d68fbcd940730f7207
+run_name: barachet10-r
+run_uuid: 630e5f1f6f8f44d68fbcd940730f7207
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743966685964
+status: 3
+tags: []
+user_id: andy

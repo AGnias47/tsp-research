@@ -31,16 +31,9 @@ class BruteForce(NetworkxTSP):
         best_route = None
         starting_point = list(self.G.nodes)[0]
         for permutation in permutations(list(self.G.nodes)[1:]):
-            permutation = [starting_point] + list(permutation)
-            p_cost = float(0)
-            p_route = np.empty(self.n + 1, dtype=int)
-            p_route[0] = permutation[0]
-            for i in range(self.n):
-                starting_node = permutation[i]
-                ending_node = permutation[(i + 1) % self.n]
-                p_cost += self.dist(starting_node, ending_node)
-                p_route[i + 1] = ending_node
-            p_route[self.n] = p_route[0]
+            p_cost, p_route = self.permutation_cost(
+                [starting_point] + list(permutation)
+            )
             if p_cost < best_cost:
                 best_cost = p_cost
                 best_route = p_route
