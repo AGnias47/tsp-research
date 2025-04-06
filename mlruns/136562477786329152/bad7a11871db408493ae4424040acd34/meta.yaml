@@ -1,8 +1,9 @@
 artifact_uri: file:///home/andy/github/tsp-research/mlruns/136562477786329152/bad7a11871db408493ae4424040acd34/artifacts
+deleted_time: 1743976738893
 end_time: 1742137321389
 entry_point_name: ''
 experiment_id: '136562477786329152'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: bad7a11871db408493ae4424040acd34
 run_name: asterisk9-dq
 run_uuid: bad7a11871db408493ae4424040acd34

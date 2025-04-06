@@ -1,8 +1,9 @@
 artifact_uri: file:///home/andy/github/tsp-research/mlruns/874586957407654680/c409fe04c8fd4b62880f312ebba3ca11/artifacts
+deleted_time: 1743976784776
 end_time: 1742157151983
 entry_point_name: ''
 experiment_id: '874586957407654680'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: c409fe04c8fd4b62880f312ebba3ca11
 run_name: Tnm70-dq
 run_uuid: c409fe04c8fd4b62880f312ebba3ca11

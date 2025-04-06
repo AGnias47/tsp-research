@@ -1,7 +1,7 @@
 """
 Randomly chooses a route.
 
-Generates 1000 random routes and chooses the best one.
+Generates 10,000 random routes and chooses the best one.
 """
 
 import random
@@ -9,6 +9,7 @@ import random
 import numpy as np
 import tsplib95
 
+from config import config
 from src.models.networkx_tsp import NetworkxTSP
 
 
@@ -25,7 +26,7 @@ class RandomChoice(NetworkxTSP):
         best_route = None
         starting_point = list(self.G.nodes)[0]
         nodes = list(self.G.nodes)[1:]
-        for _ in range(10_000):
+        for _ in range(config.rc_iters):
             random.shuffle(nodes)
             p_cost, p_route = self.permutation_cost([starting_point] + nodes)
             if p_cost < best_cost:

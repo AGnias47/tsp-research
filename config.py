@@ -17,6 +17,7 @@ class Config:
         self.deep_q_learning = raw_data["algorithms"]["deep_q_learning"]
         self.mlflow = raw_data["mlflow"]
         self.optimum_costs = raw_data["problems"]["optimum_cost"]
+        self.rc_iters = raw_data["algorithms"]["random_choice"]["iterations"]
 
     @property
     def debug(self):
