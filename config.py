@@ -14,6 +14,7 @@ class Config:
         self.random_number_seed = raw_data["random_number_seed"]
         self.q_learning = raw_data["algorithms"]["q_learning"]
         self.double_q_learning = raw_data["algorithms"]["double_q_learning"]
+        self.deep_q_learning = raw_data["algorithms"]["deep_q_learning"]
         self.mlflow = raw_data["mlflow"]
         self.optimum_costs = raw_data["problems"]["optimum_cost"]
 

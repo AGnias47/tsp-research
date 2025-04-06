@@ -5,7 +5,7 @@ Implements Deep Q Learning algorithm. Largely adapted from
 """
 
 import numpy as np
-import rainbow_tqdm
+from rainbow_tqdm import tqdm
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -29,11 +29,11 @@ class DeepQLearning(BaseQLearning):
     def __init__(
         self,
         filepath: str,
-        alpha: float = config.q_learning["alpha"],
-        gamma: float = config.q_learning["gamma"],
-        epsilon_func_key: str = config.q_learning["epsilon"],
-        reward_func_key: str = config.q_learning["reward"],
-        episodes: int = config.q_learning["episodes"],
+        alpha: float = config.deep_q_learning["alpha"],
+        gamma: float = config.deep_q_learning["gamma"],
+        epsilon_func_key: str = config.deep_q_learning["epsilon"],
+        reward_func_key: str = config.deep_q_learning["reward"],
+        episodes: int = config.deep_q_learning["episodes"],
     ):
         super().__init__(
             filepath=filepath,
@@ -45,8 +45,8 @@ class DeepQLearning(BaseQLearning):
         )
         self.batch_size = 128
         self.target_update_freq = 1000
-        self.policy_net = DQN(n_observations=1, n_actions=self.n).to(device)
-        self.target_net = DQN(n_observations=1, n_actions=self.n).to(device)
+        self.policy_net = DQN(n_observations=1, n_actions=self.n+1).to(device)
+        self.target_net = DQN(n_observations=1, n_actions=self.n+1).to(device)
         self.target_net.load_state_dict(self.policy_net.state_dict())
         self.optimizer = optim.Adam(self.policy_net.parameters(), lr=self.alpha)
         self.memory = ReplayMemory(10_000)
@@ -73,13 +73,7 @@ class DeepQLearning(BaseQLearning):
         if len(self.memory) < self.batch_size:
             return
         transitions = self.memory.sample(self.batch_size)
-        # Transpose the batch (see https://stackoverflow.com/a/19343/3343043 for
-        # detailed explanation). This converts batch-array of Transitions
-        # to Transition of batch-arrays.
         batch = Transition(*zip(*transitions))
-
-        # Compute a mask of non-final states and concatenate the batch elements
-        # (a final state would've been the one after which simulation ended)
         non_final_mask = torch.tensor(
             tuple(map(lambda s: s is not None, batch.next_state)),
             device=device,
@@ -94,14 +88,12 @@ class DeepQLearning(BaseQLearning):
         state_batch = torch.tensor(batch.state).unsqueeze(1).to(device)
         action_batch = torch.tensor(batch.action).unsqueeze(1).to(device)
         reward_batch = torch.tensor(batch.reward).unsqueeze(1).to(device)
-
         # Compute Q(s_t, a) - the model computes Q(s_t), then we select the
         # columns of actions taken. These are the actions which would've been taken
         # for each batch state according to policy_net
         state_action_values = self.policy_net(state_batch).gather(
             1, torch.tensor(action_batch, dtype=torch.int64)
         )
-
         # Compute V(s_{t+1}) for all next states.
         # Expected values of actions for non_final_next_states are computed based
         # on the "older" target_net; selecting their best reward with max(1).values
@@ -116,12 +108,8 @@ class DeepQLearning(BaseQLearning):
         expected_state_action_values = (
             next_state_values.unsqueeze(1) * self.gamma
         ) + reward_batch
-
-        # Compute Huber loss
         criterion = nn.SmoothL1Loss()
         loss = criterion(state_action_values, expected_state_action_values)
-
-        # Optimize the model
         self.optimizer.zero_grad()
         loss.backward()
         # In-place gradient clipping
@@ -132,7 +120,7 @@ class DeepQLearning(BaseQLearning):
         # Main training loop
         steps_done = 0
         costs = []
-        for self.episode in rainbow_tqdm.tqdm(range(self.episodes)):
+        for self.episode in tqdm(range(self.episodes)):
             episode_cost = 0
             episode_starting_node = self.starting_node
             route = np.array([episode_starting_node])
@@ -155,12 +143,25 @@ class DeepQLearning(BaseQLearning):
                 else:
                     a_t1 = torch.tensor(episode_starting_node, dtype=torch.float32)
                 route = updated_route
+                episode_cost += self.dist(route[-2], route[-1])
                 self.memory.push(state, action, a_t1, reward)
                 self.optimize_model()
                 # Update target network periodically
                 if steps_done % self.target_update_freq == 0:
                     self.target_net.load_state_dict(self.policy_net.state_dict())
                 steps_done += 1
+            state = torch.tensor(route[-1], dtype=torch.float32)
+            action = torch.tensor(episode_starting_node, dtype=torch.float32)
+            reward = torch.tensor(
+                self.reward(int(state), int(action)), dtype=torch.float32
+            )
+            a_t1 = None
             episode_cost += self.dist(int(route[-1]), episode_starting_node)
+            self.memory.push(state, action, a_t1, reward)
+            self.optimize_model()
+            # Update target network periodically
+            if steps_done % self.target_update_freq == 0:
+                self.target_net.load_state_dict(self.policy_net.state_dict())
+            steps_done += 1
             costs.append(episode_cost)
         return costs

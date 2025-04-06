@@ -27,6 +27,12 @@ algorithms:
     gamma: 0.12
     epsilon: e4
     reward: r2
+  deep_q_learning:
+    episodes: 10_000
+    alpha: 0.02
+    gamma: 0.12
+    epsilon: e4
+    reward: r2
 problems:
   optimum_cost:  # From either Concorde or http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf
     5clusters43: 100

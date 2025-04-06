@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/cd0030f333c44ff694d14836c02ebddd/artifacts
+end_time: 1743879291247
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: cd0030f333c44ff694d14836c02ebddd
+run_name: kroA100-dqn
+run_uuid: cd0030f333c44ff694d14836c02ebddd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743879291225
+status: 3
+tags: []
+user_id: andy
