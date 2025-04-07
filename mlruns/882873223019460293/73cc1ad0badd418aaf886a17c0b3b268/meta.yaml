@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/73cc1ad0badd418aaf886a17c0b3b268/artifacts
+end_time: 1743985677727
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: 73cc1ad0badd418aaf886a17c0b3b268
+run_name: fri26-dqn
+run_uuid: 73cc1ad0badd418aaf886a17c0b3b268
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743985677715
+status: 3
+tags: []
+user_id: andy

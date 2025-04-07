@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/821f107f5a8e42bcb51162586af6cc51/artifacts
+end_time: 1743986775881
+entry_point_name: ''
+experiment_id: '882873223019460293'
+lifecycle_stage: active
+run_id: 821f107f5a8e42bcb51162586af6cc51
+run_name: berlin52-dqn
+run_uuid: 821f107f5a8e42bcb51162586af6cc51
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743986775870
+status: 3
+tags: []
+user_id: andy
