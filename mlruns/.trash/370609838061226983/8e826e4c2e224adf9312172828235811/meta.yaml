@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/andy/github/tsp-research/mlruns/370609838061226983/8e826e4c2e224adf9312172828235811/artifacts
+deleted_time: 1744069777158
+end_time: 1742972381934
+entry_point_name: ''
+experiment_id: '370609838061226983'
+lifecycle_stage: deleted
+run_id: 8e826e4c2e224adf9312172828235811
+run_name: rbg358-q
+run_uuid: 8e826e4c2e224adf9312172828235811
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742972381904
+status: 3
+tags: []
+user_id: andy
