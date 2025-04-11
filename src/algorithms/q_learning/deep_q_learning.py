@@ -34,6 +34,8 @@ class DeepQLearning(BaseQLearning):
         epsilon_func_key: str = config.deep_q_learning["epsilon"],
         reward_func_key: str = config.deep_q_learning["reward"],
         episodes: int = config.deep_q_learning["episodes"],
+        batch_size: int = config.deep_q_learning["batch_size"],
+        target_update_frequency: int = config.deep_q_learning["target_update_frequency"]
     ):
         super().__init__(
             filepath=filepath,
@@ -43,8 +45,8 @@ class DeepQLearning(BaseQLearning):
             reward_func_key=reward_func_key,
             episodes=episodes,
         )
-        self.batch_size = 128
-        self.target_update_freq = 1000
+        self.batch_size = batch_size
+        self.target_update_freq = target_update_frequency
         self.policy_net = DQN(n_observations=1, n_actions=self.n + 1).to(device)
         self.target_net = DQN(n_observations=1, n_actions=self.n + 1).to(device)
         self.target_net.load_state_dict(self.policy_net.state_dict())
@@ -53,7 +55,7 @@ class DeepQLearning(BaseQLearning):
 
     @property
     def hyperparameters(self):
-        return config.q_learning
+        return config.deep_q_learning
 
     def exploit(self, s: int, environment: set[int]) -> int:
         with torch.no_grad():

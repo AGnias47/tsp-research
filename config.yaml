@@ -35,6 +35,8 @@ algorithms:
     gamma: 0.6
     epsilon: e4
     reward: r2
+    batch_size: 128
+    target_update_frequency: 1000
 problems:
   optimum_cost:  # From either Concorde or http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf
     5clusters43: 100

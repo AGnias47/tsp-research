@@ -1,8 +1,9 @@
 artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/cd0030f333c44ff694d14836c02ebddd/artifacts
+deleted_time: 1744242442890
 end_time: 1743879291247
 entry_point_name: ''
 experiment_id: '882873223019460293'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: cd0030f333c44ff694d14836c02ebddd
 run_name: kroA100-dqn
 run_uuid: cd0030f333c44ff694d14836c02ebddd

@@ -1,8 +1,9 @@
 artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/e1a81cb77848456695493efdfb637b5a/artifacts
+deleted_time: 1744242442892
 end_time: 1743892911662
 entry_point_name: ''
 experiment_id: '882873223019460293'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: e1a81cb77848456695493efdfb637b5a
 run_name: barachet10-dqn
 run_uuid: e1a81cb77848456695493efdfb637b5a

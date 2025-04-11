@@ -1,8 +1,9 @@
 artifact_uri: file:///home/andy/github/tsp-research/mlruns/882873223019460293/2a941b5624324615bd19b6ba46634ea9/artifacts
+deleted_time: 1744242442890
 end_time: 1743880578405
 entry_point_name: ''
 experiment_id: '882873223019460293'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 2a941b5624324615bd19b6ba46634ea9
 run_name: brazil58-dqn
 run_uuid: 2a941b5624324615bd19b6ba46634ea9

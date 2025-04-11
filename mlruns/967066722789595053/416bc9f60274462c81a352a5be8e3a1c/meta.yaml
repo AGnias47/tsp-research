@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/967066722789595053/416bc9f60274462c81a352a5be8e3a1c/artifacts
+end_time: 1744283183945
+entry_point_name: ''
+experiment_id: '967066722789595053'
+lifecycle_stage: active
+run_id: 416bc9f60274462c81a352a5be8e3a1c
+run_name: spiral79-dq
+run_uuid: 416bc9f60274462c81a352a5be8e3a1c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744283183922
+status: 3
+tags: []
+user_id: andy
