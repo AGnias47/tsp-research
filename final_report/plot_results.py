@@ -119,8 +119,71 @@ def plot_cluster():
     plt.show()
 
 
+def plot_tetrahedral():
+    problems_symmetric = ["Tnm52", "Tnm70", "Tnm160"]
+    concorde = [551609, 881036, None]
+    mmas = [607236, 994978, 2623096]
+    nns = [632300, 1005243, 2694609]
+    dq = [672125, 1032075, 2767928]
+    fig, ax = plt.subplots(
+        nrows=2, ncols=3, figsize=(13, 6), sharex=False, sharey=False
+    )
+    ax[0, 0].imshow(mpimg.imread("final_report/problem_images/Tnm52.png"))
+    #ax[0, 1].imshow(mpimg.imread("final_report/problem_images/berlin52.png"))
+    #ax[0, 2].imshow(mpimg.imread("final_report/problem_images/a280.png"))
+    for i in range(len(problems_symmetric)):
+        try:
+            ax[1, i].plot(
+                problems_symmetric[i], concorde[i], "o", color="magenta", label="concorde"
+            )
+        except ValueError:
+            pass
+        ax[1, i].plot(
+            problems_symmetric[i], nns[i], "o", color=[1.0, 0.45, 0.15], label="nns"
+        )
+        ax[1, i].plot(
+            problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas"
+        )
+        ax[1, i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
+        ax[1, i].grid(True)
+    fig.legend(*ax[1, 0].get_legend_handles_labels(), loc="lower right")
+    fig.supylabel("Cost                          Distance")
+    fig.suptitle("Tetrahedral Problem Images with Graphical Cost Results")
+    plt.savefig("final_report/png/tetrahedral.png")
+    plt.show()
+
+
+def plot_asymmetrical_small_medium():
+    problems_symmetric = ["br17", "ftv47"]
+    optimum = [39, 1776]
+    mmas = [82, 2173]
+    nns = [92, 2374]
+    dq = [92, 2374]
+    dqn = [92, 3046]
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8, 5), sharex=False, sharey=False)
+    for i in range(len(problems_symmetric)):
+        ax[i].plot(
+            problems_symmetric[i], optimum[i], "o", color="magenta", label="hk/optim"
+        )
+        ax[i].plot(
+            problems_symmetric[i], nns[i], "o", color=[1.0, 0.45, 0.15], label="nns"
+        )
+        ax[i].plot(
+            problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas"
+        )
+        ax[i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
+        ax[i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
+        ax[i].grid(True)
+    fig.legend(*ax[0].get_legend_handles_labels(), loc="lower right")
+    fig.supylabel("Cost                          Distance")
+    fig.suptitle("Asymmetrical Small-Medium Problems Graphical Cost Results")
+    plt.savefig("final_report/png/asymmetric_small-medium.png")
+    plt.show()
+
 if __name__ == "__main__":
     # plot_symmetric()
     # plot_star()
     # plot_spiral()
-    plot_cluster()
+    # plot_cluster()
+    # plot_tetrahedral()
+    plot_asymmetrical_small_medium()
