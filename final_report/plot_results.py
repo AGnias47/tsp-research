@@ -197,7 +197,7 @@ def plot_asymmetrical_large():
     mmas = [3488, 4180, 5685]
     dq = [2245, 1817, 3457]
     dqn = [6119, 6711, 7575]
-    fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(8, 5), sharex=False, sharey=False)
+    fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(10, 5), sharex=False, sharey=False)
     for i in range(len(problems_symmetric)):
         ax[i].plot(
             problems_symmetric[i], optimum[i], "o", color="magenta", label="optim"
@@ -214,7 +214,7 @@ def plot_asymmetrical_large():
     fig.legend(*ax[0].get_legend_handles_labels(), loc="lower right")
     ax[0].set_ylabel("Cost")
     fig.suptitle("Asymmetrical Large Problems Graphical Cost Results")
-    plt.savefig("final_report/png/asymmetric_small-medium.png")
+    plt.savefig("final_report/png/asymmetric_large.png")
     plt.show()
 
 if __name__ == "__main__":
