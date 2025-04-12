@@ -1,0 +1,15 @@
+artifact_uri: file:///home/andy/github/tsp-research/mlruns/709098389546901036/8a353b2f519b458b97926bfa07d9b59c/artifacts
+end_time: 1744488009885
+entry_point_name: ''
+experiment_id: '709098389546901036'
+lifecycle_stage: active
+run_id: 8a353b2f519b458b97926bfa07d9b59c
+run_name: kro124p-nns
+run_uuid: 8a353b2f519b458b97926bfa07d9b59c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744488009875
+status: 3
+tags: []
+user_id: andy

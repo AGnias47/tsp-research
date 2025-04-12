@@ -217,11 +217,43 @@ def plot_asymmetrical_large():
     plt.savefig("final_report/png/asymmetric_large.png")
     plt.show()
 
+
+def spiral_solutions():
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
+    ax[0].imshow(mpimg.imread("final_report/solutions/spiralsolved.png"))
+    ax[0].set_xticks([])
+    ax[0].set_yticks([])
+    ax[0].set_xlabel("Concorde")
+    ax[1].imshow(mpimg.imread("final_report/solutions/spiral_nn.png"))
+    ax[1].set_xticks([])
+    ax[1].set_yticks([])
+    ax[1].set_xlabel("NNS")
+    fig.legend(*ax[1].get_legend_handles_labels(), loc="lower right")
+    plt.savefig("final_report/png/spiral_concorde_nn.png")
+    plt.show()
+
+
+def cluster_solutions():
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
+    ax[0].imshow(mpimg.imread("final_report/solutions/clustersconcorde.png"))
+    ax[0].set_xticks([])
+    ax[0].set_yticks([])
+    ax[0].set_xlabel("Concorde")
+    ax[1].imshow(mpimg.imread("final_report/solutions/clusters_nn.png"))
+    ax[1].set_xticks([])
+    ax[1].set_yticks([])
+    ax[1].set_xlabel("NNS")
+    fig.legend(*ax[1].get_legend_handles_labels(), loc="lower right")
+    plt.savefig("final_report/png/cluster.png")
+    plt.show()
+
+
 if __name__ == "__main__":
-    plot_symmetric()
-    plot_star()
-    plot_spiral()
-    plot_cluster()
-    plot_tetrahedral()
-    plot_asymmetrical_small_medium()
-    plot_asymmetrical_large()
+    #plot_symmetric()
+    #plot_star()
+    #plot_spiral()
+    #plot_cluster()
+    #plot_tetrahedral()
+    #plot_asymmetrical_small_medium()
+    #plot_asymmetrical_large()
+    spiral_solutions()
