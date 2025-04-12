@@ -169,7 +169,7 @@ def plot_asymmetrical_small_medium():
     nns = [92, 2374]
     dq = [92, 2374]
     dqn = [92, 3046]
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8, 5), sharex=False, sharey=False)
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8, 2), sharex=False, sharey=False)
     for i in range(len(problems_symmetric)):
         ax[i].plot(
             problems_symmetric[i], optimum[i], "o", color="magenta", label="hk/optim"
@@ -197,7 +197,7 @@ def plot_asymmetrical_large():
     mmas = [3488, 4180, 5685]
     dq = [2245, 1817, 3457]
     dqn = [6119, 6711, 7575]
-    fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(10, 5), sharex=False, sharey=False)
+    fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(10, 2), sharex=False, sharey=False)
     for i in range(len(problems_symmetric)):
         ax[i].plot(
             problems_symmetric[i], optimum[i], "o", color="magenta", label="optim"
