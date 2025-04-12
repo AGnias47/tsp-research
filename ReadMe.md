@@ -1,5 +1,7 @@
 # Traveling Salesman Problem Research
 
+![](./Temple_concorde.png)
+
 Implementation of research related to different methods of solving the Traveling Salesman Problem. Performed for the Capstone Project as part of Temple University's Master's in Computer Science program.
 
 ## Setup
