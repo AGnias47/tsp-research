@@ -1,8 +1,11 @@
 """
+Generating plots for the final report. Some disclaimers about this specific code
+- No attempts are being made here to make this code more efficient.
+- AI coding tools such as Google Gemini and GitHub Copilot were utilized
+
 https://github.com/AGnias47/russo-ukranian-tweet-classification/blob/main/sentiment_analysis/results.py
 https://stackoverflow.com/questions/33958068/matplotlib-how-to-plot-a-line-with-categorical-data-on-the-x-axis
 
-No attempts are being made here to make this code more efficient.
 """
 
 import matplotlib.pyplot as plt
@@ -20,8 +23,14 @@ def plot_symmetric():
         nrows=2, ncols=3, figsize=(13, 6), sharex=False, sharey=False
     )
     # ax[0, 0].imshow(mpimg.imread("final_report/problem_images/berlin52.png"))
+    ax[0, 0].set_xticks([])
+    ax[0, 0].set_yticks([])
     ax[0, 1].imshow(mpimg.imread("final_report/problem_images/berlin52.png"))
+    ax[0, 1].set_xticks([])
+    ax[0, 1].set_yticks([])
     ax[0, 2].imshow(mpimg.imread("final_report/problem_images/a280.png"))
+    ax[0, 2].set_xticks([])
+    ax[0, 2].set_yticks([])
     for i in range(len(problems_symmetric)):
         ax[1, i].plot(
             problems_symmetric[i], concorde[i], "o", color="magenta", label="concorde"
@@ -51,7 +60,11 @@ def plot_star():
     dqn = [464, 553]
     fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(8, 5), sharex=False, sharey=False)
     ax[0, 0].imshow(mpimg.imread("final_report/problem_images/star85.png"))
+    ax[0, 0].set_xticks([])
+    ax[0, 0].set_yticks([])
     ax[0, 1].imshow(mpimg.imread("final_report/problem_images/asterisk100.png"))
+    ax[0, 1].set_xticks([])
+    ax[0, 1].set_yticks([])
     for i in range(len(problems_symmetric)):
         ax[1, i].plot(
             problems_symmetric[i], concorde[i], "o", color="magenta", label="concorde"
@@ -81,7 +94,11 @@ def plot_spiral():
     dqn = [306, 155]
     fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(8, 5), sharex=False, sharey=False)
     ax[0, 0].imshow(mpimg.imread("final_report/problem_images/spiral79.png"))
+    ax[0, 0].set_xticks([])
+    ax[0, 0].set_yticks([])
     # ax[0, 1].imshow(mpimg.imread("final_report/problem_images/dh39.png"))
+    # ax[0, 1].set_xticks([])
+    # ax[0, 1].set_yticks([])
     for i in range(len(problems_symmetric)):
         ax[1, i].plot(
             problems_symmetric[i], concorde[i], "o", color="magenta", label="concorde"
@@ -106,6 +123,8 @@ def plot_cluster():
     fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
     ax[0].imshow(mpimg.imread("final_report/problem_images/5cluster43.png"))
     ax[0].set_ylabel("Distance")
+    ax[0].set_xticks([])
+    ax[0].set_yticks([])
     ax[1].plot("5cluster43", 100, "o", color="magenta", label="concorde")
     ax[1].plot("5cluster43", 111, "o", color=[1.0, 0.45, 0.15], label="nns")
     ax[1].plot("5cluster43", 112, "o", color=[1.0, 0, 0], label="mmas")
@@ -129,6 +148,8 @@ def plot_tetrahedral():
         nrows=2, ncols=3, figsize=(13, 6), sharex=False, sharey=False
     )
     ax[0, 0].imshow(mpimg.imread("final_report/problem_images/Tnm52.png"))
+    ax[0, 0].set_xticks([])
+    ax[0, 0].set_yticks([])
     #ax[0, 1].imshow(mpimg.imread("final_report/problem_images/berlin52.png"))
     #ax[0, 2].imshow(mpimg.imread("final_report/problem_images/a280.png"))
     for i in range(len(problems_symmetric)):
@@ -180,10 +201,38 @@ def plot_asymmetrical_small_medium():
     plt.savefig("final_report/png/asymmetric_small-medium.png")
     plt.show()
 
+
+def plot_asymmetrical_large():
+    problems_symmetric = ["rbg323", "rbg358", "rbg403"]
+    optimum = [39, 1776]
+    mmas = [82, 2173]
+    nns = [92, 2374]
+    dq = [92, 2374]
+    dqn = [92, 3046]
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8, 5), sharex=False, sharey=False)
+    for i in range(len(problems_symmetric)):
+        ax[i].plot(
+            problems_symmetric[i], optimum[i], "o", color="magenta", label="hk/optim"
+        )
+        ax[i].plot(
+            problems_symmetric[i], nns[i], "o", color=[1.0, 0.45, 0.15], label="nns"
+        )
+        ax[i].plot(
+            problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas"
+        )
+        ax[i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
+        ax[i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
+        ax[i].grid(True)
+    fig.legend(*ax[0].get_legend_handles_labels(), loc="lower right")
+    fig.supylabel("Cost                          Distance")
+    fig.suptitle("Asymmetrical Small-Medium Problems Graphical Cost Results")
+    plt.savefig("final_report/png/asymmetric_small-medium.png")
+    plt.show()
+
 if __name__ == "__main__":
-    # plot_symmetric()
+    plot_symmetric()
     # plot_star()
     # plot_spiral()
     # plot_cluster()
     # plot_tetrahedral()
-    plot_asymmetrical_small_medium()
+    # plot_asymmetrical_small_medium()
