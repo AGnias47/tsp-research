@@ -39,5 +39,3 @@ def log_results(problem_name: str, algorithm: TSP):
                 (abs(optimum_cost - algorithm.best_cost) / optimum_cost) * 100, 3
             )
             mlflow.log_metric("error_rate", error_rate)
-
-

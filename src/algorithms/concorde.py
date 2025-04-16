@@ -8,7 +8,7 @@ References
 
 import numpy as np
 import tsplib95
-from concorde.tsp import TSPSolver  # noqa
+from concorde.tsp import TSPSolver
 
 from src.models.tsp import TSP
 from src.utils.context_managers import redirect_output_to_null

@@ -9,8 +9,8 @@ https://stackoverflow.com/a/10035974/8728749
 
 """
 
-import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 
 
 def plot_symmetric():
@@ -46,7 +46,7 @@ def plot_symmetric():
         ax[1, i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
         ax[1, i].grid(True)
     fig.legend(*ax[1, 0].get_legend_handles_labels(), loc="lower right")
-    ax[1,0].set_ylabel("Cost")
+    ax[1, 0].set_ylabel("Cost")
     fig.suptitle("Symmetric Problem Images with Graphical Cost Results")
     plt.savefig("final_report/png/symmetric.png")
     plt.show()
@@ -80,14 +80,16 @@ def plot_star():
         ax[1, i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
         ax[1, i].grid(True)
     fig.legend(*ax[1, 0].get_legend_handles_labels(), loc="lower right")
-    ax[1,0].set_ylabel("Cost")
+    ax[1, 0].set_ylabel("Cost")
     fig.suptitle("Star Problem Images with Graphical Cost Results")
     plt.savefig("final_report/png/star.png")
     plt.show()
 
 
 def plot_spiral():
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
+    fig, ax = plt.subplots(
+        nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False
+    )
     ax[0].imshow(mpimg.imread("final_report/problem_images/spiral79.png"))
     ax[0].set_xticks([])
     ax[0].set_yticks([])
@@ -105,7 +107,9 @@ def plot_spiral():
 
 
 def plot_cluster():
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
+    fig, ax = plt.subplots(
+        nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False
+    )
     ax[0].imshow(mpimg.imread("final_report/problem_images/5cluster43.png"))
     ax[0].set_xticks([])
     ax[0].set_yticks([])
@@ -143,7 +147,11 @@ def plot_tetrahedral():
     for i in range(len(problems_symmetric)):
         try:
             ax[1, i].plot(
-                problems_symmetric[i], concorde[i], "o", color="magenta", label="concorde"
+                problems_symmetric[i],
+                concorde[i],
+                "o",
+                color="magenta",
+                label="concorde",
             )
         except ValueError:
             pass
@@ -156,7 +164,7 @@ def plot_tetrahedral():
         ax[1, i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
         ax[1, i].grid(True)
     fig.legend(*ax[1, 0].get_legend_handles_labels(), loc="lower right")
-    ax[1,0].set_ylabel("Cost")
+    ax[1, 0].set_ylabel("Cost")
     fig.suptitle("Tetrahedral Problem Images with Graphical Cost Results")
     plt.savefig("final_report/png/tetrahedral.png")
     plt.show()
@@ -177,9 +185,7 @@ def plot_asymmetrical_small_medium():
         ax[i].plot(
             problems_symmetric[i], nns[i], "o", color=[1.0, 0.45, 0.15], label="nns"
         )
-        ax[i].plot(
-            problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas"
-        )
+        ax[i].plot(problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas")
         ax[i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
         ax[i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
         ax[i].grid(True)
@@ -197,7 +203,9 @@ def plot_asymmetrical_large():
     mmas = [3488, 4180, 5685]
     dq = [2245, 1817, 3457]
     dqn = [6119, 6711, 7575]
-    fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(10, 2), sharex=False, sharey=False)
+    fig, ax = plt.subplots(
+        nrows=1, ncols=3, figsize=(10, 2), sharex=False, sharey=False
+    )
     for i in range(len(problems_symmetric)):
         ax[i].plot(
             problems_symmetric[i], optimum[i], "o", color="magenta", label="optim"
@@ -205,9 +213,7 @@ def plot_asymmetrical_large():
         ax[i].plot(
             problems_symmetric[i], nns[i], "o", color=[1.0, 0.45, 0.15], label="nns"
         )
-        ax[i].plot(
-            problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas"
-        )
+        ax[i].plot(problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas")
         ax[i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
         ax[i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
         ax[i].grid(True)
@@ -219,7 +225,9 @@ def plot_asymmetrical_large():
 
 
 def spiral_solutions():
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
+    fig, ax = plt.subplots(
+        nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False
+    )
     ax[0].imshow(mpimg.imread("final_report/solutions/spiralsolved.png"))
     ax[0].set_xticks([])
     ax[0].set_yticks([])
@@ -234,7 +242,9 @@ def spiral_solutions():
 
 
 def cluster_solutions():
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False)
+    fig, ax = plt.subplots(
+        nrows=1, ncols=2, figsize=(10, 3), sharex=False, sharey=False
+    )
     ax[0].imshow(mpimg.imread("final_report/solutions/clustersconcorde.png"))
     ax[0].set_xticks([])
     ax[0].set_yticks([])

@@ -7,8 +7,9 @@ from math import factorial
 
 import numpy as np
 from rainbow_tqdm import tqdm
-from src.models.networkx_tsp import NetworkxTSP
+
 from config import config
+from src.models.networkx_tsp import NetworkxTSP
 
 
 class BruteForce(NetworkxTSP):
