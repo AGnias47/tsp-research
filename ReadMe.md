@@ -52,6 +52,7 @@ Code follows object-oriented design principles. All algorithms inherit from the 
   * `base_q_learning.py` - Base class containing functionality that all Q-learning algorithms will use. Requires inheriting classes to use implement a function to update the Q-table, and a function to exploit the knowledge gained from the Q-table during training
   * `q_learning.py` - Solves TSP using Q-learning algorithm
   * `double_q_learning.py` - Solves TSP using double Q-learning algorithm. Similar to Q-learning, but manages two Q-matrices that interact with each other throughout training to better balance information and prevent stagnation.
+  * `deep_q_learning.py` - Solves TSP utilizing a feedforward neural network instead of a Q-table.
 
 ### Other Methods
 
@@ -71,11 +72,12 @@ Everything runs through the `main.py` script. The script takes 2 arguments. All 
   * `mmas` - Max-Min Ant System
   * `q` - Q-Learning
   * `dq` - Double Q-Learning
+  * `dqn` - Deep Q-Learning
   * `aco` - Ant System and Max-Min Ant System
   * `rl` - Q-Learning and Double Q-Learning
   * `proj` - Concorde, Max-Min Ant System, and Double Q-Learning
   * `all` - All available algorithms
-* `l` or `--log-results` - Optional. Logs results to MLflow as an experiment run under the "TSP Project" experiment
+* `m` or `--mlflow-project` - Optional. Logs results to MLflow as an experiment under the specified name
 
 ### View Results
 
@@ -83,7 +85,7 @@ Results for tracked experiments are stored in a local instance of MLflow. To vie
 
 * Run the MLflow server locally via `mlflow server`
 * Go to the provided URL, likely http://127.0.0.1:5000
-* Click on the "TSP Project" experiments
+* Click on the desired experiment
 * In the "Columns" dropdown, deactivate all the "Attributes" columns and activate the "Metrics" and "Parameters" columns
 
 ## Runtime
@@ -99,14 +101,7 @@ cd src
 uv run pyreverse -o png -p . .
 ```
 
-## Workload stack
-
-### Part II
-
-Most promising development is the heightened performance of Q-learning on ATSP problems. Should see if there are particular reasons for this, and if we can improve it more with a NN-Q algorithm.
-
 ## Future Work
 
 * Dynamic Traveling-Salesman Problem
-* Epsilon factor in ACO
 * 3D Instances
