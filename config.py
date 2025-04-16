@@ -18,15 +18,16 @@ class Config:
         self.mlflow = raw_data["mlflow"]
         self.optimum_costs = raw_data["problems"]["optimum_cost"]
         self.rc_iters = raw_data["algorithms"]["random_choice"]["iterations"]
+        self.debug = self._parse_bool("debug")
+        self.tqdm = self._parse_bool("tqdm")
 
-    @property
-    def debug(self):
-        raw_value = self.raw_data.get("debug", False)
+    def _parse_bool(self, var):
+        raw_value = self.raw_data.get(var, False)
         if isinstance(raw_value, bool):
             return raw_value
         elif isinstance(raw_value, str):
             return raw_value.casefold() == "true"
-        raise ValueError("Invalid value specified for debug")
+        raise ValueError(f"Invalid value specified for {var}")
 
 
 config = Config(data)

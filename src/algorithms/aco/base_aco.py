@@ -15,6 +15,7 @@ References
 * https://stackoverflow.com/a/55507797/8728749 - efficient initialization of a
   matrix to a single value in each element
 * https://stackoverflow.com/a/21088294/8728749 - np list to array
+* https://www.reddit.com/r/Python/comments/7p1ig1/conditional_tqdm/ - conditional tqdm
 """
 
 import numpy as np
@@ -139,7 +140,9 @@ class BaseACO(NetworkxTSP):
 
     def algorithm(self) -> (int, list[int]):
         costs = []
-        for i in tqdm(range(self.iterations)):
+        for i in (
+            tqdm(range(self.iterations)) if config.tqdm else range(self.iterations)
+        ):
             self.reset_ants()
             self.construct_solutions()
             self.update_trails(i)

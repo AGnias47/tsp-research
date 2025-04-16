@@ -6,8 +6,9 @@ from itertools import permutations
 from math import factorial
 
 import numpy as np
-
+from rainbow_tqdm import tqdm
 from src.models.networkx_tsp import NetworkxTSP
+from config import config
 
 
 class BruteForce(NetworkxTSP):
@@ -30,7 +31,10 @@ class BruteForce(NetworkxTSP):
         best_cost = np.inf
         best_route = None
         starting_point = list(self.G.nodes)[0]
-        for permutation in permutations(list(self.G.nodes)[1:]):
+        iterator = permutations(list(self.G.nodes)[1:])
+        for permutation in (
+            tqdm(iterator, total=self.big_o_runtime) if config.tqdm else iterator
+        ):
             p_cost, p_route = self.permutation_cost(
                 [starting_point] + list(permutation)
             )

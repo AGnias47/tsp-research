@@ -2,6 +2,7 @@ debug: false
 problems_parent_path: data
 problems_file_extension: .tsp
 random_number_seed: 42
+tqdm: true
 mlflow_uri: http://localhost:5000
 algorithms:
   random_choice:
@@ -30,7 +31,7 @@ algorithms:
     epsilon: e4
     reward: r2
   deep_q_learning:
-    episodes: 10_000
+    episodes: 1000
     alpha: 0.01
     gamma: 0.6
     epsilon: e4

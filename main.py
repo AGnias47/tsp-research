@@ -27,12 +27,10 @@ from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.algorithms.q_learning.deep_q_learning import DeepQLearning
 from src.algorithms.q_learning.double_q_learning import DoubleQLearning
 from src.algorithms.q_learning.q_learning import QLearning
-from src.algorithms.random_choice import RandomChoice
 from src.utils.arg_parsing import get_available_problems, get_filepath_for_problem
 from src.utils.mlflow_client import log_results
 
 ALGORITHMS = [
-    RandomChoice,
     Baseline,
     NearestNeighborSearch,
     BruteForce,

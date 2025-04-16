@@ -35,7 +35,9 @@ class DeepQLearning(BaseQLearning):
         reward_func_key: str = config.deep_q_learning["reward"],
         episodes: int = config.deep_q_learning["episodes"],
         batch_size: int = config.deep_q_learning["batch_size"],
-        target_update_frequency: int = config.deep_q_learning["target_update_frequency"]
+        target_update_frequency: int = config.deep_q_learning[
+            "target_update_frequency"
+        ],
     ):
         super().__init__(
             filepath=filepath,
@@ -122,7 +124,9 @@ class DeepQLearning(BaseQLearning):
         # Main training loop
         steps_done = 0
         costs = []
-        for self.episode in tqdm(range(self.episodes)):
+        for self.episode in (
+            tqdm(range(self.episodes)) if config.tqdm else range(self.episodes)
+        ):
             episode_cost = 0
             episode_starting_node = self.starting_node
             route = np.array([episode_starting_node])
