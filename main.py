@@ -127,6 +127,10 @@ if __name__ == "__main__":
             print(f"Route: {route}")
             print(f"Time to Solve: {total_time}")
             print("-----------------------")
+            # For demo purposes only; Not needed after 4/16/2025
+            from time import sleep
+            sleep(5)
+            # Demo code end
             if args.mlflow_project:
                 solver.best_cost = cost
                 solver.best_route = route

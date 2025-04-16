@@ -266,4 +266,4 @@ if __name__ == "__main__":
     plot_tetrahedral()
     plot_asymmetrical_small_medium()
     plot_asymmetrical_large()
-    spiral_solutions()
+    # spiral_solutions()
