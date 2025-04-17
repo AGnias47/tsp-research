@@ -88,10 +88,6 @@ Results for tracked experiments are stored in a local instance of MLflow. To vie
 * Click on the desired experiment
 * In the "Columns" dropdown, deactivate all the "Attributes" columns and activate the "Metrics" and "Parameters" columns
 
-## Runtime
-
-Currently, excluding the exact methods, Min-Max Ant System takes the longest to run. Around half an hour should be allocated if running on one of the 50+ city problems. Exact runtimes for several methods can be found in the MLflow results. Generally `barachet10.tsp` is used frequently in testing, as it runs quickly and is slightly challenging for an algorithm to solve, so is a decent way to test new implementations. The problem was taken from L.L. Barachet's [Graphic Solution of the Traveling-Salesman Problem](https://www.jstor.org/stable/166872).
-
 ## Generate UML
 
 Done with pyreverse.

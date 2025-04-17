@@ -21,7 +21,7 @@ try:
 except ModuleNotFoundError:
     print("Warning: Concorde not installed; using No-op as the baseline algorithm.")
     from src.algorithms.no_op import NoOp as Baseline
-
+from src.algorithms.random_choice import RandomChoice
 from src.algorithms.held_karp import HeldKarp
 from src.algorithms.nearest_neighbor_search import NearestNeighborSearch
 from src.algorithms.q_learning.deep_q_learning import DeepQLearning
@@ -31,6 +31,7 @@ from src.utils.arg_parsing import get_available_problems, get_filepath_for_probl
 from src.utils.mlflow_client import log_results
 
 ALGORITHMS = [
+    RandomChoice,
     Baseline,
     NearestNeighborSearch,
     BruteForce,
@@ -127,10 +128,6 @@ if __name__ == "__main__":
             print(f"Route: {route}")
             print(f"Time to Solve: {total_time}")
             print("-----------------------")
-            # For demo purposes only; Not needed after 4/16/2025
-            from time import sleep
-            sleep(5)
-            # Demo code end
             if args.mlflow_project:
                 solver.best_cost = cost
                 solver.best_route = route

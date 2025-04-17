@@ -177,6 +177,7 @@ def plot_asymmetrical_small_medium():
     nns = [92, 2374]
     dq = [92, 2374]
     dqn = [92, 3046]
+    rc = [70, 5225]
     fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8, 2), sharex=False, sharey=False)
     for i in range(len(problems_symmetric)):
         ax[i].plot(
@@ -188,6 +189,7 @@ def plot_asymmetrical_small_medium():
         ax[i].plot(problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas")
         ax[i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
         ax[i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
+        ax[i].plot(problems_symmetric[i], rc[i], "o", color="brown", label="rc")
         ax[i].grid(True)
     fig.legend(*ax[0].get_legend_handles_labels(), loc="lower right")
     ax[0].set_ylabel("Cost")
@@ -203,6 +205,7 @@ def plot_asymmetrical_large():
     mmas = [3488, 4180, 5685]
     dq = [2245, 1817, 3457]
     dqn = [6119, 6711, 7575]
+    rc = [5695, 6378, 7187]
     fig, ax = plt.subplots(
         nrows=1, ncols=3, figsize=(10, 2), sharex=False, sharey=False
     )
@@ -216,6 +219,7 @@ def plot_asymmetrical_large():
         ax[i].plot(problems_symmetric[i], mmas[i], "o", color=[1.0, 0, 0], label="mmas")
         ax[i].plot(problems_symmetric[i], dq[i], "o", color="purple", label="dq")
         ax[i].plot(problems_symmetric[i], dqn[i], "o", label="dqn")
+        ax[i].plot(problems_symmetric[i], rc[i], "o", color="brown", label="rc")
         ax[i].grid(True)
     fig.legend(*ax[0].get_legend_handles_labels(), loc="lower right")
     ax[0].set_ylabel("Cost")
@@ -259,11 +263,11 @@ def cluster_solutions():
 
 
 if __name__ == "__main__":
-    plot_symmetric()
-    plot_star()
-    plot_spiral()
+    #plot_symmetric()
+    #plot_star()
+    #plot_spiral()
     plot_cluster()
-    plot_tetrahedral()
-    plot_asymmetrical_small_medium()
-    plot_asymmetrical_large()
+    #plot_tetrahedral()
+    #plot_asymmetrical_small_medium()
+    #plot_asymmetrical_large()
     # spiral_solutions()
